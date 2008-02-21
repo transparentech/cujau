@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 public class DefaultSchedulableEvent implements SchedulableEvent {
 
     /** The Commons-Logging log object for this class. */
-    private Logger _log = LoggerFactory.getLogger( DefaultSchedulableEvent.class );
+    private static final Logger LOG = LoggerFactory.getLogger( DefaultSchedulableEvent.class );
 
     public void init() {}
 
@@ -42,7 +42,7 @@ public class DefaultSchedulableEvent implements SchedulableEvent {
 
     /** Debug the current date using the log object. */
     public void execute() {
-        _log.debug( new Date().toString() );
+        LOG.debug( new Date().toString() );
     }
 
 }

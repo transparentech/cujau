@@ -38,7 +38,7 @@ import org.cujau.scheduling.EventScheduler;
 public class Interval extends EventScheduler {
 
     /** The logging object for this class. */
-    private Logger _log = LoggerFactory.getLogger( Interval.class );
+    private static final Logger LOG = LoggerFactory.getLogger( Interval.class );
 
     /** The time interval between executions in milliseconds. */
     private long timeInterval;
@@ -74,7 +74,7 @@ public class Interval extends EventScheduler {
         try {
             i = Integer.parseInt( t );
         } catch ( NumberFormatException nfe ) {
-            _log.warn( "Can't convert '{}' mintues to an int!", t );
+            LOG.warn( "Can't convert '{}' mintues to an int!", t );
         }
         setTimeIntervalMinutes( i );
     }
@@ -90,7 +90,7 @@ public class Interval extends EventScheduler {
         try {
             i = Integer.parseInt( t );
         } catch ( NumberFormatException nfe ) {
-            _log.warn( "Can't convert '{}' seconds to an int!", t );
+            LOG.warn( "Can't convert '{}' seconds to an int!", t );
         }
         setTimeIntervalSeconds( i );
     }
@@ -151,7 +151,7 @@ public class Interval extends EventScheduler {
      * thread.
      */
     public void run() {
-        _log.info( "Interval[{}] - Running...", execution.getName() );
+        LOG.info( "Interval[{}] - Running...", execution.getName() );
 
         Calendar now = null;
         // Catch up to the start of the minute.
@@ -173,7 +173,7 @@ public class Interval extends EventScheduler {
         while ( getState() != State.STOPPED ) {
 
             if ( getState() == State.RUNNING ) {
-                _log.info( "Interval[{}] - doEvent...", execution.getName() );
+                LOG.info( "Interval[{}] - doEvent...", execution.getName() );
                 runRunners();
             }
 
@@ -186,7 +186,7 @@ public class Interval extends EventScheduler {
             }
         }
 
-        _log.info( "Interval[{}] - Stopped.", execution.getName() );
+        LOG.info( "Interval[{}] - Stopped.", execution.getName() );
 
     }
 

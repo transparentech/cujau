@@ -39,7 +39,7 @@ import org.cujau.scheduling.EventScheduler;
 public class Cron extends EventScheduler {
 
     /** The logging object for this class. */
-    private Logger _log = LoggerFactory.getLogger( Cron.class );
+    private static final Logger LOG = LoggerFactory.getLogger( Cron.class );
 
     private HashSet<Integer> minutes;
 
@@ -174,8 +174,8 @@ public class Cron extends EventScheduler {
      * start of the next minute.
      */
     public void run() {
-        _log.info( "Cron[{}] - Running...", execution.getName() );
-        _log.debug( "Cron[{}] set to wakeup for: min={} hour={} dayofmonth={} month={} dayofweek={}",
+        LOG.info( "Cron[{}] - Running...", execution.getName() );
+        LOG.debug( "Cron[{}] set to wakeup for: min={} hour={} dayofmonth={} month={} dayofweek={}",
                     new Object[] { minutes, hours, doms, months, dows } );
 
         Calendar now = Calendar.getInstance();
@@ -199,7 +199,7 @@ public class Cron extends EventScheduler {
                 // Determine if we are at one of the execution times.
                 if ( validation( execTime ) ) {
 
-                    _log.info( "Cron[{}] - Execute...", execution.getName() );
+                    LOG.info( "Cron[{}] - Execute...", execution.getName() );
 
                     // Run all of the registered SchedulableEvents.
                     runRunners();
@@ -222,7 +222,7 @@ public class Cron extends EventScheduler {
             }
         }
 
-        _log.info( "Cron[{}] - Stopped.", execution.getName() );
+        LOG.info( "Cron[{}] - Stopped.", execution.getName() );
 
     }
 }

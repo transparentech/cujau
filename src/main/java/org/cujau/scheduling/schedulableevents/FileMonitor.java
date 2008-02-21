@@ -38,7 +38,7 @@ import org.cujau.scheduling.SchedulableEvent;
 public class FileMonitor implements SchedulableEvent {
 
     /** The logger object for this class. */
-    private Logger _log = LoggerFactory.getLogger( FileMonitor.class );
+    private static final Logger LOG = LoggerFactory.getLogger( FileMonitor.class );
 
     public Date lastExecution;
 
@@ -70,10 +70,10 @@ public class FileMonitor implements SchedulableEvent {
 
     public void execute() {
         if ( lastExecution.getTime() < file.lastModified() ) {
-            _log.debug( "File was modified!" );
+            LOG.debug( "File was modified!" );
             // handler.doEvent();
         } else {
-            _log.debug( "File not modified." );
+            LOG.debug( "File not modified." );
         }
         /*
          * if ( file.exists() ) { if ( lastExecution.getTime() <

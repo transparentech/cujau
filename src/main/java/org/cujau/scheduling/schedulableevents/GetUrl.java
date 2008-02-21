@@ -41,7 +41,7 @@ import org.cujau.scheduling.SchedulableEvent;
 public class GetUrl implements SchedulableEvent {
 
     /** The logger object for this class. */
-    private Logger _log = LoggerFactory.getLogger( GetUrl.class );
+    private static final Logger LOG = LoggerFactory.getLogger( GetUrl.class );
     
     private String surl;
 
@@ -95,9 +95,9 @@ public class GetUrl implements SchedulableEvent {
             }
             in.close();
         } catch ( MalformedURLException me ) {
-            _log.warn( "Bad URL!", me );
+            LOG.warn( "Bad URL!", me );
         } catch ( IOException ie ) {
-            _log.warn(  "Problem reading data from URL.", ie );
+            LOG.warn(  "Problem reading data from URL.", ie );
         }
     }
 }

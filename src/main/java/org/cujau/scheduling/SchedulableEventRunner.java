@@ -34,7 +34,7 @@ import org.slf4j.LoggerFactory;
 class SchedulableEventRunner extends ManagedThread {
 
     /** The Commons-Logging log object for this class. */
-    private Logger _log = LoggerFactory.getLogger( SchedulableEventRunner.class );
+    private static final Logger LOG = LoggerFactory.getLogger( SchedulableEventRunner.class );
 
     /** The SchedulableEvent object that will be run in this thread. */
     private SchedulableEvent event;
@@ -114,7 +114,7 @@ class SchedulableEventRunner extends ManagedThread {
                 buf.append( scheduler.getName() ).append( "]." );
 
             }
-            _log.warn( buf.toString() );
+            LOG.warn( buf.toString() );
         }
         setState( State.STOPPED );
     }

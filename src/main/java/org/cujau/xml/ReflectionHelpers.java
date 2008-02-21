@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
 public class ReflectionHelpers {
 
     /** The logger object for this class. */
-    protected static Logger _log = LoggerFactory.getLogger( ReflectionHelpers.class );
+    private static final Logger LOG = LoggerFactory.getLogger( ReflectionHelpers.class );
 
     /**
      * Instantiate the class, <code>klass_name</code>.
@@ -51,11 +51,11 @@ public class ReflectionHelpers {
             Class<?> objclass = Class.forName( klass_name );
             obj = objclass.newInstance();
         } catch ( ClassNotFoundException ex ) {
-            _log.warn( "objectFromClassName : ClassNotFound : " + klass_name );
+            LOG.warn( "objectFromClassName : ClassNotFound : " + klass_name );
         } catch ( InstantiationException ex ) {
-            _log.warn( "objectFromClassName : CanNotInstantiate : " + klass_name );
+            LOG.warn( "objectFromClassName : CanNotInstantiate : " + klass_name );
         } catch ( IllegalAccessException ex ) {
-            _log.warn( "objectFromClassName : IllegalAccess : " + klass_name );
+            LOG.warn( "objectFromClassName : IllegalAccess : " + klass_name );
         }
         return obj;
     }
@@ -85,21 +85,21 @@ public class ReflectionHelpers {
             mtd = obj.getClass().getMethod( methodname, params );
             mtd.invoke( obj, args );
         } catch ( IllegalArgumentException ex ) {
-            _log.warn( "invokeSetStringProperty : IllegalArgument : {}.{}(String)", obj.getClass().getName(),
+            LOG.warn( "invokeSetStringProperty : IllegalArgument : {}.{}(String)", obj.getClass().getName(),
                        methodname );
             return false;
         } catch ( NoSuchMethodException ex ) {
-            _log.warn( "invokeSetStringProperty : NoSuchMethod : {}.{}(String)", obj.getClass().getName(),
+            LOG.warn( "invokeSetStringProperty : NoSuchMethod : {}.{}(String)", obj.getClass().getName(),
                        methodname );
             return false;
         } catch ( IllegalAccessException ex ) {
-            _log.warn( "invokeSetStringProperty : IllegalAccess : {}.{}(String)", obj.getClass().getName(),
+            LOG.warn( "invokeSetStringProperty : IllegalAccess : {}.{}(String)", obj.getClass().getName(),
                        methodname );
             return false;
         } catch ( InvocationTargetException ex ) {
-            _log.warn( "invokeSetStringProperty : InvocationTarget : {}.{}(String)",
+            LOG.warn( "invokeSetStringProperty : InvocationTarget : {}.{}(String)",
                        obj.getClass().getName(), methodname );
-            _log.warn( "Exception thrown during invocation of this method!", ex );
+            LOG.warn( "Exception thrown during invocation of this method!", ex );
             return false;
         }
         return true;
@@ -130,16 +130,16 @@ public class ReflectionHelpers {
             mtd = obj.getClass().getMethod( methodname, params );
             ret = mtd.invoke( obj, args );
         } catch ( IllegalArgumentException ex ) {
-            _log.warn( "invokeGetProperty : IllegalArgument : {}.{}()", obj.getClass().getName(), methodname );
+            LOG.warn( "invokeGetProperty : IllegalArgument : {}.{}()", obj.getClass().getName(), methodname );
             return null;
         } catch ( NoSuchMethodException ex ) {
-            _log.warn( "invokeGetProperty : NoSuchMethod : {}.{}()", obj.getClass().getName(), methodname );
+            LOG.warn( "invokeGetProperty : NoSuchMethod : {}.{}()", obj.getClass().getName(), methodname );
             return null;
         } catch ( IllegalAccessException ex ) {
-            _log.warn( "invokeGetProperty : IllegalAccess : {}.{}()", obj.getClass().getName(), methodname );
+            LOG.warn( "invokeGetProperty : IllegalAccess : {}.{}()", obj.getClass().getName(), methodname );
             return null;
         } catch ( InvocationTargetException ex ) {
-            _log.warn( "invokeGetProperty : InvocationTarget : {}.{}()", obj.getClass().getName(), methodname );
+            LOG.warn( "invokeGetProperty : InvocationTarget : {}.{}()", obj.getClass().getName(), methodname );
             return null;
         }
         return ret;

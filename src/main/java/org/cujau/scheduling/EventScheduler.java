@@ -37,7 +37,7 @@ import java.util.ArrayList;
 public abstract class EventScheduler extends ManagedThread {
 
     /** The logger object for this instance. */
-    private Logger _log = LoggerFactory.getLogger( EventScheduler.class );
+    private static final Logger LOG = LoggerFactory.getLogger( EventScheduler.class );
 
     /** A description of this EventScheduler. */
     private String description;
@@ -126,7 +126,7 @@ public abstract class EventScheduler extends ManagedThread {
         }
         // If there are no managed SchedulableEvents, stop the timer.
         if ( runners.isEmpty() ) {
-            _log.info( "No SchedulableEvents remain in this EventScheduler. Stopping..." );
+            LOG.info( "No SchedulableEvents remain in this EventScheduler. Stopping..." );
             stop();
         }
     }

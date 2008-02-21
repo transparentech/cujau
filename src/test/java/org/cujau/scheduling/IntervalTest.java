@@ -44,7 +44,7 @@ import org.slf4j.LoggerFactory;
 public class IntervalTest {
 
     /** The logging object for this class. */
-    private Logger _log = LoggerFactory.getLogger( IntervalTest.class );
+    private static final Logger LOG = LoggerFactory.getLogger( IntervalTest.class );
 
     public static final int SIMPLE_INTERVAL = 2;
 
@@ -151,7 +151,7 @@ public class IntervalTest {
                 if ( timediff > interval_in_millis + skew_in_millis ||
                      timediff < interval_in_millis - skew_in_millis ) {
                     SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd'T'HH:mm:ss.SSSZ" );
-                    _log.error( "{} - {}", sdf.format( new Date( c.getTimeInMillis() ) ).toString(),
+                    LOG.error( "{} - {}", sdf.format( new Date( c.getTimeInMillis() ) ).toString(),
                                 sdf.format( new Date( cur.getTimeInMillis() ) ).toString() );
                     fail( ctr + " : timediff=" + timediff + " (" + ct_c + "-" + ct_cur + ")" );
                 }

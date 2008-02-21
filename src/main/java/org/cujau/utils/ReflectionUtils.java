@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  */
 public final class ReflectionUtils {
 
-    private static final Logger log = LoggerFactory.getLogger( ReflectionUtils.class );
+    private static final Logger LOG = LoggerFactory.getLogger( ReflectionUtils.class );
 
     /**
      * Instantiate an instance of the given class.
@@ -29,13 +29,13 @@ public final class ReflectionUtils {
             return klass.newInstance();
         } catch ( ClassCastException e ) {
             String msg = "Class does not implement the interface: '" + klass.getName() + "'";
-            log.error( msg );
+            LOG.error( msg );
             throw new ReflectionException( msg, e );
         } catch ( InstantiationException e ) {
-            log.error( e.getMessage() );
+            LOG.error( e.getMessage() );
             throw new ReflectionException( e );
         } catch ( IllegalAccessException e ) {
-            log.error( e.getMessage() );
+            LOG.error( e.getMessage() );
             throw new ReflectionException( e );
         }
     }
@@ -61,17 +61,17 @@ public final class ReflectionUtils {
             return c.newInstance();
         } catch ( ClassNotFoundException e ) {
             String msg = "Can't find " + baseKlass + " implementation class: '" + klass + "'";
-            log.error( msg );
+            LOG.error( msg );
             throw new ReflectionException( msg, e );
         } catch ( ClassCastException e ) {
             String msg = "Class does not implement the " + baseKlass + " interface: '" + klass + "'";
-            log.error( msg );
+            LOG.error( msg );
             throw new ReflectionException( msg, e );
         } catch ( InstantiationException e ) {
-            log.error( e.getMessage() );
+            LOG.error( e.getMessage() );
             throw new ReflectionException( e );
         } catch ( IllegalAccessException e ) {
-            log.error( e.getMessage() );
+            LOG.error( e.getMessage() );
             throw new ReflectionException( e );
         }
     }
@@ -95,19 +95,19 @@ public final class ReflectionUtils {
             Method method = bean.getClass().getMethod( getProperty, (Class[]) null );
             ret = method.invoke( bean, (Object[]) null );
         } catch ( SecurityException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( NoSuchMethodException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( IllegalArgumentException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( IllegalAccessException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( InvocationTargetException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         }
         return ret;
@@ -133,19 +133,19 @@ public final class ReflectionUtils {
             method = bean.getClass().getMethod( setProperty, new Class[] { value.getClass() } );
             method.invoke( bean, new Object[] { value } );
         } catch ( SecurityException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( NoSuchMethodException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( IllegalArgumentException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( IllegalAccessException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( InvocationTargetException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         }
     }
@@ -174,19 +174,19 @@ public final class ReflectionUtils {
             method = bean.getClass().getMethod( setProperty, new Class[] { valueKlass } );
             method.invoke( bean, new Object[] { value } );
         } catch ( SecurityException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( NoSuchMethodException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( IllegalArgumentException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( IllegalAccessException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         } catch ( InvocationTargetException e ) {
-            log.error( e.getMessage(), e );
+            LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         }
     }
