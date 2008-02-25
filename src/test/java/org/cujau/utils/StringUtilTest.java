@@ -2,6 +2,7 @@ package org.cujau.utils;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -63,6 +64,20 @@ public class StringUtilTest {
         ary = new Integer[] { null };
         res = StringUtil.toString( ary );
         assertTrue( "null".equals( res ) );
+    }
+    
+    @Test
+    public void collectionStringTest() {
+        ArrayList<Integer> col = new ArrayList<Integer>();
+        col.add( 1 );
+        col.add( 2 );
+        col.add( 5 );
+        col.add( 3 );
+        String res = StringUtil.toString( col );
+        assertTrue( "1,2,5,3".equals( res ) );
+        
+        res = StringUtil.toString( new ArrayList<String>() );
+        assertTrue( "".equals( res ) );
     }
     
     @Test

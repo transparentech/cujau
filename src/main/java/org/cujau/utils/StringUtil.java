@@ -1,5 +1,6 @@
 package org.cujau.utils;
 
+import java.util.Collection;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,6 +27,30 @@ public final class StringUtil {
         StringBuilder buf = new StringBuilder();
         for ( E e : ary ) {
             buf.append( e );
+            buf.append( "," );
+        }
+        if ( buf.length() > 0 ) {
+            buf.deleteCharAt( buf.length() - 1 );
+        }
+        return buf.toString();
+    }
+
+    /**
+     * Convert the given collection of objects into it's String representation. The String
+     * representation of an element of the collection will be separated from the next element with a
+     * comma (',').
+     * 
+     * @param <E>
+     *            The type of the elements.
+     * @param col
+     *            The collection of elements.
+     * @return A String containing the String representation of each element in the Collection,
+     *         separated by a comma.
+     */
+    public static <E> String toString( Collection<E> col ) {
+        StringBuilder buf = new StringBuilder();
+        for ( E e : col ) {
+            buf.append( e.toString() );
             buf.append( "," );
         }
         if ( buf.length() > 0 ) {
