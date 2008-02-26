@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 /**
  * Helper class for common reflection operations.
  */
-public final class ReflectionUtils {
+public final class ReflectionUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger( ReflectionUtils.class );
+    private static final Logger LOG = LoggerFactory.getLogger( ReflectionUtil.class );
 
     /**
      * Instantiate an instance of the given class.

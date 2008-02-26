@@ -53,27 +53,27 @@ public class ReflectionTest {
 
         String ret;
         try {
-            ret = (String) ReflectionUtils.invokeGetProperty( mtc, "me" );
+            ret = (String) ReflectionUtil.invokeGetProperty( mtc, "me" );
             assertTrue( ret.equals( "Hi" ) );
         } catch ( ReflectionException e ) {
             fail( "problem getting property, 'me'" );
         }
         try {
-            ret = (String) ReflectionUtils.invokeGetProperty( mtc, "youThere" );
+            ret = (String) ReflectionUtil.invokeGetProperty( mtc, "youThere" );
             assertTrue( ret.equals( "yoYo" ) );
         } catch ( ReflectionException e ) {
             fail( "problem getting property, 'youThere'" );
         }
 
         try {
-            Float f = (Float) ReflectionUtils.invokeGetProperty( mtc, "hMSBoat" );
+            Float f = (Float) ReflectionUtil.invokeGetProperty( mtc, "hMSBoat" );
             assertEquals( 3.14f, f, 0 );
         } catch ( ReflectionException e ) {
             fail( "problem getting property, 'hMSBoat'" );
         }
         
         try {
-            float f = (Float) ReflectionUtils.invokeGetProperty( mtc, "truck" );
+            float f = (Float) ReflectionUtil.invokeGetProperty( mtc, "truck" );
             assertEquals( 5.643f, f, 0.0001f );
         } catch( ReflectionException e ) {
             fail( "problem getting property, 'truck'" );
@@ -85,25 +85,25 @@ public class ReflectionTest {
         MyTestClass mtc = new MyTestClass();
         
         try {
-            ReflectionUtils.invokeSetProperty( mtc, "me", "WakaWaka" );
+            ReflectionUtil.invokeSetProperty( mtc, "me", "WakaWaka" );
             assertTrue( mtc.getMe().equals( "WakaWaka" ) );
         } catch ( ReflectionException e ) {
             fail( "problem setting property, 'me'" );
         }
         try {
-            ReflectionUtils.invokeSetProperty( mtc, "youThere", "Hallo" );
+            ReflectionUtil.invokeSetProperty( mtc, "youThere", "Hallo" );
             assertTrue( mtc.getYouThere().equals( "Hallo" ) );
         } catch ( ReflectionException e ) {
             fail( "problem setting property, 'youThere'" );
         }
         try {
-            ReflectionUtils.invokeSetProperty( mtc, "hMSBoat", 6.789f );
+            ReflectionUtil.invokeSetProperty( mtc, "hMSBoat", 6.789f );
             assertTrue( mtc.getHMSBoat() == 6.789f );
         } catch ( ReflectionException e ) {
             fail( "problem setting property, 'hMSBoat'" );
         }
         try {
-            ReflectionUtils.invokeSetProperty( mtc, "truck", 6.789f, float.class );
+            ReflectionUtil.invokeSetProperty( mtc, "truck", 6.789f, float.class );
             assertTrue( mtc.getTruck() == 6.789f );
         } catch ( ReflectionException e ) {
             fail( "problem setting property, 'truck'" );
