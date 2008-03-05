@@ -18,6 +18,7 @@ public class StringUtilTest {
         System.setProperty( "home.free.or.die", "live.free.or.die" );
         System.setProperty( "abc.def", "alphabet" );
         System.setProperty( "123.456", "numbers" );
+        System.setProperty( "ab_cd.ef_gh", "letter" );
     }
     
     @Test
@@ -104,6 +105,10 @@ public class StringUtilTest {
         
         String str2 = StringUtil.replaceProperties( str, null );
         assertTrue( str.equals( str2 ) );
+        
+        str = "I sent a ${ab_cd.ef_gh} to my friend.";
+        String str3 = StringUtil.replaceProperties( str );
+        assertTrue( str3.equals( "I sent a letter to my friend." ) );
     }
     
 
