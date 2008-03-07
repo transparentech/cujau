@@ -1,0 +1,6 @@
+# Service for the LiveQuoteResourceInfo interface.
+#
+# The random quote service (for development).
+org.cujau.util.impl.MyTestServiceProviderTestClass #test1
+# The Yahoo! Finance service.
+org.cujau.util.impl.AnotherServiceProviderTestClass #test#2
