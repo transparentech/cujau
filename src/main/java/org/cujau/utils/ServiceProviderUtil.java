@@ -41,6 +41,7 @@ public final class ServiceProviderUtil {
             try {
                 E info = ReflectionUtil.instantiateClass( name, serviceClass );
                 providers.add( info );
+                LOG.info( "Service provider: {}", info.getClass().getName() );
             } catch ( ReflectionException e ) {
                 LOG.warn( "Exception while instantiating service class:" + name, e );
             }
@@ -60,7 +61,7 @@ public final class ServiceProviderUtil {
      * @return A list of Strings containing the fully qualified class names of providers.
      */
     public static List<String> getServiceProviderNames( Class<?> serviceClass ) {
-        LOG.debug( "Loading services for {}", serviceClass.getName() );
+        LOG.info( "Loading services for {}", serviceClass.getName() );
 
         // Get the list of all the resources on the classpath that match the fullResourceName.
         ArrayList<String> availableClasses = new ArrayList<String>();
@@ -90,7 +91,7 @@ public final class ServiceProviderUtil {
                         line = parseLine( line );
                         if ( line != null ) {
                             availableClasses.add( line );
-                            LOG.debug( "  {}", line );
+//                            LOG.debug( "  {}", line );
                         }
                     }
                 } finally {
