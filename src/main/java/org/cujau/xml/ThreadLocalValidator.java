@@ -21,6 +21,10 @@ public class ThreadLocalValidator extends ThreadLocal<Validator> {
     public ThreadLocalValidator( String xsdResourcePath ) {
         xsd = xsdResourcePath;
     }
+    
+    public ThreadLocalValidator( Class<?> kls ) {
+        xsd = "/" + kls.getName().replace( ".", "/" ) + ".xsd";
+    }
 
     @Override
     protected Validator initialValue() {
