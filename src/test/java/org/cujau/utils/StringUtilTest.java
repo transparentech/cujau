@@ -26,6 +26,8 @@ public class StringUtilTest {
         String[] ary = new String[] { "abc", "def", "ghi" };
         String res = StringUtil.toString( ary );
         assertTrue( "abc,def,ghi".equals( res ) );
+        res = StringUtil.toString( ary, "\n" );
+        assertTrue( "abc\ndef\nghi".equals( res ) );
         
         ary = new String[] { "abc" };
         res = StringUtil.toString( ary );

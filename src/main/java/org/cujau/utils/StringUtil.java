@@ -24,10 +24,27 @@ public final class StringUtil {
      *         by a comma.
      */
     public static <E> String toString( E[] ary ) {
+        return toString( ary, "," );
+    }
+
+    /**
+     * Convert the given array of objects into it's String representation. The array elements will
+     * be separated by the given <tt>separator</tt> string.
+     * 
+     * @param <E>
+     *            The type of the elements.
+     * @param ary
+     *            The array of the elements.
+     * @param separator
+     *            The character(s) to place between each element of the array.
+     * @return A String containg the String representation of each element in the array, separated
+     *         by the given separator character(s).
+     */
+    public static <E> String toString( E[] ary, String separator ) {
         StringBuilder buf = new StringBuilder();
         for ( E e : ary ) {
             buf.append( e );
-            buf.append( "," );
+            buf.append( separator );
         }
         if ( buf.length() > 0 ) {
             buf.deleteCharAt( buf.length() - 1 );
