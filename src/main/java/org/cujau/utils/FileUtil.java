@@ -2,9 +2,11 @@ package org.cujau.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 /**
@@ -111,4 +113,28 @@ public class FileUtil {
         return size;
     }
 
+    /**
+     * Returns the contents of the given File as a String. The File is assumed to be UTF-8 encoded.
+     * 
+     * @param file
+     *            The file whose contents will be returned as a String.
+     * @return A String containing the contents of the file.
+     * @throws IOException
+     *             If the file does not exist or there were problems reading data from the file.
+     */
+    public static String getFileAsString( File file )
+            throws IOException {
+
+        FileInputStream is = new FileInputStream( file );
+        InputStreamReader reader = new InputStreamReader( is, "UTF-8" );
+
+        StringBuilder b = new StringBuilder();
+        char[] buffer = new char[1024];
+        int read;
+        while ( ( read = reader.read( buffer ) ) != -1 ) {
+            b.append( buffer, 0, read );
+        }
+
+        return b.toString();
+    }
 }
