@@ -1,5 +1,7 @@
 package org.cujau.utils;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Collection;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -74,6 +76,22 @@ public final class StringUtil {
             buf.deleteCharAt( buf.length() - 1 );
         }
         return buf.toString();
+    }
+
+    /**
+     * Convert the given Throwable object into a stacktrace.
+     * 
+     * @param t
+     *            The Throwable for which the stacktrace will be generated.
+     * @return A String representation of the stacktrace.
+     */
+    public static String toString( Throwable t ) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter( stringWriter );
+        t.printStackTrace( printWriter );
+        printWriter.flush();
+        printWriter.close();
+        return stringWriter.toString();
     }
 
     /**
