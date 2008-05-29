@@ -32,7 +32,21 @@ public class ResourceUtil {
             LOG.info( "Can't find the requested resource: {}", resourceName );
             return null;
         }
+        return getStreamAsString( is );
+    }
 
+    /**
+     * Return the given InputStream contents as a String.
+     * <p>
+     * This method assumes that the InputStream contents is a text encoded in UTF-8.
+     * 
+     * @param is
+     *            The InputStream whose contents is converted to a String.
+     * @return The String.
+     * @throws IOException
+     */
+    public static String getStreamAsString( InputStream is )
+            throws IOException {
         InputStreamReader reader = new InputStreamReader( is, "UTF-8" );
         StringBuilder b = new StringBuilder();
         char[] buffer = new char[1024];
@@ -40,7 +54,6 @@ public class ResourceUtil {
         while ( ( read = reader.read( buffer ) ) != -1 ) {
             b.append( buffer, 0, read );
         }
-
         return b.toString();
     }
 
