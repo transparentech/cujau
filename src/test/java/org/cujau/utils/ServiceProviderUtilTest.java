@@ -39,4 +39,9 @@ public class ServiceProviderUtilTest {
         assertTrue( ServiceProviderUtil.parseLine( line ).equals( "org.asdf+asdf.NotGood" ) );
     }
 
+    @Test
+    public void nonExistantSPITest() {
+        List<String> providers = ServiceProviderUtil.getServiceProviderNames( FileUtil.class );
+        assertTrue( providers.size() == 0 );
+    }
 }

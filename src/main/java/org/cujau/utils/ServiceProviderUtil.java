@@ -11,6 +11,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Utility class for working with the SPI pattern defined in the "Service Provider" section of the
+ * Java "JAR File Specification".
+ * <p>
+ * NOTE: This is Java 5 compatible. If you are running Java 6, you may prefer to use the
+ * <tt>java.util.ServiceLoader&lt;S&gt;</tt> class.
+ */
 public final class ServiceProviderUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger( ServiceProviderUtil.class );
@@ -43,7 +50,8 @@ public final class ServiceProviderUtil {
                 providers.add( info );
                 LOG.info( "Service provider: {}", info.getClass().getName() );
             } catch ( ReflectionException e ) {
-                LOG.warn( "Exception while instantiating service class:" + name, e );
+                LOG.error( "Exception while instantiating service class:" + name, e );
+                throw new Error( "Exception while instantiating service class:" + name, e );
             }
         }
         return providers;
@@ -65,7 +73,7 @@ public final class ServiceProviderUtil {
 
         // Get the list of all the resources on the classpath that match the fullResourceName.
         ArrayList<String> availableClasses = new ArrayList<String>();
-        ClassLoader cl = serviceClass.getClassLoader();
+        ClassLoader cl = Thread.currentThread().getContextClassLoader();
         Enumeration<URL> resources = null;
         String fullResourceName = "META-INF/services/" + serviceClass.getName();
         try {
