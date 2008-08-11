@@ -48,7 +48,7 @@ public final class ServiceProviderUtil {
             try {
                 E info = ReflectionUtil.instantiateClass( name, serviceClass );
                 providers.add( info );
-                LOG.info( "Service provider: {}", info.getClass().getName() );
+                LOG.debug( "Service provider: {}", info.getClass().getName() );
             } catch ( ReflectionException e ) {
                 LOG.error( "Exception while instantiating service class:" + name, e );
                 throw new Error( "Exception while instantiating service class:" + name, e );
