@@ -6,13 +6,20 @@ import static org.junit.Assert.assertTrue;
 import java.util.List;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ServiceProviderUtilTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger( ServiceProviderUtilTest.class );
+    
     @Test
     public void getServiceProvidersTest() {
         List<String> providers = ServiceProviderUtil.getServiceProviderNames( ServiceProviderUtilTest.class );
-        assertTrue( providers.size() == 2 );
+        for ( String p : providers ) {
+            LOG.debug( p );
+        }
+        assertTrue( "expected 2 providers by got " + providers.size(), providers.size() == 2 );
         assertTrue( providers.get( 0 ).equals( "org.cujau.util.impl.MyTestServiceProviderTestClass" ) );
         assertTrue( providers.get( 1 ).equals( "org.cujau.util.impl.AnotherServiceProviderTestClass" ) );
     }

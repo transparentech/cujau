@@ -6,13 +6,22 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Useful file operations.
  */
 public class FileUtil {
+
+    private static final Logger LOG = LoggerFactory.getLogger( FileUtil.class );
+
     /**
      * Create a temporary text file containing the given text data using the platform default
      * character encoding to convert the characters from Java's Unicode (UTF-16) internal
@@ -136,5 +145,55 @@ public class FileUtil {
         }
 
         return b.toString();
+    }
+
+    /**
+     * Unzip the given InputStream into the given output directory.
+     * 
+     * @param zip
+     *            The InputStream containing a zip file.
+     * @param outputDir
+     *            The directory into which the contents of the zip file will be extracted.
+     * @param verbose
+     *            If a log entry (info level) should be written for each extracted item.
+     * @throws IOException
+     *             If there were any problems unzipping the given zip file.
+     */
+    public static void unzip( InputStream zip, File outputDir, boolean verbose )
+            throws IOException {
+        byte[] buf = new byte[4096];
+        ZipInputStream in = new ZipInputStream( zip );
+        while ( true ) {
+            // Read the next entry.
+            ZipEntry entry = in.getNextEntry();
+            if ( entry == null ) {
+                break;
+            }
+
+            if ( verbose ) {
+                LOG.info( "unzipping {} ({}/{})", new Object[] {
+                                                                entry.getName(),
+                                                                entry.getCompressedSize(),
+                                                                entry.getSize() } );
+            }
+
+            // Write out the new file.
+            File entryFile = new File( outputDir, entry.getName() );
+            if ( entry.isDirectory() ) {
+                entryFile.mkdir();
+            } else {
+                FileOutputStream out = new FileOutputStream( entryFile );
+                int len;
+                while ( ( len = in.read( buf ) ) > 0 ) {
+                    out.write( buf, 0, len );
+                }
+                out.close();
+            }
+
+            // Close the entry.
+            in.closeEntry();
+        }
+        // Close the input zip.
+        in.close();
     }
 }
