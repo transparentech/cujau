@@ -7,8 +7,8 @@ import java.util.regex.Pattern;
  */
 public class StringConverterHelper {
 
-    private final static Pattern NUM_STRIPPER_FLOAT_RE = Pattern.compile( "[^0-9\\.]" );
-    private final static Pattern NUM_STRIPPER_INT_RE = Pattern.compile( "[^0-9]" );
+    private final static Pattern NUM_STRIPPER_FLOAT_RE = Pattern.compile( "[^0-9\\.\\-]" );
+    private final static Pattern NUM_STRIPPER_INT_RE = Pattern.compile( "[^0-9\\-]" );
 
     public static float floatValueOf( String str )
             throws NumberFormatException {
