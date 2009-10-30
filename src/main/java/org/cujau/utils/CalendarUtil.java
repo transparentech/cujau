@@ -56,4 +56,62 @@ public class CalendarUtil {
         cal1.setTime( date1 );
         return isSameDate( cal1, date2 );
     }
+
+    /**
+     * Does the given date represent the same day as today (now).
+     * 
+     * @param date
+     *            The date to test.
+     * @return <tt>true</tt> if date is that same day as today (now).
+     */
+    public static boolean isToday( Date date ) {
+        Calendar calToday = Calendar.getInstance();
+        Calendar calDate = Calendar.getInstance();
+        calDate.setTime( date );
+
+        if ( calToday.get( Calendar.YEAR ) == calDate.get( Calendar.YEAR )
+             && calToday.get( Calendar.DAY_OF_YEAR ) == calDate.get( Calendar.DAY_OF_YEAR ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Subtract N days from the current date.
+     * 
+     * @param days
+     *            The number of days in the past that the returned date should represent.
+     * @return A date object N days in the past.
+     */
+    public static Date getNowLessDays( int days ) {
+        return getAdjustedDate( Calendar.getInstance(), Calendar.HOUR_OF_DAY, -( days * 24 ) );
+    }
+
+    /**
+     * Subtract N months from the current date.
+     * 
+     * @param months
+     *            The number of months in the past that the returned date should represent.
+     * @return A date object N months in the past.
+     */
+    public static Date getNowLessMonths( int months ) {
+        return getAdjustedDate( Calendar.getInstance(), Calendar.MONTH, -months );
+    }
+
+    /**
+     * Subtract N years from the current date.
+     * 
+     * @param days
+     *            The number of years in the past that the returned date should represent.
+     * @return A date object N years in the past.
+     */
+    public static Date getNowLessYears( int years ) {
+        return getAdjustedDate( Calendar.getInstance(), Calendar.YEAR, -years );
+    }
+
+    private static Date getAdjustedDate( Calendar cal, int calField, int adjustment ) {
+        cal.add( calField, adjustment );
+        return cal.getTime();
+    }
+
 }
