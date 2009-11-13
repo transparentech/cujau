@@ -8,6 +8,11 @@ import java.util.Date;
  */
 public class CalendarUtil {
 
+    public static final long MILLIS_IN_SECOND = 1000;
+    public static final long MILLIS_IN_MINUTE = MILLIS_IN_SECOND * 60;
+    public static final long MILLIS_IN_HOUR = MILLIS_IN_MINUTE * 60;
+    public static final long MILLIS_IN_DAY = MILLIS_IN_HOUR * 24;
+    
     /**
      * Do the given {@link java.util.Calendar}s represent the same historical date?
      * 
@@ -114,4 +119,22 @@ public class CalendarUtil {
         return cal.getTime();
     }
 
+    /**
+     * Get a Date object representing today. Only the year, month and day fields are set. All others
+     * are not set. This generally results in a Date object such as: 2009-11-13 00:00:00.000
+     * 
+     * @return A Date object for today.
+     */
+    public static Date getToday() {
+        Calendar calNow = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set( calNow.get( Calendar.YEAR ), calNow.get( Calendar.MONTH ),
+                 calNow.get( Calendar.DAY_OF_MONTH ) );
+        return cal.getTime();
+    }
+    
+    public static Date getNow() {
+        return new Date();
+    }
 }
