@@ -46,7 +46,7 @@ public class JavaApplicationRestarter {
      */
     public JavaApplicationRestarter( Object classInJarFile, String executableJarFilename ) {
         File exejar = getURIOfContainingJAR( classInJarFile );
-        if ( !exejar.getName().endsWith( ".jar" ) ) {
+        if ( exejar == null || !exejar.getName().endsWith( ".jar" ) ) {
             String classpath = getJavaClasspath();
             String mainclass = getMainClass();
             restartArgs = getRestartArgs( classpath, mainclass );
