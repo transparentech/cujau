@@ -83,7 +83,7 @@ public class StringConverterHelperTest {
         float val = 1050.86f;
         NumberFormat nf = NumberFormat.getInstance();
         LOG.debug( nf.format( val ) );
-        Number nbr = nf.parse( "12,345.34" );
+        Number nbr = nf.parse( "1,050.86" );
         assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
 
         nf = NumberFormat.getInstance( Locale.FRANCE );
@@ -93,7 +93,7 @@ public class StringConverterHelperTest {
         
         nf = NumberFormat.getInstance( Locale.GERMANY );
         LOG.debug( nf.format( val ) );
-        nbr = nf.parse( "1.050,86" );
+        nbr = nf.parse( "1050,86" );
         assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
         
         nf = NumberFormat.getInstance( Locale.UK );
