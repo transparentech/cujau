@@ -1,18 +1,9 @@
 package org.cujau.utils.converters;
 
-import java.util.HashMap;
-import java.util.Map;
+public interface StringConverterFactory {
 
-public class StringConverterFactory {
+    StringConverter<?> getConverter( Class<?> klass );
 
-    private static Map<Class<?>, StringConverter<?>> map = new HashMap<Class<?>, StringConverter<?>>();
-    static {
-        map.put( String.class, new StringToString() );
-        map.put( Integer.class, new StringToInteger() );
-        map.put( Float.class, new StringToFloat() );
-    }
-    
-    public static StringConverter<?> getInstance( Class<?> klass ) {
-        return map.get( klass );
-    }
+    String toString( Object val );
+
 }

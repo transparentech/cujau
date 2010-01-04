@@ -1,11 +1,19 @@
 package org.cujau.utils.converters;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class StringConverterHelperTest {
 
+    private static final Logger LOG = LoggerFactory.getLogger( StringConverterHelperTest.class );
     private static final float DELTA = 0.0001f;
 
     @Test
@@ -39,13 +47,7 @@ public class StringConverterHelperTest {
         assertEquals( 1234.5678f, StringConverterHelper.floatValueOf( "$1,234.5678$" ), DELTA );
         assertEquals( 1234567.89f, StringConverterHelper.floatValueOf( "\u20A41,234,567.89\u20A4" ), DELTA );
         
-        boolean exception = false;
-        try {
-            StringConverterHelper.floatValueOf( "1-23.45" );
-        } catch ( NumberFormatException e ) {
-            exception = true;
-        }
-        assertTrue( exception );
+        assertEquals( 1.0f, StringConverterHelper.floatValueOf( "1-23.45" ), DELTA );
     }
 
     @Test
@@ -55,5 +57,53 @@ public class StringConverterHelperTest {
         assertTrue( 1234567 == StringConverterHelper.intValueOf( "1,234,567" ) );
         assertTrue( 1234 == StringConverterHelper.intValueOf( "$1,234$" ) );
         assertTrue( 1234567 == StringConverterHelper.intValueOf( "\u20A41,234,567\u20A4" ) );
+    }
+    
+    @Test
+    public void testCurrencyFormat() {
+        float val = 12345.34f;
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        LOG.debug( "{} - {}", nf.format( val ), String.format( "%.4f", val ) );
+        nf = NumberFormat.getCurrencyInstance( Locale.FRANCE );
+        LOG.debug( nf.format( val ) );
+        nf = NumberFormat.getCurrencyInstance( Locale.UK );
+        LOG.debug( nf.format( val ) );
+        nf = NumberFormat.getCurrencyInstance( Locale.CANADA );
+        LOG.debug( nf.format( val ) );
+        nf = NumberFormat.getCurrencyInstance( new Locale( "de", "CH" ) );
+        LOG.debug( nf.format( val ) );
+        nf = NumberFormat.getCurrencyInstance( new Locale( "fr", "CH" ) );
+        LOG.debug( nf.format( val ) );
+        nf = NumberFormat.getCurrencyInstance( Locale.JAPAN );
+        LOG.debug( nf.format( val ) );
+    }
+    
+    @Test
+    public void testFloatFormat() throws ParseException {
+        float val = 1050.86f;
+        NumberFormat nf = NumberFormat.getInstance();
+        LOG.debug( nf.format( val ) );
+        Number nbr = nf.parse( "12,345.34" );
+        assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
+
+        nf = NumberFormat.getInstance( Locale.FRANCE );
+        LOG.debug( nf.format( val ) );
+        nbr = nf.parse( "1050,86" );
+        assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
+        
+        nf = NumberFormat.getInstance( Locale.GERMANY );
+        LOG.debug( nf.format( val ) );
+        nbr = nf.parse( "1.050,86" );
+        assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
+        
+        nf = NumberFormat.getInstance( Locale.UK );
+        LOG.debug( nf.format( val ) );
+        nbr = nf.parse( "1050.86" );
+        assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
+        
+        nf = NumberFormat.getInstance( new Locale( "de", "CH" ) );
+        LOG.debug( nf.format( val ) );
+        nbr = nf.parse( "1'050.86" );
+        assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
     }
 }
