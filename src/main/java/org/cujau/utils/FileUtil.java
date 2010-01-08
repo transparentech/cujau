@@ -39,8 +39,7 @@ public class FileUtil {
      */
     public static File createTempTextFile( String filename, String data )
             throws IOException {
-        File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
-        File tmpFile = new File( tmpDir, filename );
+        File tmpFile = createTempFile( filename );
 
         BufferedWriter out = new BufferedWriter( new FileWriter( tmpFile ) );
         out.write( data );
@@ -69,14 +68,28 @@ public class FileUtil {
      */
     public static File createTempTextFile( String filename, String data, String charsetName )
             throws IOException {
-        File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
-        File tmpFile = new File( tmpDir, filename );
+        File tmpFile = createTempFile( filename );
 
         BufferedWriter out =
             new BufferedWriter( new OutputStreamWriter( new FileOutputStream( tmpFile ), charsetName ) );
         out.write( data );
         out.close();
 
+        return tmpFile;
+    }
+
+    /**
+     * Create a java {@link File} object that represents the given filename in the system temporary
+     * directory. The file on the file system that the returned {@link File} object represents may
+     * or may not exist.
+     * 
+     * @param filename
+     *            The name of the file in the system's temp directory.
+     * @return A java {@link java.io.File}.
+     */
+    public static File createTempFile( String filename ) {
+        File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
+        File tmpFile = new File( tmpDir, filename );
         return tmpFile;
     }
 
