@@ -209,4 +209,55 @@ public class FileUtil {
         // Close the input zip.
         in.close();
     }
+
+    /**
+     * Copy the contents of the given source File to the given destination File. The destination
+     * file will be overwritten if it already exists.
+     * 
+     * @param src
+     *            The source File to copy.
+     * @param dest
+     *            The destination File into which the contents of the source file will be copied.
+     * @throws IOException
+     *             If any problems arose while copying.
+     */
+    public static void copy( File src, File dest )
+            throws IOException {
+        FileInputStream fis = null;
+        FileOutputStream fos = null;
+        try {
+            fis = new FileInputStream( src );
+            fos = new FileOutputStream( dest );
+            byte[] buf = new byte[8192];
+            int i = 0;
+            while ( ( i = fis.read( buf ) ) != -1 ) {
+                fos.write( buf, 0, i );
+            }
+        } finally {
+            if ( fis != null ) {
+                fis.close();
+            }
+            if ( fos != null ) {
+                fos.close();
+            }
+        }
+    }
+
+    /**
+     * Move the given source File to the given destination File. This implementation of this method
+     * first performs a {@link #copy}, then a delete on the source File. The destination file will
+     * be overwritten if it already exists.
+     * 
+     * @param src
+     *            The source File to move
+     * @param dest
+     *            The destination File to create or overwrite.
+     * @throws IOException
+     *             If any problems arose while copying.
+     */
+    public static void move( File src, File dest )
+            throws IOException {
+        copy( src, dest );
+        src.delete();
+    }
 }

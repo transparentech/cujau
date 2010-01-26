@@ -1,5 +1,6 @@
 package org.cujau.utils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -57,4 +58,23 @@ public class ResourceUtil {
         return b.toString();
     }
 
+    /**
+     * Return a File representing the location on disk of the given class. For a class contained in
+     * a JAR file, the returned File will be the containing JAR file. For a class in a directory,
+     * the returned File will be the directory on the classpath that contains (likely via a
+     * sub-directory) the class.
+     * 
+     * @param klass
+     *            The class to be located.
+     * @return A File representing the containing location (either a JAR file or class directory).
+     */
+    public static File getLocationOfClass( Class<?> klass ) {
+        File jarFile;
+        try {
+            jarFile = new File( klass.getProtectionDomain().getCodeSource().getLocation().toURI() );
+        } catch ( Exception e ) {
+            return null;
+        }
+        return jarFile;
+    }
 }
