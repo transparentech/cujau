@@ -48,6 +48,7 @@ public class StringConverterHelperTest {
         assertEquals( 1234567.89f, StringConverterHelper.floatValueOf( "\u20A41,234,567.89\u20A4" ), DELTA );
         
         assertEquals( 1.0f, StringConverterHelper.floatValueOf( "1-23.45" ), DELTA );
+        assertEquals( 2923.5f, StringConverterHelper.floatValueOf( "2,923.50" ), DELTA );
     }
 
     @Test
