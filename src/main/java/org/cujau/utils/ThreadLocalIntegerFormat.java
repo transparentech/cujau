@@ -7,14 +7,26 @@ import java.util.Locale;
 public class ThreadLocalIntegerFormat extends ThreadLocal<DecimalFormat> {
 
     private final Locale locale;
-    private final String pattern = "####";
+    private final String pattern;
 
     public ThreadLocalIntegerFormat() {
         locale = Locale.getDefault();
+        pattern = null;
+    }
+
+    public ThreadLocalIntegerFormat( String format ) {
+        locale = Locale.getDefault();
+        pattern = format;
     }
 
     public ThreadLocalIntegerFormat( Locale locale ) {
         this.locale = locale;
+        pattern = null;
+    }
+
+    public ThreadLocalIntegerFormat( Locale locale, String format ) {
+        this.locale = locale;
+        pattern = format;
     }
 
     protected DecimalFormat initialValue() {
