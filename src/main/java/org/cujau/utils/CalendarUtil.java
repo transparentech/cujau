@@ -12,7 +12,7 @@ public class CalendarUtil {
     public static final long MILLIS_IN_MINUTE = MILLIS_IN_SECOND * 60;
     public static final long MILLIS_IN_HOUR = MILLIS_IN_MINUTE * 60;
     public static final long MILLIS_IN_DAY = MILLIS_IN_HOUR * 24;
-    
+
     /**
      * Do the given {@link java.util.Calendar}s represent the same historical date?
      * 
@@ -60,6 +60,70 @@ public class CalendarUtil {
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime( date1 );
         return isSameDate( cal1, date2 );
+    }
+
+    /**
+     * Compare the two dates, returning <tt>true</tt> if the given <tt>date</tt> is the same as or
+     * younger (more recent) than the given <tt>baseDate</tt>.
+     * 
+     * @param date
+     *            The date being compared.
+     * @param baseDate
+     *            The date used for comparison.
+     * @return <tt>true</tt> if the <tt>date</tt> is the same or younger than the <tt>baseDate</tt>,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isSameOrYounger( Calendar date, Calendar baseDate ) {
+        if ( date.get( Calendar.YEAR ) > baseDate.get( Calendar.YEAR ) ) {
+            return true;
+        }
+        if ( date.get( Calendar.YEAR ) < baseDate.get( Calendar.YEAR ) ) {
+            return false;
+        }
+        // Same years here.
+        if ( date.get( Calendar.MONTH ) > baseDate.get( Calendar.MONTH ) ) {
+            return true;
+        }
+        if ( date.get( Calendar.MONTH ) < baseDate.get( Calendar.MONTH ) ) {
+            return false;
+        }
+        // Same month here.
+        if ( date.get( Calendar.DAY_OF_MONTH ) >= baseDate.get( Calendar.DAY_OF_MONTH ) ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Compare the two dates, returning <tt>true</tt> if the given <tt>date</tt> is the same as or
+     * older than the given <tt>baseDate</tt>.
+     * 
+     * @param date
+     *            The date being compared.
+     * @param baseDate
+     *            The date used for comparison.
+     * @return <tt>true</tt> if the <tt>date</tt> is the same or older than the <tt>baseDate</tt>,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isSameOrOlder( Calendar date, Calendar baseDate ) {
+        if ( date.get( Calendar.YEAR ) < baseDate.get( Calendar.YEAR ) ) {
+            return true;
+        }
+        if ( date.get( Calendar.YEAR ) > baseDate.get( Calendar.YEAR ) ) {
+            return false;
+        }
+        // Same years here.
+        if ( date.get( Calendar.MONTH ) < baseDate.get( Calendar.MONTH ) ) {
+            return true;
+        }
+        if ( date.get( Calendar.MONTH ) > baseDate.get( Calendar.MONTH ) ) {
+            return false;
+        }
+        // Same month here.
+        if ( date.get( Calendar.DAY_OF_MONTH ) <= baseDate.get( Calendar.DAY_OF_MONTH ) ) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -133,8 +197,14 @@ public class CalendarUtil {
                  calNow.get( Calendar.DAY_OF_MONTH ) );
         return cal.getTime();
     }
-    
+
     public static Date getNow() {
         return new Date();
+    }
+
+    public static Calendar getCalendarFor( Date date ) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime( date );
+        return cal;
     }
 }
