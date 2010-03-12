@@ -1,5 +1,6 @@
 package org.cujau.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,6 +57,42 @@ public class ResourceUtil {
             b.append( buffer, 0, read );
         }
         return b.toString();
+    }
+
+    /**
+     * Return the requested resource as an array of bytes.
+     * 
+     * @param resourceName
+     *            The resource on the classpath.
+     * @return An arra of bytes containing the requested resource or <tt>null</tt> if no resource
+     *         with the given name is available.
+     * @throws IOException
+     */
+    public static byte[] getResourceBytes( String resourceName )
+            throws IOException {
+        InputStream inputStream = ResourceUtil.class.getResourceAsStream( resourceName );
+        if ( inputStream == null ) {
+            LOG.info( "Can't find the requested resource: {}", resourceName );
+            return null;
+        }
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream( 1024 );
+        byte[] bytes = new byte[512];
+
+        // Read bytes from the input stream in bytes.length-sized chunks and write
+        // them into the output stream
+        int readBytes;
+        while ( ( readBytes = inputStream.read( bytes ) ) > 0 ) {
+            outputStream.write( bytes, 0, readBytes );
+        }
+
+        // Convert the contents of the output stream into a byte array
+        byte[] byteData = outputStream.toByteArray();
+
+        // Close the streams
+        inputStream.close();
+        outputStream.close();
+
+        return byteData;
     }
 
     /**
