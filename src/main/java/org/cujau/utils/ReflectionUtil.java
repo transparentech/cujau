@@ -1,5 +1,6 @@
 package org.cujau.utils;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -151,9 +152,9 @@ public final class ReflectionUtil {
     }
 
     /**
-     * Invoke the setter method of the given <tt>propertyName</tt> on the given <tt>bean</tt>.
-     * This method can be used when the wrong class type of the value parameter would be selected by
-     * the compiler (for example, when using <tt>int</tt> rather than <tt>Integer</tt>).
+     * Invoke the setter method of the given <tt>propertyName</tt> on the given <tt>bean</tt>. This
+     * method can be used when the wrong class type of the value parameter would be selected by the
+     * compiler (for example, when using <tt>int</tt> rather than <tt>Integer</tt>).
      * 
      * @param bean
      *            The object on which the method will be invoked.
@@ -189,6 +190,78 @@ public final class ReflectionUtil {
             LOG.error( e.getMessage(), e );
             throw new ReflectionException( e );
         }
+    }
+
+    /**
+     * Set the given field using reflection. The field can be a private or protected field. The
+     * Field must be declared in the class specified by the <tt>classDeclaringField</tt> parameter.
+     * 
+     * @param bean
+     *            The object whose field will be set.
+     * @param fieldName
+     *            The field to set.
+     * @param classDeclaringField
+     *            The Class that declares the field to be set.
+     * @param value
+     *            The value to which the field will be set.
+     * @throws ReflectionException
+     */
+    public static void setField( Object bean, String fieldName, Class<?> classDeclaringField, Object value )
+            throws ReflectionException {
+        try {
+            Field field = classDeclaringField.getDeclaredField( fieldName );
+            field.setAccessible( true );
+            field.set( bean, value );
+        } catch ( SecurityException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        } catch ( NoSuchFieldException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        } catch ( IllegalArgumentException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        } catch ( IllegalAccessException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        }
+    }
+
+    /**
+     * Get the value of the give field using reflection. The field can be a private or protected
+     * field. The Field must be declared in the class specified by the <tt>classDeclaringField</tt>
+     * parameter.
+     * 
+     * @param bean
+     *            The object whose field will be read.
+     * @param fieldName
+     *            The field to get.
+     * @param classDeclaringField
+     *            The Class that declares the field to be retrieved.
+     * @return The value of the field.
+     * @throws ReflectionException
+     */
+    public static Object getField( Object bean, String fieldName, Class<?> classDeclaringField )
+            throws ReflectionException {
+        Object ret = null;
+        try {
+            Field field = classDeclaringField.getDeclaredField( fieldName );
+            field.setAccessible( true );
+            ret = field.get( bean );
+        } catch ( SecurityException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        } catch ( NoSuchFieldException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        } catch ( IllegalArgumentException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        } catch ( IllegalAccessException e ) {
+            LOG.error( e.getMessage(), e );
+            throw new ReflectionException( e );
+        }
+        return ret;
     }
 
     private static String mkPropertyMethodName( String prefix, String propertyName ) {
