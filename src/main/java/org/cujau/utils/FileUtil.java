@@ -101,17 +101,29 @@ public class FileUtil {
      * @return true if the deletion completed correctly, false otherwise.
      */
     public static boolean deleteDirectory( File path ) {
+        return ( deleteDirectoryContents( path ) && path.delete() );
+    }
+
+    /**
+     * Recursively delete the contents of the give directory. The directory itself is not deleted.
+     * 
+     * @param path
+     *            The directory path whose contents will be deleted.
+     * @return true if the deletion completed correctly, false otherwise.
+     */
+    public static boolean deleteDirectoryContents( File path ) {
+        boolean ret = true;
         if ( path.exists() ) {
             File[] files = path.listFiles();
             for ( File element : files ) {
                 if ( element.isDirectory() ) {
-                    deleteDirectory( element );
+                    ret &= deleteDirectory( element );
                 } else {
-                    element.delete();
+                    ret &= element.delete();
                 }
             }
         }
-        return ( path.delete() );
+        return ret;
     }
 
     /**
