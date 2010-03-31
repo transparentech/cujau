@@ -68,6 +68,9 @@ public final class StringUtil {
      */
     public static <E> String toString( Collection<E> col ) {
         StringBuilder buf = new StringBuilder();
+        if ( col == null ) {
+            return buf.toString();
+        }
         for ( E e : col ) {
             buf.append( e.toString() );
             buf.append( "," );

@@ -3,6 +3,7 @@ package org.cujau.utils;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -80,6 +81,9 @@ public class StringUtilTest {
         assertTrue( "1,2,5,3".equals( res ) );
         
         res = StringUtil.toString( new ArrayList<String>() );
+        assertTrue( "".equals( res ) );
+        
+        res = StringUtil.toString( (List<?>) null );
         assertTrue( "".equals( res ) );
     }
     
