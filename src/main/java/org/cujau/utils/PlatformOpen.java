@@ -116,16 +116,18 @@ public class PlatformOpen {
         // Failed, resort to executing the browser manually
         String osName = System.getProperty( "os.name" );
         try {
+            String[] cmd = null;
+            
             // Mac OS has special Java class
             if ( osName.startsWith( "Mac OS" ) ) {
-                Class<?> fileMgr = Class.forName( "com.apple.eio.FileManager" );
-                Method openURL = fileMgr.getDeclaredMethod( "openURL", new Class[] { String.class } );
-                // logger.fine("Using "+fileMgr+" to open URL '"+url+"'");
-                openURL.invoke( null, new Object[] { surl } );
-                return;
-            }
+//                Class<?> fileMgr = Class.forName( "com.apple.eio.FileManager" );
+//                Method openURL = fileMgr.getDeclaredMethod( "openURL", new Class[] { String.class } );
+//                // logger.fine("Using "+fileMgr+" to open URL '"+url+"'");
+//                openURL.invoke( null, new Object[] { surl } );
+                cmd = new String[] { "open", surl };
+//                return;
+            } else 
 
-            String[] cmd = null;
 
             // Windows execs url.dll
             if ( osName.startsWith( "Windows" ) ) {
