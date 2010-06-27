@@ -1,6 +1,7 @@
 package org.cujau.utils;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,8 @@ public class StringUtilTest {
         col.add( 3 );
         String res = StringUtil.toString( col );
         assertTrue( "1,2,5,3".equals( res ) );
+        res = StringUtil.toString( col, ";" );
+        assertEquals( "1;2;5;3", res );
         
         res = StringUtil.toString( new ArrayList<String>() );
         assertTrue( "".equals( res ) );

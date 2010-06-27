@@ -67,13 +67,31 @@ public final class StringUtil {
      *         separated by a comma.
      */
     public static <E> String toString( Collection<E> col ) {
+        return toString( col, "," );
+    }
+
+    /**
+     * Convert the given collection of objects into it's String representation. The String
+     * representation of an element of the collection will be separated from the next element with
+     * the given separator.
+     * 
+     * @param <E>
+     *            The type of the elements.
+     * @param col
+     *            The collection of elements.
+     * @param separator
+     *            The string/character that will separate elements in the returned string.
+     * @return A String containing the String representation of each element in the Collection,
+     *         separated by the given separator.
+     */
+    public static <E> String toString( Collection<E> col, String separator ) {
         StringBuilder buf = new StringBuilder();
         if ( col == null ) {
             return buf.toString();
         }
         for ( E e : col ) {
             buf.append( e.toString() );
-            buf.append( "," );
+            buf.append( separator );
         }
         if ( buf.length() > 0 ) {
             buf.deleteCharAt( buf.length() - 1 );
@@ -102,8 +120,8 @@ public final class StringUtil {
      * System properties.
      * <p>
      * A delimited property key has the form
-     * <tt>${<em>{@link #PROPERTY_NAME_PATTERN property.name}</em>}</tt>. Property names may
-     * only contain alphanumeric characters plus the '_' and '.' characters.
+     * <tt>${<em>{@link #PROPERTY_NAME_PATTERN property.name}</em>}</tt>. Property names may only
+     * contain alphanumeric characters plus the '_' and '.' characters.
      * 
      * @param orig
      *            The original String
@@ -118,8 +136,8 @@ public final class StringUtil {
      * given Properties object.
      * <p>
      * A delimited property key has the form
-     * <tt>${<em>{@link #PROPERTY_NAME_PATTERN property.name}</em>}</tt>. Property names may
-     * only contain alphanumeric characters plus the '_' and '.' characters.
+     * <tt>${<em>{@link #PROPERTY_NAME_PATTERN property.name}</em>}</tt>. Property names may only
+     * contain alphanumeric characters plus the '_' and '.' characters.
      * 
      * @param orig
      *            The original String
