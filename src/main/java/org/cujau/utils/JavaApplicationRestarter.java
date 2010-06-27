@@ -93,7 +93,7 @@ public class JavaApplicationRestarter {
         return true;
     }
 
-    protected File getURIOfContainingJAR( Object classInJarFile ) {
+    public File getURIOfContainingJAR( Object classInJarFile ) {
         File jarFile;
         try {
             jarFile =
@@ -105,7 +105,7 @@ public class JavaApplicationRestarter {
         return jarFile;
     }
 
-    protected String getMainClass() {
+    public String getMainClass() {
         try {
             throw new Exception( "Dummy" );
         } catch ( Exception e ) {
@@ -114,11 +114,11 @@ public class JavaApplicationRestarter {
         }
     }
 
-    protected String getJavaExecutable() {
+    public String getJavaExecutable() {
         return System.getProperty( "java.home" ) + "/bin/java";
     }
 
-    protected String getJavaClasspath() {
+    public String getJavaClasspath() {
         return System.getProperty( "java.class.path" );
     }
 
