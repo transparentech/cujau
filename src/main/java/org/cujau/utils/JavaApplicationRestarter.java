@@ -115,7 +115,9 @@ public class JavaApplicationRestarter {
     }
 
     public String getJavaExecutable() {
-        return System.getProperty( "java.home" ) + "/bin/java";
+        File javaHome = new File( System.getProperty( "java.home" ) );
+        File javaExe = new File( javaHome, "/bin/java" );
+        return javaExe.getAbsolutePath();
     }
 
     public String getJavaClasspath() {

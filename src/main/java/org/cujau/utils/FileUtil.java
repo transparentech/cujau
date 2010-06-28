@@ -94,7 +94,7 @@ public class FileUtil {
     }
 
     /**
-     * Recursively delete the given directory.
+     * Recursively delete the contents of the given directory as well as the directory itself.
      * 
      * @param path
      *            The directory path to delete.
