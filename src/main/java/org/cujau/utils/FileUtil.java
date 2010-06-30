@@ -23,6 +23,40 @@ public class FileUtil {
     private static final Logger LOG = LoggerFactory.getLogger( FileUtil.class );
 
     /**
+     * Rename the file from one location to another. To avoid problems with renaming files on
+     * Windows where the "toFile" already exists, this method will first move the "toFile" to a file
+     * named "toFile".bak and then move the "fromFile" to the "toFile". The "toFile" will be deleted
+     * at the end. If the rename still can not be carried out, the original "toFile" will be
+     * restored.
+     * 
+     * @param fromFile
+     *            The file to rename.
+     * @param toFile
+     *            The file to which it should be renamed.
+     * @return <tt>true</tt> if the rename worked, <tt>false</tt> otherwise.
+     */
+    public static boolean renameFileUsingBackup( File fromFile, File toFile ) {
+        boolean exists = false;
+        File tmpMoveToFile = null;
+        if ( toFile.exists() ) {
+            exists = true;
+            tmpMoveToFile = new File( toFile.getAbsoluteFile() + ".bak" );
+            toFile.renameTo( tmpMoveToFile );
+        }
+        boolean ret = fromFile.renameTo( toFile );
+        if ( !ret ) {
+            if ( exists ) {
+                tmpMoveToFile.renameTo( toFile );
+            }
+        } else {
+            if ( exists ) {
+                tmpMoveToFile.delete();
+            }
+        }
+        return ret;
+    }
+
+    /**
      * Create a temporary text file containing the given text data using the platform default
      * character encoding to convert the characters from Java's Unicode (UTF-16) internal
      * representation to the on-disk representation.
