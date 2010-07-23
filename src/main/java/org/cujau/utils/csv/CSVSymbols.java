@@ -43,18 +43,18 @@ public class CSVSymbols {
         // Try to determine what the record separator should be.
         //
         DecimalFormatSymbols dfs = new DecimalFormatSymbols( locale );
-        // The first part of this statement is to detect locales like 'fr' and 'de' where 
+        // The first part of this statement is to detect locales like 'fr' and 'de' where
         // the decimal separator is not the 'en' standard '.'.
         //
         // The second part of this statement is to detect locales like 'de_CH' where the
-        // decimal separator is not the 'en' standard ','.
+        // grouping separator is not the 'en' standard ','.
         //
         // If either of these are detected, we will use the alternate separator (;) rather
         // than the standard (,) separator.
         //
-        if ( dfs.getDecimalSeparator() == DEFAULT_SEPARATOR ||
-                dfs.getGroupingSeparator() != DEFAULT_SEPARATOR ) {
-            // Use the alternate separator as that is probably what Excel is expecting. 
+        if ( dfs.getDecimalSeparator() == DEFAULT_SEPARATOR
+             || dfs.getGroupingSeparator() != DEFAULT_SEPARATOR ) {
+            // Use the alternate separator as that is probably what Excel is expecting.
             separator = ALTERNATE_SEPARATOR;
         }
     }
