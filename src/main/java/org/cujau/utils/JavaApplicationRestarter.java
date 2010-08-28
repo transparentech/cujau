@@ -1,6 +1,8 @@
 package org.cujau.utils;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +83,15 @@ public class JavaApplicationRestarter {
     }
 
     protected boolean restart( List<String> args ) {
+        try {
+            File tmpOut = File.createTempFile( "SME-restart", "tmp" );
+            FileWriter w = new FileWriter( tmpOut );
+            w.write( toString() );
+            w.close();
+        } catch ( IOException e1 ) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        }
         String[] argAry = args.toArray( new String[] {} );
         try {
             /* Process p = */Runtime.getRuntime().exec( argAry );
