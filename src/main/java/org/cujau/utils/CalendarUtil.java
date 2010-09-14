@@ -198,6 +198,38 @@ public class CalendarUtil {
         return cal.getTime();
     }
 
+    /**
+     * Get a Date object representing yesterday. Only the year, month and day fields are set. All
+     * others are not set. This generally results in a Date object such as: 2009-11-13 00:00:00.000
+     * 
+     * @return A Date object for yesterday.
+     */
+    public static Date getYesterday() {
+        Calendar calNow = Calendar.getInstance();
+        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set( calNow.get( Calendar.YEAR ), calNow.get( Calendar.MONTH ),
+                 calNow.get( Calendar.DAY_OF_MONTH ) );
+        return cal.getTime();
+    }
+
+    /**
+     * Get a Date object representing tomorrow. Only the year, month and day fields are set. All
+     * others are not set. This generally results in a Date object such as: 2009-11-13 00:00:00.000
+     * 
+     * @return A Date object for tomorrow.
+     */
+    public static Date getTomorrow() {
+        Calendar calNow = Calendar.getInstance();
+        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set( calNow.get( Calendar.YEAR ), calNow.get( Calendar.MONTH ),
+                 calNow.get( Calendar.DAY_OF_MONTH ) );
+        return cal.getTime();
+    }
+
     public static Date getNow() {
         return new Date();
     }
