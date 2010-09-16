@@ -239,4 +239,23 @@ public class CalendarUtil {
         cal.setTime( date );
         return cal;
     }
+
+    /**
+     * Get a Date object representing the same calendar date as the given Date object, but with only
+     * the year, month and day fields set. All other fields are not set. This generally results in a
+     * Date object such as: 2009-11-13 00:00:00.000
+     * 
+     * @param date
+     *            The Date object whose time should be removed.
+     * @return A Date object for the same calendar date, and unset time fields.
+     */
+    public static Date toDateWithoutTime( Date date ) {
+        Calendar calOrig = Calendar.getInstance();
+        calOrig.setTime( date );
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set( calOrig.get( Calendar.YEAR ), calOrig.get( Calendar.MONTH ),
+                 calOrig.get( Calendar.DAY_OF_MONTH ) );
+        return cal.getTime();
+    }
 }
