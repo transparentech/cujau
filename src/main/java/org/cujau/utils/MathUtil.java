@@ -12,6 +12,14 @@ public class MathUtil {
         return true;
     }
 
+    /**
+     * Is "a" less than or equal to "b", using the float fudge, "delta".
+     * 
+     * @param a
+     * @param b
+     * @param delta
+     * @return
+     */
     public static boolean ltEqWithDelta( double a, double b, double delta ) {
         if ( ( a - b ) <= delta ) {
             return true;
@@ -19,6 +27,14 @@ public class MathUtil {
         return false;
     }
 
+    /**
+     * Is "a" greater than or equal to "b", using the float fudge, "delta".
+     * 
+     * @param a
+     * @param b
+     * @param delta
+     * @return
+     */
     public static boolean gtEqWithDelta( double a, double b, double delta ) {
         if ( ( b - a ) <= delta ) {
             return true;
