@@ -50,6 +50,34 @@ public class StringConverterHelper {
         }
     }
 
+    public static double simpleDoubleValueOf( String str )
+            throws NumberFormatException {
+        str = NUM_STRIPPER_ALL_FLOAT_RE.matcher( str ).replaceAll( "" );
+        double ret;
+        try {
+            ret = Double.valueOf( str );
+        } catch ( NumberFormatException e ) {
+            throw e;
+        }
+        return ret;
+    }
+
+    public static double doubleValueOf( String str ) {
+        NumberFormat nf = NumberFormat.getInstance();
+        Number nbr;
+        try {
+            nbr = nf.parse( str );
+            return nbr.doubleValue();
+        } catch ( ParseException e1 ) {
+            try {
+                nbr = nf.parse( stripNonIntlFloatJunk( str ) );
+                return nbr.doubleValue();
+            } catch ( ParseException e2 ) {
+                return simpleDoubleValueOf( str );
+            }
+        }
+    }
+
     public static int simpleIntValueOf( String str )
             throws NumberFormatException {
         str = NUM_STRIPPER_ALL_INT_RE.matcher( str ).replaceAll( "" );
