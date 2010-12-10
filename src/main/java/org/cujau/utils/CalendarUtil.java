@@ -146,6 +146,38 @@ public class CalendarUtil {
     }
 
     /**
+     * Determine if the date represented by the given Date is a weekend day (ie. Saturday or
+     * Sunday).
+     * 
+     * @param date
+     * @return <tt>true</tt> if the date is a Saturday or Sunday, <tt>false</tt> otherwise.
+     */
+    public static boolean isWeekend( Date date ) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime( date );
+        int dow = cal.get( Calendar.DAY_OF_WEEK );
+        if ( dow == Calendar.SUNDAY || dow == Calendar.SATURDAY ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Determine if the date represented by the given Calendar is a weekend day (ie. Saturday or
+     * Sunday).
+     * 
+     * @param cal
+     * @return <tt>true</tt> if the date is a Saturday or Sunday, <tt>false</tt> otherwise.
+     */
+    public static boolean isWeekend( Calendar cal ) {
+        int dow = cal.get( Calendar.DAY_OF_WEEK );
+        if ( dow == Calendar.SUNDAY || dow == Calendar.SATURDAY ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Subtract N days from the current date.
      * 
      * @param days
