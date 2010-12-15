@@ -42,6 +42,10 @@ public class MultiHashMap<K,V> {
         return null;
     }
     
+    public void clear() {
+        map.clear();
+    }
+    
     public int size() {
         return map.size();
     }
