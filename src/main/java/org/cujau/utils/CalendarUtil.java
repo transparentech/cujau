@@ -73,6 +73,25 @@ public class CalendarUtil {
      * @return <tt>true</tt> if the <tt>date</tt> is the same or younger than the <tt>baseDate</tt>,
      *         <tt>false</tt> otherwise.
      */
+    public static boolean isSameOrYounger( Date date, Date baseDate ) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime( date );
+        Calendar baseCal = Calendar.getInstance();
+        baseCal.setTime( baseDate );
+        return isSameOrYounger( date, baseDate );
+    }
+
+    /**
+     * Compare the two dates, returning <tt>true</tt> if the given <tt>date</tt> is the same as or
+     * younger (more recent) than the given <tt>baseDate</tt>.
+     * 
+     * @param date
+     *            The date being compared.
+     * @param baseDate
+     *            The date used for comparison.
+     * @return <tt>true</tt> if the <tt>date</tt> is the same or younger than the <tt>baseDate</tt>,
+     *         <tt>false</tt> otherwise.
+     */
     public static boolean isSameOrYounger( Calendar date, Calendar baseDate ) {
         if ( date.get( Calendar.YEAR ) > baseDate.get( Calendar.YEAR ) ) {
             return true;
@@ -92,6 +111,25 @@ public class CalendarUtil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Compare the two dates, returning <tt>true</tt> if the given <tt>date</tt> is the same as or
+     * older than the given <tt>baseDate</tt>.
+     * 
+     * @param date
+     *            The date being compared.
+     * @param baseDate
+     *            The date used for comparison.
+     * @return <tt>true</tt> if the <tt>date</tt> is the same or older than the <tt>baseDate</tt>,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isSameOrOlder( Date date, Date baseDate ) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime( date );
+        Calendar baseCal = Calendar.getInstance();
+        baseCal.setTime( baseDate );
+        return isSameOrOlder( date, baseDate );
     }
 
     /**
