@@ -78,7 +78,7 @@ public class CalendarUtil {
         cal.setTime( date );
         Calendar baseCal = Calendar.getInstance();
         baseCal.setTime( baseDate );
-        return isSameOrYounger( date, baseDate );
+        return isSameOrYounger( cal, baseCal );
     }
 
     /**
@@ -129,7 +129,7 @@ public class CalendarUtil {
         cal.setTime( date );
         Calendar baseCal = Calendar.getInstance();
         baseCal.setTime( baseDate );
-        return isSameOrOlder( date, baseDate );
+        return isSameOrOlder( cal, baseCal );
     }
 
     /**
