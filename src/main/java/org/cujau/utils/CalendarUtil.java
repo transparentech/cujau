@@ -328,4 +328,18 @@ public class CalendarUtil {
                  calOrig.get( Calendar.DAY_OF_MONTH ) );
         return cal.getTime();
     }
+
+    /**
+     * Get the number of days between the given dates, inclusive of the <tt>end</tt> date.
+     * 
+     * @param start
+     *            The starting Date.
+     * @param end
+     *            The ending Date.
+     * @return The number of days.
+     */
+    public static int getNumberOfDaysBetween( Date start, Date end ) {
+        return (int) ( ( end.getTime() - start.getTime() ) / MILLIS_IN_DAY );
+
+    }
 }

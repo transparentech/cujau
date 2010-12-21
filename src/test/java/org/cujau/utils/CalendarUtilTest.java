@@ -1,5 +1,6 @@
 package org.cujau.utils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -48,6 +49,19 @@ public class CalendarUtilTest {
         baseCal = mkCal( "2005-01-01" );
         assertFalse( CalendarUtil.isSameOrYounger( mkCal( "2004-12-31" ), baseCal ) );
         assertTrue( CalendarUtil.isSameOrYounger( mkCal( "2005-01-04" ), baseCal ) );
+    }
+
+    @Test
+    public void testNumberOfDaysBetween()
+            throws ParseException {
+        Calendar startCal = mkCal( "2010-01-01" );
+        Calendar endCal = mkCal( "2010-01-31" );
+        assertEquals( 30, CalendarUtil.getNumberOfDaysBetween( startCal.getTime(), endCal.getTime() ) );
+        startCal = mkCal( "2009-01-01" );
+        assertEquals( 395, CalendarUtil.getNumberOfDaysBetween( startCal.getTime(), endCal.getTime() ) );
+        startCal = mkCal( "2006-01-01" );
+        // 1491 rather than 1490 because of leap year, i think.
+        assertEquals( 1491, CalendarUtil.getNumberOfDaysBetween( startCal.getTime(), endCal.getTime() ) );
     }
 
     private Calendar mkCal( String dateStr )
