@@ -21,4 +21,22 @@ public class ExceptionUtil {
         return result.toString();
     }
 
+    public static String getSimpletrace( Throwable t ) {
+        StringBuilder buf = new StringBuilder();
+        int indent = 0;
+        while ( t != null ) {
+            if ( indent != 0 ) {
+                buf.append( "\n" );
+                buf.append( String.format( "%" + indent + "c", ' ' ) );
+            }
+            buf.append( t.getClass().getSimpleName() );
+            if ( t.getMessage() != null ) {
+                buf.append( " : " );
+                buf.append( t.getMessage() );
+            }
+            indent += 2;
+            t = t.getCause();
+        }
+        return buf.toString();
+    }
 }
