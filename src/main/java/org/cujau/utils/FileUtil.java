@@ -306,4 +306,15 @@ public class FileUtil {
         copy( src, dest );
         src.delete();
     }
+
+    /**
+     * If the given <tt>src</tt> File exists
+     * @param src
+     * @return
+     */
+    public static File incrementFilenameIfExists( File src ) {
+        if ( !src.exists() ) {
+            return src;
+        }
+    }
 }
