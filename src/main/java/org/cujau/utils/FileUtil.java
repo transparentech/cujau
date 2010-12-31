@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -308,13 +310,43 @@ public class FileUtil {
     }
 
     /**
-     * If the given <tt>src</tt> File exists
+     * If the given <tt>src</tt> File exists, add a counter before the suffix and return the new
+     * file. If the File does not exist, it is returned directly.
+     * 
      * @param src
-     * @return
+     *            The file to check and increment.
+     * @param zeroPad
+     *            If a counter is appended, pad the number with 0s out to 2 places (i.e. 01, 02,
+     *            etc).
+     * @param counterSeparator
+     *            The character used to separate the counter from the name. Typically '-' or '_'.
+     * @return A File that does not exist.
      */
-    public static File incrementFilenameIfExists( File src ) {
-        if ( !src.exists() ) {
-            return src;
+    public static File incrementFilenameIfExists( File src, boolean zeroPad, char counterSeparator ) {
+        while ( src.exists() ) {
+            String name = src.getName();
+            int suffixIndex = name.lastIndexOf( "." );
+            String suffix = "";
+            if ( suffixIndex != -1 ) {
+                suffix = name.substring( suffixIndex );
+                name = name.substring( 0, suffixIndex );
+            }
+            int counter = 0;
+            Pattern pat = Pattern.compile( "^(.*)(" + counterSeparator + "[0-9]+)$" );
+            Matcher mat = pat.matcher( name );
+            if ( mat.matches() ) {
+                name = mat.group( 1 );
+                String ct = mat.group( 2 ).substring( 1 );
+                counter = Integer.valueOf( ct );
+            }
+            counter++;
+            if ( zeroPad ) {
+                name = String.format( "%s" + counterSeparator + "%02d%s", name, counter, suffix );
+            } else {
+                name = String.format( "%s" + counterSeparator + "%d%s", name, counter, suffix );
+            }
+            src = new File( src.getParentFile(), name );
         }
+        return src;
     }
 }
