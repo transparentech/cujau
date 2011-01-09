@@ -223,7 +223,8 @@ public class CalendarUtil {
      * @return A date object N days in the past.
      */
     public static Date getNowLessDays( int days ) {
-        return getAdjustedDate( Calendar.getInstance(), Calendar.HOUR_OF_DAY, -( days * 24 ) );
+//        return getAdjustedDate( Calendar.getInstance(), Calendar.HOUR_OF_DAY, -( days * 24 ) );
+        return getAdjustedDate( Calendar.getInstance(), Calendar.DATE, -days );
     }
 
     /**
@@ -276,7 +277,8 @@ public class CalendarUtil {
      */
     public static Date getYesterday() {
         Calendar calNow = Calendar.getInstance();
-        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+//        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+        calNow.add( Calendar.DATE, -1 );
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set( calNow.get( Calendar.YEAR ), calNow.get( Calendar.MONTH ),
@@ -292,7 +294,8 @@ public class CalendarUtil {
      */
     public static Date getTomorrow() {
         Calendar calNow = Calendar.getInstance();
-        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+//        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+        calNow.add( Calendar.DATE, 1 );
         Calendar cal = Calendar.getInstance();
         cal.clear();
         cal.set( calNow.get( Calendar.YEAR ), calNow.get( Calendar.MONTH ),
