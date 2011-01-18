@@ -106,4 +106,10 @@ public class StringConverterHelper {
         }
     }
 
+    public static boolean booleanValueOf( String str ) {
+        if ( str != null && (str.equals( "1" ) || str.toLowerCase().equals( "yes" ) ) ) {
+            return true;
+        }
+        return Boolean.valueOf( str );
+    }
 }

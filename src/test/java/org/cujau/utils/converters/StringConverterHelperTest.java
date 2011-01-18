@@ -1,6 +1,7 @@
 package org.cujau.utils.converters;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.text.NumberFormat;
@@ -46,7 +47,7 @@ public class StringConverterHelperTest {
                                                                                                     // sym
         assertEquals( 1234.5678f, StringConverterHelper.floatValueOf( "$1,234.5678$" ), DELTA );
         assertEquals( 1234567.89f, StringConverterHelper.floatValueOf( "\u20A41,234,567.89\u20A4" ), DELTA );
-        
+
         assertEquals( 1.0f, StringConverterHelper.floatValueOf( "1-23.45" ), DELTA );
         assertEquals( 2923.5f, StringConverterHelper.floatValueOf( "2,923.50" ), DELTA );
     }
@@ -59,7 +60,7 @@ public class StringConverterHelperTest {
         assertTrue( 1234 == StringConverterHelper.intValueOf( "$1,234$" ) );
         assertTrue( 1234567 == StringConverterHelper.intValueOf( "\u20A41,234,567\u20A4" ) );
     }
-    
+
     @Test
     public void testCurrencyFormat() {
         float val = 12345.34f;
@@ -78,9 +79,10 @@ public class StringConverterHelperTest {
         nf = NumberFormat.getCurrencyInstance( Locale.JAPAN );
         LOG.debug( nf.format( val ) );
     }
-    
+
     @Test
-    public void testFloatFormat() throws ParseException {
+    public void testFloatFormat()
+            throws ParseException {
         float val = 1050.86f;
         NumberFormat nf = NumberFormat.getInstance();
         LOG.debug( nf.format( val ) );
@@ -91,20 +93,38 @@ public class StringConverterHelperTest {
         LOG.debug( nf.format( val ) );
         nbr = nf.parse( "1050,86" );
         assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
-        
+
         nf = NumberFormat.getInstance( Locale.GERMANY );
         LOG.debug( nf.format( val ) );
         nbr = nf.parse( "1050,86" );
         assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
-        
+
         nf = NumberFormat.getInstance( Locale.UK );
         LOG.debug( nf.format( val ) );
         nbr = nf.parse( "1050.86" );
         assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
-        
+
         nf = NumberFormat.getInstance( new Locale( "de", "CH" ) );
         LOG.debug( nf.format( val ) );
         nbr = nf.parse( "1'050.86" );
         assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
     }
+
+    @Test
+    public void testBooleanFormat() {
+        assertTrue( StringConverterHelper.booleanValueOf( "true" ) );
+        assertFalse( StringConverterHelper.booleanValueOf( "false" ) );
+        assertTrue( StringConverterHelper.booleanValueOf( "1" ) );
+        assertFalse( StringConverterHelper.booleanValueOf( "10" ) );
+        assertFalse( StringConverterHelper.booleanValueOf( "asdf" ) );
+        assertFalse( StringConverterHelper.booleanValueOf( "ok" ) );
+        assertTrue( StringConverterHelper.booleanValueOf( "Yes" ) );
+        assertFalse( StringConverterHelper.booleanValueOf( null ) );
+
+        StringBooleanConverter conv = new StringBooleanConverter();
+        assertEquals( "true", conv.convert( true ) );
+        assertEquals( "false", conv.convert( false ) );
+        assertEquals( "", conv.convert( (Boolean) null ) );
+    }
+
 }

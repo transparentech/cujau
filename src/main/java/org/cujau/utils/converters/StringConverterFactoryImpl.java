@@ -10,6 +10,7 @@ public class StringConverterFactoryImpl implements StringConverterFactory {
         map.put( String.class, new StringStringConverter() );
         map.put( Integer.class, new StringIntegerConverter() );
         map.put( Float.class, new StringFloatConverter() );
+        map.put( Boolean.class, new StringBooleanConverter() );
         map.put( Object.class, new StringObjectConverter() );
     }
     
@@ -18,7 +19,10 @@ public class StringConverterFactoryImpl implements StringConverterFactory {
     }
     
     public String toString( Object val ) {
-        StringConverter<?> cvtr = map.get( val.getClass() );
+        StringConverter<?> cvtr = null;
+        if ( val != null ) {
+            cvtr = map.get( val.getClass() );
+        }
         if ( cvtr == null ) {
             cvtr = map.get( Object.class );
         }

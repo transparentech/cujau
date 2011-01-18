@@ -9,7 +9,10 @@ public class StringObjectConverter implements StringConverter<Object> {
 
     public String convert( Object val )
             throws IllegalArgumentException {
-        return val.toString();
+        if ( val != null ) {
+            return val.toString();
+        }
+        return "";
     }
 
     public Class<Object> getConvertedClass() {
