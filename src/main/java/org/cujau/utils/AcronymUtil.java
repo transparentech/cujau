@@ -42,6 +42,9 @@ public class AcronymUtil {
             return Long.MIN_VALUE;
         }
         str = str.replace( ",", "" );
+        if ( str.length() == 0 ) {
+            return Long.MIN_VALUE;
+        }
         char end = str.charAt( str.length() - 1 );
         long factor = 1;
         switch ( end ) {
@@ -58,7 +61,11 @@ public class AcronymUtil {
             str = str.substring( 0, str.length() - 1 );
             break;
         }
-        BigDecimal ret = new BigDecimal( str );
-        return ret.multiply( new BigDecimal( factor ) ).longValue();
+        try {
+            BigDecimal ret = new BigDecimal( str );
+            return ret.multiply( new BigDecimal( factor ) ).longValue();
+        } catch ( NumberFormatException e ) {
+            return Long.MIN_VALUE;
+        }
     }
 }
