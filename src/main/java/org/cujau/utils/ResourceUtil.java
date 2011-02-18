@@ -16,10 +16,13 @@ public class ResourceUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger( ResourceUtil.class );
 
+    private static final int BUFFER_SIZE = 4096;
+    
     /**
      * Return the requested resource as a String.
      * <p>
      * This method assumes that the resource is a text file encoded in UTF-8.
+     * </p>
      * 
      * @param resourceName
      *            The resource on the classpath.
@@ -41,6 +44,7 @@ public class ResourceUtil {
      * Return the given InputStream contents as a String.
      * <p>
      * This method assumes that the InputStream contents is a text encoded in UTF-8.
+     * </p>
      * 
      * @param is
      *            The InputStream whose contents is converted to a String.
@@ -51,7 +55,7 @@ public class ResourceUtil {
             throws IOException {
         InputStreamReader reader = new InputStreamReader( is, "UTF-8" );
         StringBuilder b = new StringBuilder();
-        char[] buffer = new char[1024];
+        char[] buffer = new char[BUFFER_SIZE];
         int read;
         while ( ( read = reader.read( buffer ) ) != -1 ) {
             b.append( buffer, 0, read );
@@ -75,8 +79,8 @@ public class ResourceUtil {
             LOG.info( "Can't find the requested resource: {}", resourceName );
             return null;
         }
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream( 1024 );
-        byte[] bytes = new byte[512];
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream( BUFFER_SIZE );
+        byte[] bytes = new byte[BUFFER_SIZE];
 
         // Read bytes from the input stream in bytes.length-sized chunks and write
         // them into the output stream

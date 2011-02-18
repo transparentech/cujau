@@ -48,6 +48,10 @@ public class AcronymUtil {
         char end = str.charAt( str.length() - 1 );
         long factor = 1;
         switch ( end ) {
+        case 'K':
+            factor = 1000;
+            str = str.substring( 0, str.length() - 1 );
+            break;
         case 'M':
             factor = 1000000;
             str = str.substring( 0, str.length() - 1 );
