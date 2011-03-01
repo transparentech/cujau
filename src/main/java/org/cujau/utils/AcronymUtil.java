@@ -38,7 +38,7 @@ public class AcronymUtil {
             return 0;
         }
         String str = (String) val;
-        if ( str.equals( "NA" ) ) {
+        if ( str.equals( "N/A" ) || str.equals( "NA" ) ) {
             return Long.MIN_VALUE;
         }
         str = str.replace( ",", "" );
