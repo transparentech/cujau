@@ -63,6 +63,23 @@ public class CalendarUtil {
     }
 
     /**
+     * Compare the given dates, returning <tt>true</tt> if the given <tt>cal</tt> represents a date
+     * that is the same as or younger (more recent) than the given <tt>baseDate</tt>.
+     * 
+     * @param cal
+     *            A Calendar representing the date being compared.
+     * @param baseDate
+     *            The date used for comparison.
+     * @return <tt>true</tt> if the <tt>cal</tt> is the same or younger than the <tt>baseDate</tt>,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isSameOrYounger( Calendar cal, Date baseDate ) {
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime( baseDate );
+        return isSameOrYounger( cal, cal2 );
+    }
+
+    /**
      * Compare the two dates, returning <tt>true</tt> if the given <tt>date</tt> is the same as or
      * younger (more recent) than the given <tt>baseDate</tt>.
      * 
@@ -111,6 +128,23 @@ public class CalendarUtil {
             return true;
         }
         return false;
+    }
+
+    /**
+     * Compare the given dates, returning <tt>true</tt> if the given <tt>cal</tt> represents a date
+     * that is the same as or older than the given <tt>baseDate</tt>.
+     * 
+     * @param cal
+     *            A Calendar representing the date being compared.
+     * @param baseDate
+     *            The date used for comparison.
+     * @return <tt>true</tt> if the <tt>date</tt> is the same or older than the <tt>baseDate</tt>,
+     *         <tt>false</tt> otherwise.
+     */
+    public static boolean isSameOrOlder( Calendar cal, Date baseDate ) {
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime( baseDate );
+        return isSameOrOlder( cal, cal2 );
     }
 
     /**
@@ -223,7 +257,7 @@ public class CalendarUtil {
      * @return A date object N days in the past.
      */
     public static Date getNowLessDays( int days ) {
-//        return getAdjustedDate( Calendar.getInstance(), Calendar.HOUR_OF_DAY, -( days * 24 ) );
+        // return getAdjustedDate( Calendar.getInstance(), Calendar.HOUR_OF_DAY, -( days * 24 ) );
         return getAdjustedDate( Calendar.getInstance(), Calendar.DATE, -days );
     }
 
@@ -277,7 +311,7 @@ public class CalendarUtil {
      */
     public static Date getYesterday() {
         Calendar calNow = Calendar.getInstance();
-//        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+        // calNow.add( Calendar.HOUR_OF_DAY, -24 );
         calNow.add( Calendar.DATE, -1 );
         Calendar cal = Calendar.getInstance();
         cal.clear();
@@ -294,7 +328,7 @@ public class CalendarUtil {
      */
     public static Date getTomorrow() {
         Calendar calNow = Calendar.getInstance();
-//        calNow.add( Calendar.HOUR_OF_DAY, -24 );
+        // calNow.add( Calendar.HOUR_OF_DAY, -24 );
         calNow.add( Calendar.DATE, 1 );
         Calendar cal = Calendar.getInstance();
         cal.clear();
