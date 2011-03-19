@@ -6,9 +6,9 @@ import java.util.Locale;
 
 public class ThreadLocalDateFormat extends ThreadLocal<DateFormat> {
 
-    private final int style;
-    private final Locale locale;
-    private final String simpleFormat;
+    protected final int style;
+    protected final Locale locale;
+    protected final String simpleFormat;
     
     public ThreadLocalDateFormat( int style, Locale locale ) {
         this.style = style;
