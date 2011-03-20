@@ -33,7 +33,7 @@ public class ThreadLocalDateTimeFormat extends ThreadLocalDateFormat {
         } else if ( style == -1 ) {
             return DateFormat.getDateTimeInstance();
         } else {
-            return DateFormat.getDateTimeInstance( style, style, locale );
+            return DateFormat.getDateTimeInstance( style, DateFormat.SHORT, locale );
         }
     }
 }
