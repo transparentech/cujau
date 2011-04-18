@@ -68,9 +68,20 @@ public class JavaApplicationRestarter {
     }
 
     public boolean restart() {
-        return restart( restartArgs );
+        return doRestart( restartArgs );
     }
 
+    public boolean restart( List<String> extraOptions, List<String> programArgs ) {
+        List<String> completeRestartArgs = new ArrayList<String>( restartArgs );
+        if ( extraOptions != null && extraOptions.size() > 0 ) {
+            completeRestartArgs.addAll( completeRestartArgs.size() - 1, extraOptions );
+        }
+        if ( programArgs != null && programArgs.size() > 0 ) {
+            completeRestartArgs.addAll( programArgs );
+        }
+        return doRestart( completeRestartArgs );
+    }
+    
     public List<String> getRestartArgs() {
         return restartArgs;
     }
@@ -80,7 +91,7 @@ public class JavaApplicationRestarter {
         return getClass().getSimpleName() + " : " + StringUtil.toString( restartArgs );
     }
 
-    protected boolean restart( List<String> args ) {
+    protected boolean doRestart( List<String> args ) {
         String[] argAry = args.toArray( new String[] {} );
         try {
             /* Process p = */Runtime.getRuntime().exec( argAry );
