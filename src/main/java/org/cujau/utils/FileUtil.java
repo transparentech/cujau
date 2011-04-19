@@ -130,6 +130,36 @@ public class FileUtil {
     }
 
     /**
+     * Create a text file in the given directory containing the given text data using the given
+     * character encodingto convert the characters from Java's Unicode (UTF-16) internal
+     * representation to the on-disk representation.
+     * 
+     * @param dir
+     *            The directory where the file will be created.
+     * @param filename
+     *            The name of the file in the directory where the data will be written.
+     * @param data
+     *            The text data which will be written into the file.
+     * @param charsetName
+     *            The name of the character set to use in the on-disk representation of the text
+     *            data.
+     * @return A File representing the newly created file.
+     * @throws IOException
+     *             If there were any problems creating or writing the file.
+     */
+    public static File writeFile( File dir, String filename, String data, String charsetName )
+            throws IOException {
+        File fullfile = new File( dir, filename );
+
+        BufferedWriter out =
+            new BufferedWriter( new OutputStreamWriter( new FileOutputStream( fullfile ), charsetName ) );
+        out.write( data );
+        out.close();
+
+        return fullfile;
+    }
+
+    /**
      * Recursively delete the contents of the given directory as well as the directory itself.
      * 
      * @param path
