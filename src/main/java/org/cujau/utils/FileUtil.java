@@ -224,18 +224,26 @@ public class FileUtil {
      */
     public static String getFileAsString( File file )
             throws IOException {
+        FileInputStream is = null;
+        InputStreamReader reader = null;
 
-        FileInputStream is = new FileInputStream( file );
-        InputStreamReader reader = new InputStreamReader( is, "UTF-8" );
+        try {
+            is = new FileInputStream( file );
+            reader = new InputStreamReader( is, "UTF-8" );
 
-        StringBuilder b = new StringBuilder();
-        char[] buffer = new char[1024];
-        int read;
-        while ( ( read = reader.read( buffer ) ) != -1 ) {
-            b.append( buffer, 0, read );
+            StringBuilder b = new StringBuilder();
+            char[] buffer = new char[1024];
+            int read;
+            while ( ( read = reader.read( buffer ) ) != -1 ) {
+                b.append( buffer, 0, read );
+            }
+
+            return b.toString();
+        } finally {
+            if ( is != null ) {
+                is.close();
+            }
         }
-
-        return b.toString();
     }
 
     /**
