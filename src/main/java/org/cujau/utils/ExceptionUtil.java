@@ -39,4 +39,19 @@ public class ExceptionUtil {
         }
         return buf.toString();
     }
+
+    /**
+     * Get the stacktrace of the call to this method. This is performed by throwing a runtime
+     * exception, catching it and getting its stack trace.
+     * 
+     * @return The stacktrace of the call to this method, as a String.
+     */
+    public static String getCurrentStackTrace() {
+        try {
+            throw new RuntimeException();
+        } catch ( RuntimeException e ) {
+            return getStacktrace( e );
+        }
+    }
+
 }
