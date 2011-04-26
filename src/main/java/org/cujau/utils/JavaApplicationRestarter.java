@@ -1,6 +1,8 @@
 package org.cujau.utils;
 
 import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -135,10 +137,20 @@ public class JavaApplicationRestarter {
         return System.getProperty( "java.class.path" );
     }
 
+    public List<String> getJVMArgs() {
+        RuntimeMXBean RuntimemxBean = ManagementFactory.getRuntimeMXBean();
+        List<String> arguments = RuntimemxBean.getInputArguments();
+        return arguments;
+    }
+    
     protected List<String> getRestartArgs( String classpath, String mainclass ) {
         String exe = getJavaExecutable();
         ArrayList<String> ret = new ArrayList<String>();
         ret.add( exe );
+        List<String> jvmArgs = getJVMArgs();
+        if ( jvmArgs != null && jvmArgs.size() > 0 ) {
+            ret.addAll( jvmArgs );
+        }
         List<String> extraArgs = getExtraRestartArgs();
         if ( extraArgs != null ) {
             ret.addAll( extraArgs );
@@ -153,6 +165,10 @@ public class JavaApplicationRestarter {
         String exe = getJavaExecutable();
         ArrayList<String> ret = new ArrayList<String>();
         ret.add( exe );
+        List<String> jvmArgs = getJVMArgs();
+        if ( jvmArgs != null && jvmArgs.size() > 0 ) {
+            ret.addAll( jvmArgs );
+        }
         List<String> extraArgs = getExtraRestartArgs();
         if ( extraArgs != null ) {
             ret.addAll( extraArgs );
