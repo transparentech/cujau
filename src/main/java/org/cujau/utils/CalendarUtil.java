@@ -337,6 +337,20 @@ public class CalendarUtil {
         return cal.getTime();
     }
 
+    /**
+     * Get a Date object representing January, 1 of the current year. Only the year, month and day
+     * fields are set.
+     * 
+     * @return A Date object for January 1st of this year.
+     */
+    public static Date getJanuary1ThisYear() {
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get( Calendar.YEAR );
+        cal.clear();
+        cal.set( year, Calendar.JANUARY, 1 );
+        return cal.getTime();
+    }
+    
     public static Date getNow() {
         return new Date();
     }
