@@ -14,6 +14,13 @@ public class StringConverterFactoryImpl implements StringConverterFactory {
         map.put( Object.class, new StringObjectConverter() );
     }
     
+    public static void addConverter( Class<?> klass, StringConverter<?> converter ) {
+        map.put( klass, converter );
+    }
+    public static StringConverter<?> getConfiguredConverter( Class<?> klass ) {
+        return map.get( klass );
+    }
+    
     public StringConverter<?> getConverter( Class<?> klass ) {
         return map.get( klass );
     }

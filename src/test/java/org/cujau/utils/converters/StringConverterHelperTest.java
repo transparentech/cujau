@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -50,6 +51,58 @@ public class StringConverterHelperTest {
 
         assertEquals( 1.0f, StringConverterHelper.floatValueOf( "1-23.45" ), DELTA );
         assertEquals( 2923.5f, StringConverterHelper.floatValueOf( "2,923.50" ), DELTA );
+    }
+
+    @Test
+    public void testBigDecimalValueOf() throws ParseException {
+        assertEquals( new BigDecimal( "1234" ), StringConverterHelper.bigDecimalValueOf( "1234" ) );
+        assertEquals( new BigDecimal( "1234" ), StringConverterHelper.bigDecimalValueOf( "1234." ) );
+        assertEquals( new BigDecimal( "1234.0" ), StringConverterHelper.bigDecimalValueOf( "1234.0" ) );
+        assertEquals( new BigDecimal( "1234.56" ), StringConverterHelper.bigDecimalValueOf( "1234.56" ) );
+        assertEquals( new BigDecimal( "1234.5007" ), StringConverterHelper.bigDecimalValueOf( "1234.5007" ) );
+        assertEquals( new BigDecimal( "1234.5678" ), StringConverterHelper.bigDecimalValueOf( "1234.5678" ) );
+        assertEquals( new BigDecimal( "1234.5678" ), StringConverterHelper.bigDecimalValueOf( "1,234.5678" ) );
+        assertEquals( new BigDecimal( "1234567.89" ),
+                      StringConverterHelper.bigDecimalValueOf( "1,234,567.89" ) );
+
+        assertEquals( new BigDecimal( "-1234" ), StringConverterHelper.bigDecimalValueOf( "-1234" ) );
+        assertEquals( new BigDecimal( "-1234" ), StringConverterHelper.bigDecimalValueOf( "-1234." ) );
+        assertEquals( new BigDecimal( "-1234.0" ), StringConverterHelper.bigDecimalValueOf( "-1234.0" ) );
+        assertEquals( new BigDecimal( "-1234.56" ), StringConverterHelper.bigDecimalValueOf( "-1234.56" ) );
+        assertEquals( new BigDecimal( "-1234.5007" ), StringConverterHelper.bigDecimalValueOf( "-1234.5007" ) );
+        assertEquals( new BigDecimal( "-1234.5678" ), StringConverterHelper.bigDecimalValueOf( "-1234.5678" ) );
+        assertEquals( new BigDecimal( "-1234.5678" ),
+                      StringConverterHelper.bigDecimalValueOf( "-1,234.5678" ) );
+        assertEquals( new BigDecimal( "-1234567.89" ),
+                      StringConverterHelper.bigDecimalValueOf( "-1,234,567.89" ) );
+
+        assertEquals( new BigDecimal( "1234" ), StringConverterHelper.bigDecimalValueOf( "$1234" ) );
+        assertEquals( new BigDecimal( "1234" ), StringConverterHelper.bigDecimalValueOf( "1234.\u20AC" ) ); // Euro
+        // sym
+        assertEquals( new BigDecimal( "1234.0" ), StringConverterHelper.bigDecimalValueOf( "1234.0 CHF" ) );
+        assertEquals( new BigDecimal( "1234.56" ), StringConverterHelper.bigDecimalValueOf( "C$1234.56" ) );
+        assertEquals( new BigDecimal( "1234.5007" ),
+                      StringConverterHelper.bigDecimalValueOf( "AU$1234.5007\u20AC" ) );
+        assertEquals( new BigDecimal( "1234.5678" ),
+                      StringConverterHelper.bigDecimalValueOf( "1234.5678\u20A4" ) ); // GBP
+        // sym
+        assertEquals( new BigDecimal( "1234.5678" ),
+                      StringConverterHelper.bigDecimalValueOf( "$1,234.5678$" ) );
+        assertEquals( new BigDecimal( "1234567.89" ),
+                      StringConverterHelper.bigDecimalValueOf( "\u20A41,234,567.89\u20A4" ) );
+
+        assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "2,923.50" ) );
+        
+        // Is something like this even valid? ever?
+        // assertEquals( new BigDecimal( "1.0"), StringConverterHelper.bigDecimalValueOf( "1-23.45"
+        // ) );
+    }
+    
+    @Test
+    public void testBigDecimal() throws ParseException { 
+        Locale.setDefault( Locale.GERMANY );
+        assertEquals( new BigDecimal( "53.256" ), StringConverterHelper.bigDecimalValueOf( "53,256" ) );
+        assertEquals( new BigDecimal( "53,256.123" ), StringConverterHelper.bigDecimalValueOf( "53.256,123" ) );
     }
 
     @Test

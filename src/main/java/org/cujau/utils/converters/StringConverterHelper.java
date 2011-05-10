@@ -1,5 +1,7 @@
 package org.cujau.utils.converters;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.regex.Pattern;
@@ -20,6 +22,42 @@ public class StringConverterHelper {
 
     private static String stripNonIntlIntJunk( String str ) {
         return NUM_STRIPPER_INT_RE.matcher( str ).replaceAll( "" );
+    }
+
+    public static BigDecimal simpleBigDecimalValueOf( String str )
+            throws ParseException {
+        str = NUM_STRIPPER_ALL_FLOAT_RE.matcher( str ).replaceAll( "" );
+        BigDecimal ret;
+        try {
+            DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
+            fmt.setParseBigDecimal( true );
+            ret = (BigDecimal) fmt.parse( str );
+//            ret = new BigDecimal( str );
+        } catch ( ParseException e ) {
+            throw e;
+        }
+        return ret;
+    }
+
+    public static BigDecimal bigDecimalValueOf( String str )
+            throws ParseException {
+        BigDecimal ret;
+        try {
+            DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
+            fmt.setParseBigDecimal( true );
+            ret = (BigDecimal) fmt.parse( str );
+//            ret = new BigDecimal( str );
+        } catch ( ParseException e ) {
+            try {
+                DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
+                fmt.setParseBigDecimal( true );
+                ret = (BigDecimal) fmt.parse( str );
+//                ret = new BigDecimal( stripNonIntlFloatJunk( str ) );
+            } catch ( ParseException e2 ) {
+                return simpleBigDecimalValueOf( str );
+            }
+        }
+        return ret;
     }
 
     public static float simpleFloatValueOf( String str )
@@ -107,7 +145,7 @@ public class StringConverterHelper {
     }
 
     public static boolean booleanValueOf( String str ) {
-        if ( str != null && (str.equals( "1" ) || str.toLowerCase().equals( "yes" ) ) ) {
+        if ( str != null && ( str.equals( "1" ) || str.toLowerCase().equals( "yes" ) ) ) {
             return true;
         }
         return Boolean.valueOf( str );
