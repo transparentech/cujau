@@ -100,9 +100,11 @@ public class StringConverterHelperTest {
     
     @Test
     public void testBigDecimal() throws ParseException { 
+        Locale def = Locale.getDefault();
         Locale.setDefault( Locale.GERMANY );
         assertEquals( new BigDecimal( "53.256" ), StringConverterHelper.bigDecimalValueOf( "53,256" ) );
-        assertEquals( new BigDecimal( "53,256.123" ), StringConverterHelper.bigDecimalValueOf( "53.256,123" ) );
+        assertEquals( new BigDecimal( "53256.123" ), StringConverterHelper.bigDecimalValueOf( "53.256,123" ) );
+        Locale.setDefault( def );
     }
 
     @Test
