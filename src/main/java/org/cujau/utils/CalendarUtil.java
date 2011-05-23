@@ -261,6 +261,10 @@ public class CalendarUtil {
         return getAdjustedDate( Calendar.getInstance(), Calendar.DATE, -days );
     }
 
+    public static Date getDateAdjustDays( Date date, int days ) {
+        return getAdjustedDate( getCalendarFor( date ), Calendar.DATE, days );
+    }
+    
     /**
      * Subtract N months from the current date.
      * 
@@ -272,6 +276,10 @@ public class CalendarUtil {
         return getAdjustedDate( Calendar.getInstance(), Calendar.MONTH, -months );
     }
 
+    public static Date getDateAdjustMonths( Date date, int months ) {
+        return getAdjustedDate( getCalendarFor( date ), Calendar.MONTH, months );
+    }
+    
     /**
      * Subtract N years from the current date.
      * 
@@ -283,6 +291,10 @@ public class CalendarUtil {
         return getAdjustedDate( Calendar.getInstance(), Calendar.YEAR, -years );
     }
 
+    public static Date getDateAdjustYears( Date date, int years ) {
+        return getAdjustedDate( getCalendarFor( date ), Calendar.YEAR, years );
+    }
+    
     private static Date getAdjustedDate( Calendar cal, int calField, int adjustment ) {
         cal.add( calField, adjustment );
         return cal.getTime();

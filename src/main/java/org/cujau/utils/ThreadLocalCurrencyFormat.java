@@ -15,6 +15,7 @@ public class ThreadLocalCurrencyFormat extends ThreadLocal<NumberFormat> {
         this.locale = locale;
     }
 
+    @Override
     protected NumberFormat initialValue() {
         return NumberFormat.getCurrencyInstance( locale );
     }

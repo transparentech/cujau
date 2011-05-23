@@ -29,6 +29,7 @@ public class ThreadLocalIntegerFormat extends ThreadLocal<DecimalFormat> {
         pattern = format;
     }
 
+    @Override
     protected DecimalFormat initialValue() {
         DecimalFormat df = (DecimalFormat) NumberFormat.getInstance( locale );
         if ( pattern != null ) {

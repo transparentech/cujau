@@ -43,6 +43,7 @@ public class ThreadLocalSimpleDateFormat extends ThreadLocal<SimpleDateFormat> {
         this.format = format;
     }
 
+    @Override
     protected SimpleDateFormat initialValue() {
         return new SimpleDateFormat( format );
     }
