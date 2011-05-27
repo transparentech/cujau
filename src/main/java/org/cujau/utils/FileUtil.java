@@ -261,39 +261,47 @@ public class FileUtil {
     public static void unzip( InputStream zip, File outputDir, boolean verbose )
             throws IOException {
         byte[] buf = new byte[4096];
-        ZipInputStream in = new ZipInputStream( zip );
-        while ( true ) {
-            // Read the next entry.
-            ZipEntry entry = in.getNextEntry();
-            if ( entry == null ) {
-                break;
-            }
-
-            if ( verbose ) {
-                LOG.info( "unzipping {} ({}/{})", new Object[] {
-                                                                entry.getName(),
-                                                                entry.getCompressedSize(),
-                                                                entry.getSize() } );
-            }
-
-            // Write out the new file.
-            File entryFile = new File( outputDir, entry.getName() );
-            if ( entry.isDirectory() ) {
-                entryFile.mkdir();
-            } else {
-                FileOutputStream out = new FileOutputStream( entryFile );
-                int len;
-                while ( ( len = in.read( buf ) ) > 0 ) {
-                    out.write( buf, 0, len );
+        ZipInputStream in = null;
+        try {
+            in = new ZipInputStream( zip );
+            while ( true ) {
+                // Read the next entry.
+                ZipEntry entry = in.getNextEntry();
+                if ( entry == null ) {
+                    break;
                 }
-                out.close();
-            }
 
-            // Close the entry.
-            in.closeEntry();
+                if ( verbose ) {
+                    LOG.info( "unzipping {} ({}/{})",
+                              new Object[] { entry.getName(), entry.getCompressedSize(), entry.getSize() } );
+                }
+
+                // Write out the new file.
+                File entryFile = new File( outputDir, entry.getName() );
+                if ( entry.isDirectory() ) {
+                    entryFile.mkdir();
+                } else {
+                    FileOutputStream out = null;
+                    try {
+                        out = new FileOutputStream( entryFile );
+                        int len;
+                        while ( ( len = in.read( buf ) ) > 0 ) {
+                            out.write( buf, 0, len );
+                        }
+                    } finally {
+                        if ( out != null ) {
+                            out.close();
+                        }
+                    }
+                }
+
+                // Close the entry.
+                in.closeEntry();
+            }
+        } finally {
+            // Close the input zip.
+            in.close();
         }
-        // Close the input zip.
-        in.close();
     }
 
     /**
