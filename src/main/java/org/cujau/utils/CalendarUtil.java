@@ -250,6 +250,22 @@ public class CalendarUtil {
     }
 
     /**
+     * Subtract N minutes from the current date.
+     * 
+     * @param mins
+     *            The number of minutes in the past that the returned date should represent.
+     * @return A date object N minutes in the past.
+     */
+    public static Date getNowLessMinutes( int mins ) {
+        // return getAdjustedDate( Calendar.getInstance(), Calendar.HOUR_OF_DAY, -( days * 24 ) );
+        return getAdjustedDate( Calendar.getInstance(), Calendar.MINUTE, -mins );
+    }
+
+    public static Date getDateAdjustMinutes( Date date, int mins ) {
+        return getAdjustedDate( getCalendarFor( date ), Calendar.DATE, mins );
+    }
+    
+    /**
      * Subtract N days from the current date.
      * 
      * @param days
