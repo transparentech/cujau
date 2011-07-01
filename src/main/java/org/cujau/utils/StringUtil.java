@@ -2,6 +2,7 @@ package org.cujau.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.Format;
 import java.util.Collection;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -13,6 +14,23 @@ import java.util.regex.Pattern;
 public final class StringUtil {
 
     private static final Pattern PROPERTY_NAME_PATTERN = Pattern.compile( "(\\$\\{([\\w\\.]+)\\})" );
+    private static final String DEF_SEP = ",";
+
+    public static String toString( double[] ary ) {
+        return toString( ary, DEF_SEP );
+    }
+
+    public static String toString( double[] ary, String separator ) {
+        StringBuilder buf = new StringBuilder();
+        for ( double e : ary ) {
+            buf.append( e );
+            buf.append( separator );
+        }
+        if ( buf.length() > 0 ) {
+            buf.deleteCharAt( buf.length() - 1 );
+        }
+        return buf.toString();
+    }
 
     /**
      * Convert the given array of objects into it's String representation. The array elements will
@@ -26,7 +44,7 @@ public final class StringUtil {
      *         by a comma.
      */
     public static <E> String toString( E[] ary ) {
-        return toString( ary, "," );
+        return toString( ary, DEF_SEP );
     }
 
     /**
@@ -67,7 +85,7 @@ public final class StringUtil {
      *         separated by a comma.
      */
     public static <E> String toString( Collection<E> col ) {
-        return toString( col, "," );
+        return toString( col, DEF_SEP );
     }
 
     /**
@@ -85,12 +103,24 @@ public final class StringUtil {
      *         separated by the given separator.
      */
     public static <E> String toString( Collection<E> col, String separator ) {
+        return toString( col, null, separator );
+    }
+
+    public static <E> String toString( Collection<E> col, Format formatter ) {
+        return toString( col, formatter, DEF_SEP );
+    }
+
+    public static <E> String toString( Collection<E> col, Format formatter, String separator ) {
         StringBuilder buf = new StringBuilder();
         if ( col == null ) {
             return buf.toString();
         }
         for ( E e : col ) {
-            buf.append( e.toString() );
+            if ( formatter != null ) {
+                buf.append( formatter.format( e ) );
+            } else {
+                buf.append( e.toString() );
+            }
             buf.append( separator );
         }
         if ( buf.length() > 0 ) {
