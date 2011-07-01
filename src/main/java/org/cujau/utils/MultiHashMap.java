@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class MultiHashMap<K,V> {
 
@@ -56,5 +57,9 @@ public class MultiHashMap<K,V> {
             ret.addAll( ent.getValue() );
         }
         return ret;
+    }
+    
+    public Set<K> keySet() {
+        return map.keySet();
     }
 }
