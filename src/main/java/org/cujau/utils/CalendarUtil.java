@@ -312,10 +312,14 @@ public class CalendarUtil {
     }
     
     private static Date getAdjustedDate( Calendar cal, int calField, int adjustment ) {
-        cal.add( calField, adjustment );
-        return cal.getTime();
+        return getAdjustedCalendar( cal, calField, adjustment ).getTime();
     }
 
+    private static Calendar getAdjustedCalendar( Calendar cal, int calField, int adjustment ) {
+        cal.add( calField, adjustment );
+        return cal;
+    }
+    
     /**
      * Get a Date object representing today. Only the year, month and day fields are set. All others
      * are not set. This generally results in a Date object such as: 2009-11-13 00:00:00.000
@@ -419,6 +423,20 @@ public class CalendarUtil {
      */
     public static int getNumberOfDaysBetween( Date start, Date end ) {
         return (int) ( ( end.getTime() - start.getTime() ) / MILLIS_IN_DAY );
-
+    }
+    
+    /**
+     * Get the nearest, non-weekend day to the given calendar. If the date represented by the
+     * calendar is on a weekend day, the calendar is rolled back 1 day until a non-weekend day is
+     * found.
+     * 
+     * @param cal
+     * @return
+     */
+    public static Calendar getNearestNonWeekendDay( Calendar cal ) {
+        while ( isWeekend( cal ) ) {
+            cal = getAdjustedCalendar( cal, Calendar.DATE, -1 );
+        }
+        return cal;
     }
 }
