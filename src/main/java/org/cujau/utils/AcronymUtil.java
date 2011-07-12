@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class AcronymUtil {
 
     public static String formatLongAcronym( Object val ) {
-        if ( val.getClass() != Long.class && val.getClass() != Integer.class ) {
+        if ( val == null || (val.getClass() != Long.class && val.getClass() != Integer.class )) {
             return "NA";
         }
         Long mc;
