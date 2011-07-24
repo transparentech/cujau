@@ -3,12 +3,14 @@ package org.cujau.utils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class ThreadLocalDateFormat extends ThreadLocal<DateFormat> {
 
     protected final int style;
     protected final Locale locale;
     protected final String simpleFormat;
+    protected TimeZone zone = null;
     
     public ThreadLocalDateFormat( int style, Locale locale ) {
         this.style = style;
@@ -34,14 +36,23 @@ public class ThreadLocalDateFormat extends ThreadLocal<DateFormat> {
         this( -1, Locale.getDefault() );
     }
 
+    public void setTimeZone( TimeZone timeZone ) {
+        zone = timeZone;
+    }
+    
     @Override
     protected DateFormat initialValue() {
+        DateFormat ret;
         if ( simpleFormat != null ) {
-            return new SimpleDateFormat( simpleFormat );
+            ret = new SimpleDateFormat( simpleFormat );
         } else if ( style == -1 ) {
-            return DateFormat.getDateInstance();
+            ret = DateFormat.getDateInstance();
         } else {
-            return DateFormat.getDateInstance( style, locale );
+            ret = DateFormat.getDateInstance( style, locale );
         }
+        if ( zone != null ) {
+            ret.setTimeZone( zone );
+        }
+        return ret;
     }
 }
