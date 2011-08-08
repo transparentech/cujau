@@ -130,6 +130,27 @@ public class FileUtil {
     }
 
     /**
+     * Create a text file with the given <tt>filename</tt> containing the given text data using the
+     * platforms default encoding.
+     * 
+     * @param filename
+     *            Name of the file to create and write.
+     * @param data
+     *            The data to write into the file.
+     * @return The written file.
+     * @throws IOException
+     *             If there were any problems creating or writing the file.
+     */
+    public static File writeFile( File filename, String data )
+            throws IOException {
+        BufferedWriter out = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ) ) );
+        out.write( data );
+        out.close();
+
+        return filename;
+    }
+
+    /**
      * Create a text file in the given directory containing the given text data using the given
      * character encodingto convert the characters from Java's Unicode (UTF-16) internal
      * representation to the on-disk representation.
