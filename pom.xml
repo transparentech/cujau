@@ -11,7 +11,7 @@
     
     <groupId>org.cujau</groupId>
     <artifactId>cujau</artifactId>
-    <version>1.0.23-SNAPSHOT</version>
+    <version>1.0.23</version>
 
     <name>CUJAU</name>
     <url>http://www.transparentech.com/projects/cujau</url>
