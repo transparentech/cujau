@@ -39,9 +39,12 @@ public class CalendarUtil {
      * @param date
      *            A Date to compare.
      * @return <tt>true</tt> if the Calendar and Date represent the same historical date (time is
-     *         ignored).
+     *         ignored). If <tt>date</tt> is <tt>null</tt>, <tt>false</tt> is returned.
      */
     public static boolean isSameDate( Calendar cal1, Date date ) {
+        if ( date == null ) {
+            return false;
+        }
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime( date );
         return isSameDate( cal1, cal2 );
@@ -54,9 +57,13 @@ public class CalendarUtil {
      *            A Date to compare.
      * @param date2
      *            A Date to compare.
-     * @return <tt>true</tt> if the Dates represent the same historical date (time is ignored).
+     * @return <tt>true</tt> if the Dates represent the same historical date (time is ignored). If
+     *         either of the date objects are <tt>null</tt>, <tt>false</tt> is returned.
      */
     public static boolean isSameDate( Date date1, Date date2 ) {
+        if ( date1 == null || date2 == null ) {
+            return false;
+        }
         Calendar cal1 = Calendar.getInstance();
         cal1.setTime( date1 );
         return isSameDate( cal1, date2 );
@@ -71,9 +78,13 @@ public class CalendarUtil {
      * @param baseDate
      *            The date used for comparison.
      * @return <tt>true</tt> if the <tt>cal</tt> is the same or younger than the <tt>baseDate</tt>,
-     *         <tt>false</tt> otherwise.
+     *         <tt>false</tt> otherwise. If <tt>baseDate</tt> is <tt>null</tt>, <tt>false</tt> is
+     *         returned.
      */
     public static boolean isSameOrYounger( Calendar cal, Date baseDate ) {
+        if ( baseDate == null ) {
+            return false;
+        }
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime( baseDate );
         return isSameOrYounger( cal, cal2 );
@@ -88,9 +99,13 @@ public class CalendarUtil {
      * @param baseDate
      *            The date used for comparison.
      * @return <tt>true</tt> if the <tt>date</tt> is the same or younger than the <tt>baseDate</tt>,
-     *         <tt>false</tt> otherwise.
+     *         <tt>false</tt> otherwise. If either of the given dates are <tt>null</tt>,
+     *         <tt>false</tt> is returned.
      */
     public static boolean isSameOrYounger( Date date, Date baseDate ) {
+        if ( date == null || baseDate == null ) {
+            return false;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime( date );
         Calendar baseCal = Calendar.getInstance();
@@ -139,9 +154,13 @@ public class CalendarUtil {
      * @param baseDate
      *            The date used for comparison.
      * @return <tt>true</tt> if the <tt>date</tt> is the same or older than the <tt>baseDate</tt>,
-     *         <tt>false</tt> otherwise.
+     *         <tt>false</tt> otherwise. If <tt>baseDate</tt> is <tt>null</tt>, <tt>false</tt> is
+     *         returned.
      */
     public static boolean isSameOrOlder( Calendar cal, Date baseDate ) {
+        if ( baseDate == null ) {
+            return false;
+        }
         Calendar cal2 = Calendar.getInstance();
         cal2.setTime( baseDate );
         return isSameOrOlder( cal, cal2 );
@@ -156,9 +175,13 @@ public class CalendarUtil {
      * @param baseDate
      *            The date used for comparison.
      * @return <tt>true</tt> if the <tt>date</tt> is the same or older than the <tt>baseDate</tt>,
-     *         <tt>false</tt> otherwise.
+     *         <tt>false</tt> otherwise. If either of the dates are <tt>null</tt>, <tt>false</tt> is
+     *         returned.
      */
     public static boolean isSameOrOlder( Date date, Date baseDate ) {
+        if ( date == null || baseDate == null ) {
+            return false;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime( date );
         Calendar baseCal = Calendar.getInstance();
@@ -203,9 +226,13 @@ public class CalendarUtil {
      * 
      * @param date
      *            The date to test.
-     * @return <tt>true</tt> if date is that same day as today (now).
+     * @return <tt>true</tt> if date is that same day as today (now). If <tt>date</tt> is
+     *         <tt>null</tt>, <tt>false</tt> is returned.
      */
     public static boolean isToday( Date date ) {
+        if ( date == null ) {
+            return false;
+        }
         Calendar calToday = Calendar.getInstance();
         Calendar calDate = Calendar.getInstance();
         calDate.setTime( date );
@@ -222,9 +249,13 @@ public class CalendarUtil {
      * Sunday).
      * 
      * @param date
-     * @return <tt>true</tt> if the date is a Saturday or Sunday, <tt>false</tt> otherwise.
+     * @return <tt>true</tt> if the date is a Saturday or Sunday, <tt>false</tt> otherwise. If
+     *         <tt>date</tt> is <tt>null</tt>, <tt>false</tt> is returned.
      */
     public static boolean isWeekend( Date date ) {
+        if ( date == null ) {
+            return false;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime( date );
         int dow = cal.get( Calendar.DAY_OF_WEEK );
@@ -264,7 +295,7 @@ public class CalendarUtil {
     public static Date getDateAdjustMinutes( Date date, int mins ) {
         return getAdjustedDate( getCalendarFor( date ), Calendar.DATE, mins );
     }
-    
+
     /**
      * Subtract N days from the current date.
      * 
@@ -280,7 +311,7 @@ public class CalendarUtil {
     public static Date getDateAdjustDays( Date date, int days ) {
         return getAdjustedDate( getCalendarFor( date ), Calendar.DATE, days );
     }
-    
+
     /**
      * Subtract N months from the current date.
      * 
@@ -295,7 +326,7 @@ public class CalendarUtil {
     public static Date getDateAdjustMonths( Date date, int months ) {
         return getAdjustedDate( getCalendarFor( date ), Calendar.MONTH, months );
     }
-    
+
     /**
      * Subtract N years from the current date.
      * 
@@ -310,7 +341,7 @@ public class CalendarUtil {
     public static Date getDateAdjustYears( Date date, int years ) {
         return getAdjustedDate( getCalendarFor( date ), Calendar.YEAR, years );
     }
-    
+
     private static Date getAdjustedDate( Calendar cal, int calField, int adjustment ) {
         return getAdjustedCalendar( cal, calField, adjustment ).getTime();
     }
@@ -319,7 +350,7 @@ public class CalendarUtil {
         cal.add( calField, adjustment );
         return cal;
     }
-    
+
     /**
      * Get a Date object representing today. Only the year, month and day fields are set. All others
      * are not set. This generally results in a Date object such as: 2009-11-13 00:00:00.000
@@ -382,7 +413,7 @@ public class CalendarUtil {
         cal.set( year, Calendar.JANUARY, 1 );
         return cal.getTime();
     }
-    
+
     public static Date getNow() {
         return new Date();
     }
@@ -422,9 +453,12 @@ public class CalendarUtil {
      * @return The number of days.
      */
     public static int getNumberOfDaysBetween( Date start, Date end ) {
+        if ( start == null || end == null ) {
+            return 0;
+        }
         return (int) ( ( end.getTime() - start.getTime() ) / MILLIS_IN_DAY );
     }
-    
+
     /**
      * Get the nearest, non-weekend day to the given calendar. If the date represented by the
      * calendar is on a weekend day, the calendar is rolled back 1 day until a non-weekend day is

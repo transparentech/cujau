@@ -31,6 +31,7 @@ public class CalendarUtilTest {
         baseCal = mkCal( "2005-01-01" );
         assertTrue( CalendarUtil.isSameOrOlder( mkCal( "2004-12-31" ), baseCal ) );
         assertFalse( CalendarUtil.isSameOrOlder( mkCal( "2005-01-04" ), baseCal ) );
+        assertFalse( CalendarUtil.isSameOrOlder( mkCal( "2004-12-31" ), (Date) null ) );
     }
 
     @Test
@@ -49,6 +50,7 @@ public class CalendarUtilTest {
         baseCal = mkCal( "2005-01-01" );
         assertFalse( CalendarUtil.isSameOrYounger( mkCal( "2004-12-31" ), baseCal ) );
         assertTrue( CalendarUtil.isSameOrYounger( mkCal( "2005-01-04" ), baseCal ) );
+        assertFalse( CalendarUtil.isSameOrYounger( mkCal( "2004-12-31" ), (Date) null ) );
     }
 
     @Test
@@ -62,6 +64,8 @@ public class CalendarUtilTest {
         startCal = mkCal( "2006-01-01" );
         // 1491 rather than 1490 because of leap year, i think.
         assertEquals( 1491, CalendarUtil.getNumberOfDaysBetween( startCal.getTime(), endCal.getTime() ) );
+        assertEquals( 0, CalendarUtil.getNumberOfDaysBetween( null, endCal.getTime() ) );
+        assertEquals( 0, CalendarUtil.getNumberOfDaysBetween( startCal.getTime(), null ) );
     }
 
     private Calendar mkCal( String dateStr )
