@@ -74,6 +74,10 @@ public final class ServiceProviderUtil {
         // Get the list of all the resources on the classpath that match the fullResourceName.
         ArrayList<String> availableClasses = new ArrayList<String>();
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
+        if ( cl == null ) {
+            LOG.warn( "Thread class loader was null. Using system class loader to load service provider files." );
+            cl = ClassLoader.getSystemClassLoader();
+        }
         Enumeration<URL> resources = null;
         String fullResourceName = "META-INF/services/" + serviceClass.getName();
         try {
