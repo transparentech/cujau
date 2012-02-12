@@ -62,4 +62,8 @@ public class MultiHashMap<K,V> {
     public Set<K> keySet() {
         return map.keySet();
     }
+    
+    public String toString() {
+        return map.toString();
+    }
 }

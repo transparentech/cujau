@@ -137,6 +137,9 @@ public final class StringUtil {
      * @return A String representation of the stacktrace.
      */
     public static String toString( Throwable t ) {
+        if ( t == null ) {
+            return "";
+        }
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter( stringWriter );
         t.printStackTrace( printWriter );
