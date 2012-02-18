@@ -8,10 +8,10 @@
         <artifactId>cujau-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    
+
     <groupId>org.cujau</groupId>
     <artifactId>cujau</artifactId>
-    <version>1.0.26-SNAPSHOT</version>
+    <version>1.0.26</version>
 
     <name>CUJAU</name>
     <url>http://www.transparentech.com/projects/cujau</url>
@@ -24,7 +24,7 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.5.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
