@@ -93,31 +93,37 @@ public class StringUtilTest {
     @Test
     public void propertyReplacementTest() {
         String str = "asdfasdf ${asdf.asdf.asdf} asdf ${my.you}. ${home.free.or.die}";
-        Pattern PROP_PATTERN = Pattern.compile( "(\\$\\{([\\w\\.]+)\\})" );
-        Matcher m = PROP_PATTERN.matcher( str );
-        
-        while ( m.find() ) {
-            String propName = m.group( 2 );
-            String propReplace = m.group( 1 );
-            //LOG.debug( "{}, {}, {}, {}, {}", new Object[] {m.start(), m.end(), m.group(), m.group(1), m.group(2)} );
-            str = str.replace( propReplace, System.getProperty( propName ) );
+        Pattern propPattern = Pattern.compile("(\\$\\{([\\w\\.]+)\\})");
+        Matcher m = propPattern.matcher(str);
+
+        while (m.find()) {
+            String propName = m.group(2);
+            String propReplace = m.group(1);
+            // LOG.debug( "{}, {}, {}, {}, {}", new Object[] {m.start(),
+            // m.end(), m.group(),
+            // m.group(1), m.group(2)} );
+            str = str.replace(propReplace, System.getProperty(propName));
         }
-        
-        //LOG.debug( "str = {}", str );
+
+        // LOG.debug( "str = {}", str );
     }
-    
+
     @Test
     public void propTest() {
         String str = "A${abc.def}B${xyz.abc}C${123.456}";
-        str = StringUtil.replaceProperties( str );
-        assertTrue( str.equals( "AalphabetB${xyz.abc}Cnumbers" ) );
-        
-        String str2 = StringUtil.replaceProperties( str, null );
-        assertTrue( str.equals( str2 ) );
-        
-        str = "I sent a ${ab_cd.ef_gh} to my friend.";
-        String str3 = StringUtil.replaceProperties( str );
-        assertTrue( str3.equals( "I sent a letter to my friend." ) );
+        str = StringUtil.replaceProperties(str);
+        assertTrue(str.equals("AalphabetB${xyz.abc}Cnumbers"));
+
+        String str2 = StringUtil.replaceProperties(str, null);
+        assertTrue(str.equals(str2));
+
+        str = "A${abc.def}B${xyz.abc}C${123.456}";
+        str = StringUtil.replaceProperties(str, System.getProperties(), true);
+        assertTrue(str.equals("AalphabetBCnumbers"));
+
+        str = "A${abc.def}B${xyz.abc}C${123.456}A${abc.def}";
+        str = StringUtil.replaceProperties(str, System.getProperties(), true);
+        assertTrue(str.equals("AalphabetBCnumbersAalphabet"));
     }
     
 

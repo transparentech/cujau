@@ -155,6 +155,11 @@ public final class StringUtil {
      * A delimited property key has the form
      * <tt>${<em>{@link #PROPERTY_NAME_PATTERN property.name}</em>}</tt>. Property names may only
      * contain alphanumeric characters plus the '_' and '.' characters.
+     * </p>
+     * <p>
+     * Any delimited propery keys in the given String that do not have replacements in the System
+     * properties object will remain in the String.
+     * </p>
      * 
      * @param orig
      *            The original String
@@ -171,6 +176,11 @@ public final class StringUtil {
      * A delimited property key has the form
      * <tt>${<em>{@link #PROPERTY_NAME_PATTERN property.name}</em>}</tt>. Property names may only
      * contain alphanumeric characters plus the '_' and '.' characters.
+     * </p>
+     * <p>
+     * Any delimited propery keys in the given String that do not have replacements in the given
+     * Properties object will remain in the String.
+     * </p>
      * 
      * @param orig
      *            The original String
@@ -179,15 +189,49 @@ public final class StringUtil {
      * @return The new String with the delimited properties replaced.
      */
     public static String replaceProperties( String orig, Properties replacements ) {
-        if ( replacements == null ) {
-            return orig;
+        return replaceProperties( orig, replacements, false );
+    }
+
+    /**
+     * Replace the delimited property keys in the given String with their values taken from the
+     * given Properties object.
+     * <p>
+     * A delimited property key has the form
+     * <tt>${<em>{@link #PROPERTY_NAME_PATTERN property.name}</em>}</tt>. Property names may only
+     * contain alphanumeric characters plus the '_' and '.' characters.
+     * </p>
+     * <p>
+     * Any delimited propery keys in the given String that do not have replacements in the given
+     * Properties object can be removed (replaced with the empty String) from the resulting String
+     * by setting the <tt>removeUnmatchedKeys</tt> parameter to <tt>true</tt>.
+     * </p>
+     * 
+     * @param orig
+     *            The original String
+     * @param replacements
+     *            A Properties object from which the property values will be taken.
+     * @param removeUnmatchedKeys
+     *            <tt>true</tt> if any delimited property keys in the given String should be removed
+     *            from the resulting String if there is no matching property in the given Properties
+     *            object.
+     * @return The new String with the delimited properties replaced.
+     */
+    public static String replaceProperties( String orig, Properties replacements, boolean removeUnmatchedKeys ) {
+        if ( orig == null ) {
+            return null;
         }
 
         Matcher m = PROPERTY_NAME_PATTERN.matcher( orig );
         while ( m.find() ) {
-            String propVal = replacements.getProperty( m.group( 2 ) );
+            String propVal = null;
+            if ( replacements != null ) {
+                propVal = replacements.getProperty( m.group( 2 ) );
+            }
+
             if ( propVal != null ) {
                 orig = orig.replace( m.group( 1 ), propVal );
+            } else if ( removeUnmatchedKeys ) {
+                orig = orig.replace( m.group( 1 ), "" );
             }
         }
         return orig;
