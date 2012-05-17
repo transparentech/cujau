@@ -124,7 +124,7 @@ public final class StringUtil {
             buf.append( separator );
         }
         if ( buf.length() > 0 ) {
-            buf.deleteCharAt( buf.length() - 1 );
+            buf.delete( buf.length() - separator.length(), buf.length() );
         }
         return buf.toString();
     }

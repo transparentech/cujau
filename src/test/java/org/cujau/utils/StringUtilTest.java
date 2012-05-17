@@ -82,6 +82,8 @@ public class StringUtilTest {
         assertTrue( "1,2,5,3".equals( res ) );
         res = StringUtil.toString( col, ";" );
         assertEquals( "1;2;5;3", res );
+        res = StringUtil.toString( col, " -|- " );
+        assertEquals( "1 -|- 2 -|- 5 -|- 3", res );
         
         res = StringUtil.toString( new ArrayList<String>() );
         assertTrue( "".equals( res ) );
