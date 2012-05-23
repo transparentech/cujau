@@ -58,4 +58,9 @@ public class CSVSymbols {
             separator = ALTERNATE_SEPARATOR;
         }
     }
+    
+    @Override
+    public String toString() {
+        return "CSVSymbols: sep='"+separator+"' lineSep='"+lineSeparator+"'";
+    }
 }
