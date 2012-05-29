@@ -38,6 +38,9 @@ public class MultiHashMap<K,V> {
             return null;
         }
         if ( valCol.remove( val ) ) {
+            if ( valCol.isEmpty() ) {
+                map.remove( key );
+            }
             return val;
         }
         return null;
