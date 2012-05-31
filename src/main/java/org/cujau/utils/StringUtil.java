@@ -116,12 +116,14 @@ public final class StringUtil {
             return buf.toString();
         }
         for ( E e : col ) {
-            if ( formatter != null ) {
-                buf.append( formatter.format( e ) );
-            } else {
-                buf.append( e.toString() );
+            if ( e != null ) {
+                if ( formatter != null ) {
+                    buf.append( formatter.format( e ) );
+                } else {
+                    buf.append( e.toString() );
+                }
+                buf.append( separator );
             }
-            buf.append( separator );
         }
         if ( buf.length() > 0 ) {
             buf.delete( buf.length() - separator.length(), buf.length() );
