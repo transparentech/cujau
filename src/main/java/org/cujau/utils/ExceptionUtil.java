@@ -54,4 +54,19 @@ public class ExceptionUtil {
         }
     }
 
+    /**
+     * Get the message from the lowest exception in the exception stack that has message.
+     * 
+     * @return A string with the message or null if no message as ever set.
+     */
+    public static String getInnerMostMessage( Throwable t ) {
+        String msg = null;
+        while ( t != null ) {
+            if ( t.getMessage() != null ) {
+                msg = t.getMessage();
+            }
+            t = t.getCause();
+        }
+        return msg;
+    }
 }
