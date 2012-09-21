@@ -8,15 +8,18 @@ public class StringFloatConverter implements StringConverter<Float> {
         formatStr = fmt;
     }
     
+    @Override
     public Float convert( String val ) {
         return StringConverterHelper.floatValueOf( val );
     }
 
+    @Override
     public String convert( Object val )
             throws IllegalArgumentException {
         return String.format( formatStr, val );
     }
 
+    @Override
     public Class<Float> getConvertedClass() {
         return Float.class;
     }

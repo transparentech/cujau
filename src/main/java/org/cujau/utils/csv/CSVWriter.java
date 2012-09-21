@@ -69,6 +69,7 @@ public class CSVWriter {
     }
     
     private class StringCSVRenderer implements CSVTypedRenderer<String> {
+        @Override
         public String renderRecord( String value, Object... accessoryData ) {
             return value;
         }

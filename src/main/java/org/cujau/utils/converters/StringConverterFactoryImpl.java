@@ -21,10 +21,12 @@ public class StringConverterFactoryImpl implements StringConverterFactory {
         return map.get( klass );
     }
     
+    @Override
     public StringConverter<?> getConverter( Class<?> klass ) {
         return map.get( klass );
     }
     
+    @Override
     public String toString( Object val ) {
         StringConverter<?> cvtr = null;
         if ( val != null ) {

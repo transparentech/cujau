@@ -13,14 +13,17 @@ public class NamespaceContextImpl implements NamespaceContext {
     private Map<String, String> prefixToURI = new HashMap<String, String>();
     private Map<String, String> uriToPrefix = new HashMap<String, String>();
 
+    @Override
     public String getNamespaceURI( String prefix ) {
         return prefixToURI.get( prefix );
     }
 
+    @Override
     public String getPrefix( String namespaceURI ) {
         return uriToPrefix.get( namespaceURI );
     }
 
+    @Override
     public Iterator<String> getPrefixes( String namespaceURI ) {
         return prefixToURI.keySet().iterator();
     }
