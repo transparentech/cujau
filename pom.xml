@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>cujau</artifactId>
-    <version>1.0.30</version>
+    <version>1.0.31-SNAPSHOT</version>
 
     <name>CUJAU</name>
     <url>http://www.transparentech.com/projects/cujau</url>

@@ -239,4 +239,20 @@ public final class StringUtil {
         return orig;
     }
 
+    public static String padLeft( String str, int totalLength ) {
+        String ret = String.format( "%" + totalLength + "s", str );
+        return ret;
+    }
+
+    public static String padRight( String str, int totalLength ) {
+        int padding = totalLength - str.length();
+        String padFmt = null;
+        if ( padding < 0 ) {
+            padFmt = "";
+        } else {
+            padFmt = "%" + padding + "s";
+        }
+        String ret = String.format( "%s" + padFmt, str, "" );
+        return ret;
+    }
 }
