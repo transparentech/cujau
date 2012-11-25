@@ -247,7 +247,7 @@ public final class StringUtil {
     public static String padRight( String str, int totalLength ) {
         int padding = totalLength - str.length();
         String padFmt = null;
-        if ( padding < 0 ) {
+        if ( padding <= 0 ) {
             padFmt = "";
         } else {
             padFmt = "%" + padding + "s";
