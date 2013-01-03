@@ -1,5 +1,6 @@
 package org.cujau.utils.csv;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
@@ -24,5 +25,17 @@ public class CSVWriterTest {
         assertTrue( "as\n\rdf".equals( writer.escapeDoubleQuotes( s ) ) );
         s = "asdf \"as\ndf\" fdsa";
         assertTrue( "asdf \"\"as\ndf\"\" fdsa".equals( writer.escapeDoubleQuotes( s ) ) );
+    }
+    
+    @Test
+    public void testQuoteIfNecessary() {
+        String s = "abcd\nabcd";
+        assertEquals( "\""+s+"\"", writer.quoteIfNecessary( s ) );
+        s = "abcd\n\rabcd";
+        assertEquals( "\""+s+"\"", writer.quoteIfNecessary( s ) );
+        s = "abcd\r\nabcd";
+        assertEquals( "\""+s+"\"", writer.quoteIfNecessary( s ) );
+        s = "abcd\rabcd";
+        assertEquals( "\""+s+"\"", writer.quoteIfNecessary( s ) );
     }
 }

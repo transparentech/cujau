@@ -62,7 +62,7 @@ public class CSVWriter {
 
     String quoteIfNecessary( String str ) {
         if ( str.indexOf( symbols.getRecordSeparator() ) != -1 ||
-                str.indexOf( symbols.getLineSeparator() ) != -1 ) {
+                str.indexOf( '\n' ) != -1 || str.indexOf( '\r' ) != -1 ) {
             return "\"" + str + "\"";
         }
         return str;
