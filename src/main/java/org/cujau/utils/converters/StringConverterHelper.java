@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 /**
@@ -24,6 +25,13 @@ public class StringConverterHelper {
         return NUM_STRIPPER_INT_RE.matcher( str ).replaceAll( "" );
     }
 
+    public static BigDecimal bigDecimalValueOf( String str, Locale loc )
+            throws ParseException {
+        DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance( loc );
+        fmt.setParseBigDecimal( true );
+        return (BigDecimal) fmt.parse( str );
+    }
+
     public static BigDecimal simpleBigDecimalValueOf( String str )
             throws ParseException {
         str = NUM_STRIPPER_ALL_FLOAT_RE.matcher( str ).replaceAll( "" );
@@ -32,7 +40,6 @@ public class StringConverterHelper {
             DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
             fmt.setParseBigDecimal( true );
             ret = (BigDecimal) fmt.parse( str );
-//            ret = new BigDecimal( str );
         } catch ( ParseException e ) {
             throw e;
         }
@@ -46,16 +53,15 @@ public class StringConverterHelper {
             DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
             fmt.setParseBigDecimal( true );
             ret = (BigDecimal) fmt.parse( str );
-//            ret = new BigDecimal( str );
         } catch ( ParseException e ) {
-            try {
-                DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
-                fmt.setParseBigDecimal( true );
-                ret = (BigDecimal) fmt.parse( str );
-//                ret = new BigDecimal( stripNonIntlFloatJunk( str ) );
-            } catch ( ParseException e2 ) {
-                return simpleBigDecimalValueOf( str );
-            }
+            // try {
+            // DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
+            // fmt.setParseBigDecimal( true );
+            // ret = (BigDecimal) fmt.parse( str );
+            // // ret = new BigDecimal( stripNonIntlFloatJunk( str ) );
+            // } catch ( ParseException e2 ) {
+            return simpleBigDecimalValueOf( str );
+            // }
         }
         return ret;
     }
