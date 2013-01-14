@@ -34,7 +34,7 @@ public class StreamUtil {
     public static void streamCopy( InputStream inputStream, OutputStream outputStream, int bufferSize )
             throws IOException {
         byte[] readBuffer = new byte[bufferSize];
-        
+
         // Read bytes from the input stream in bufferSize chunks and write
         // them into the output stream.
         int read = -1;
@@ -73,6 +73,19 @@ public class StreamUtil {
     public static String getStreamAsString( InputStream is )
             throws IOException {
         InputStreamReader reader = new InputStreamReader( is, "UTF-8" );
+        return getReaderAsString( reader );
+    }
+
+    /**
+     * Return the given Reader contents as a String.
+     * 
+     * @param reader
+     *            The Reader whose contents is converted to a String.
+     * @return The String.
+     * @throws IOException
+     */
+    public static String getReaderAsString( Reader reader )
+            throws IOException {
         StringBuilder b = new StringBuilder();
         char[] buffer = new char[BUFFER_SIZE];
         int read;
@@ -81,5 +94,4 @@ public class StreamUtil {
         }
         return b.toString();
     }
-
 }
