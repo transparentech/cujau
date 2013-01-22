@@ -255,4 +255,46 @@ public final class StringUtil {
         String ret = String.format( "%s" + padFmt, str, "" );
         return ret;
     }
+
+    /**
+     * Compare the two strings lexographically. A null String is considered to be less than a
+     * non-null String.
+     * 
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public static int compareTo( String s1, String s2 ) {
+        if ( s1 == null && s2 == null ) {
+            return 0;
+        }
+        if ( s1 == null ) {
+            return -1;
+        }
+        if ( s2 == null ) {
+            return 1;
+        }
+        return s1.compareTo( s2 );
+    }
+
+    /**
+     * Compare the two string lexographically ignoring case. A null String is considered to be less
+     * than a non-null String.
+     * 
+     * @param s1
+     * @param s2
+     * @return
+     */
+    public static int compareToIgnoreCase( String s1, String s2 ) {
+        if ( s1 == null && s2 == null ) {
+            return 0;
+        }
+        if ( s1 == null ) {
+            return -1;
+        }
+        if ( s2 == null ) {
+            return 1;
+        }
+        return s1.compareToIgnoreCase( s2 );
+    }
 }
