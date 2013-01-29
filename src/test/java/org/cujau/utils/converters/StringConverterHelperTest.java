@@ -92,6 +92,10 @@ public class StringConverterHelperTest {
                       StringConverterHelper.bigDecimalValueOf( "\u20A41,234,567.89\u20A4" ) );
 
         assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "2,923.50" ) );
+        assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "CHF2'923.50CHF", new Locale("de", "CH") ) );
+        assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "\u20ac2.923,50", new Locale("de", "DE") ) );
+        assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "2 923,50", new Locale("fr", "FR") ) );
+        assertEquals( new BigDecimal( "123456789.50" ), StringConverterHelper.bigDecimalValueOf( "123 456 789,50", new Locale("fr", "FR") ) );
         
         // Is something like this even valid? ever?
         // assertEquals( new BigDecimal( "1.0"), StringConverterHelper.bigDecimalValueOf( "1-23.45"

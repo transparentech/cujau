@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class StringConverterHelper {
 
     private final static Pattern NUM_STRIPPER_FLOAT_RE = Pattern.compile( "[^0-9\\.\\-\\'\\,]" );
-    private final static Pattern NUM_STRIPPER_ALL_FLOAT_RE = Pattern.compile( "[^0-9\\.\\-]" );
+    private final static Pattern NUM_STRIPPER_ALL_FLOAT_RE = Pattern.compile( "[^0-9\\.\\-\\'\\,]" );
     private final static Pattern NUM_STRIPPER_INT_RE = Pattern.compile( "[^0-9\\-\\'\\,]" );
     private final static Pattern NUM_STRIPPER_ALL_INT_RE = Pattern.compile( "[^0-9\\-]" );
 
@@ -25,19 +25,12 @@ public class StringConverterHelper {
         return NUM_STRIPPER_INT_RE.matcher( str ).replaceAll( "" );
     }
 
-    public static BigDecimal bigDecimalValueOf( String str, Locale loc )
-            throws ParseException {
-        DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance( loc );
-        fmt.setParseBigDecimal( true );
-        return (BigDecimal) fmt.parse( str );
-    }
-
-    public static BigDecimal simpleBigDecimalValueOf( String str )
+    public static BigDecimal simpleBigDecimalValueOf( String str, Locale loc )
             throws ParseException {
         str = NUM_STRIPPER_ALL_FLOAT_RE.matcher( str ).replaceAll( "" );
         BigDecimal ret;
         try {
-            DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
+            DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance( loc );
             fmt.setParseBigDecimal( true );
             ret = (BigDecimal) fmt.parse( str );
         } catch ( ParseException e ) {
@@ -48,22 +41,25 @@ public class StringConverterHelper {
 
     public static BigDecimal bigDecimalValueOf( String str )
             throws ParseException {
-        BigDecimal ret;
-        try {
-            DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
-            fmt.setParseBigDecimal( true );
-            ret = (BigDecimal) fmt.parse( str );
-        } catch ( ParseException e ) {
-            // try {
-            // DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance();
-            // fmt.setParseBigDecimal( true );
-            // ret = (BigDecimal) fmt.parse( str );
-            // // ret = new BigDecimal( stripNonIntlFloatJunk( str ) );
-            // } catch ( ParseException e2 ) {
-            return simpleBigDecimalValueOf( str );
-            // }
-        }
-        return ret;
+        return bigDecimalValueOf( str, Locale.getDefault() );
+    }
+
+    public static BigDecimal bigDecimalValueOf( String str, Locale loc )
+            throws ParseException {
+        // Always use the simple version, which removes non-number characters before parsing.
+        // This may be slightly slower than the parse-if-error-strip-parse way that was used 
+        // before, but it can handle a broader range of number formats (notably fr_FR with the
+        // space grouping separator).
+        return simpleBigDecimalValueOf( str, loc );
+//        BigDecimal ret;
+//        try {
+//            DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance( loc );
+//            fmt.setParseBigDecimal( true );
+//            ret = (BigDecimal) fmt.parse( str );
+//        } catch ( ParseException e ) {
+//            return simpleBigDecimalValueOf( str, loc );
+//        }
+//        return ret;
     }
 
     public static float simpleFloatValueOf( String str )
