@@ -1,5 +1,6 @@
 package org.cujau.utils;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -133,8 +134,17 @@ public class StringUtilTest {
         String str = "12345";
         assertEquals( "     12345", StringUtil.padLeft( str, 10 ) );
         assertEquals( "12345     ", StringUtil.padRight( str, 10 ) );
-        
+
         assertEquals( "12345", StringUtil.padLeft( str, 4 ) );
         assertEquals( "12345", StringUtil.padRight( str, 4 ) );
+    }
+
+    @Test
+    public void isEmptyTest() {
+        assertFalse( StringUtil.isEmpty( "12345" ) );
+        assertFalse( StringUtil.isEmpty( "     1     " ) );
+        assertTrue( StringUtil.isEmpty( null ) );
+        assertTrue( StringUtil.isEmpty( "" ) );
+        assertTrue( StringUtil.isEmpty( "   " ) );
     }
 }

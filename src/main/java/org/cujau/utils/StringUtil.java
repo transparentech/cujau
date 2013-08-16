@@ -15,6 +15,7 @@ public final class StringUtil {
 
     private static final Pattern PROPERTY_NAME_PATTERN = Pattern.compile( "(\\$\\{([\\w\\.]+)\\})" );
     private static final String DEF_SEP = ",";
+    public static final String EMPTY_STR = "";
 
     public static String toString( double[] ary ) {
         return toString( ary, DEF_SEP );
@@ -140,7 +141,7 @@ public final class StringUtil {
      */
     public static String toString( Throwable t ) {
         if ( t == null ) {
-            return "";
+            return EMPTY_STR;
         }
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter( stringWriter );
@@ -233,7 +234,7 @@ public final class StringUtil {
             if ( propVal != null ) {
                 orig = orig.replace( m.group( 1 ), propVal );
             } else if ( removeUnmatchedKeys ) {
-                orig = orig.replace( m.group( 1 ), "" );
+                orig = orig.replace( m.group( 1 ), EMPTY_STR );
             }
         }
         return orig;
@@ -248,11 +249,11 @@ public final class StringUtil {
         int padding = totalLength - str.length();
         String padFmt = null;
         if ( padding <= 0 ) {
-            padFmt = "";
+            padFmt = EMPTY_STR;
         } else {
             padFmt = "%" + padding + "s";
         }
-        String ret = String.format( "%s" + padFmt, str, "" );
+        String ret = String.format( "%s" + padFmt, str, EMPTY_STR );
         return ret;
     }
 
@@ -296,5 +297,22 @@ public final class StringUtil {
             return 1;
         }
         return s1.compareToIgnoreCase( s2 );
+    }
+
+    /**
+     * Is the string empty or null?
+     * 
+     * @param str
+     * @return <tt>true</tt> if the given String is <tt>null</tt> or, when trimmed, is equal to the
+     *         empty String. <tt>false</tt> otherwise.
+     */
+    public static boolean isEmpty( String str ) {
+        if ( str == null ) {
+            return true;
+        }
+        if ( str.trim().equals( EMPTY_STR ) ) {
+            return true;
+        }
+        return false;
     }
 }
