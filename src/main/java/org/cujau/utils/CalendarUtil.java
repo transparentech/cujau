@@ -292,7 +292,7 @@ public class CalendarUtil {
     }
 
     public static Date getDateAdjustMinutes( Date date, int mins ) {
-        return getAdjustedDate( getCalendarFor( date ), Calendar.DATE, mins );
+        return getAdjustedDate( getCalendarFor( date ), Calendar.MINUTE, mins );
     }
 
     /**
