@@ -63,6 +63,9 @@ public final class StringUtil {
      */
     public static <E> String toString( E[] ary, String separator ) {
         StringBuilder buf = new StringBuilder();
+        if ( ary == null ) {
+            return buf.toString();
+        }
         for ( E e : ary ) {
             buf.append( e );
             buf.append( separator );
@@ -246,6 +249,9 @@ public final class StringUtil {
     }
 
     public static String padRight( String str, int totalLength ) {
+        if ( str == null ) {
+            str = EMPTY_STR;
+        }
         int padding = totalLength - str.length();
         String padFmt = null;
         if ( padding <= 0 ) {
