@@ -32,6 +32,10 @@ public class CalendarUtilTest {
         assertTrue( CalendarUtil.isSameOrOlder( mkCal( "2004-12-31" ), baseCal ) );
         assertFalse( CalendarUtil.isSameOrOlder( mkCal( "2005-01-04" ), baseCal ) );
         assertFalse( CalendarUtil.isSameOrOlder( mkCal( "2004-12-31" ), (Date) null ) );
+        
+        assertTrue( CalendarUtil.isSameOrOlder( mkCal( "2004-12-31" ).getTime(), baseCal ) );
+        assertFalse( CalendarUtil.isSameOrOlder( mkCal( "2005-01-04" ).getTime(), baseCal ) );
+        assertFalse( CalendarUtil.isSameOrOlder( mkCal( "2004-12-31" ).getTime(), (Calendar) null ) );
     }
 
     @Test
@@ -51,6 +55,10 @@ public class CalendarUtilTest {
         assertFalse( CalendarUtil.isSameOrYounger( mkCal( "2004-12-31" ), baseCal ) );
         assertTrue( CalendarUtil.isSameOrYounger( mkCal( "2005-01-04" ), baseCal ) );
         assertFalse( CalendarUtil.isSameOrYounger( mkCal( "2004-12-31" ), (Date) null ) );
+        
+        assertFalse( CalendarUtil.isSameOrYounger( mkCal( "2004-12-31" ).getTime(), baseCal ) );
+        assertTrue( CalendarUtil.isSameOrYounger( mkCal( "2005-01-04" ).getTime(), baseCal ) );
+        assertFalse( CalendarUtil.isSameOrYounger( mkCal( "2004-12-31" ).getTime(), (Calendar) null ) );
     }
 
     @Test
