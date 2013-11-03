@@ -2,6 +2,7 @@ package org.cujau.utils.csv;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.Arrays;
 import java.util.List;
 
 public class CSVWriter {
@@ -19,6 +20,10 @@ public class CSVWriter {
 
     public CSVSymbols getCSVSymbols() {
         return symbols;
+    }
+    
+    public void renderLine( String[] records ) throws IOException {
+        renderLine( Arrays.asList( records ) );
     }
     
     public void renderLine( List<String> records )
