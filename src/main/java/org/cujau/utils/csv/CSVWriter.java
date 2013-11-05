@@ -22,7 +22,7 @@ public class CSVWriter {
         return symbols;
     }
     
-    public void renderLine( String[] records ) throws IOException {
+    public void renderLine( String... records ) throws IOException {
         renderLine( Arrays.asList( records ) );
     }
     
