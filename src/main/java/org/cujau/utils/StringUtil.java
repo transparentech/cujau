@@ -263,6 +263,32 @@ public final class StringUtil {
         return ret;
     }
 
+    public static String secretize( String str ) {
+        if ( str == null ) {
+            return null;
+        }
+        if ( str.length() == 0 ) {
+            return str;
+        }
+        String padFmt = "%0" + str.length() + "d";
+        String ret = String.format( padFmt, 0 ).replace( '0', '*' );
+        return ret;
+    }
+
+    public static String secretizeRight( String str, int readableChars ) {
+        if ( str == null ) {
+            return null;
+        }
+        if ( readableChars >= str.length() ) {
+            return str;
+        }
+        if ( readableChars < 0 ) {
+            readableChars = 0;
+        }
+        String ret = str.substring( 0, readableChars ) + secretize( str.substring( readableChars ) );
+        return ret;
+    }
+
     /**
      * Compare the two strings lexographically. A null String is considered to be less than a
      * non-null String.

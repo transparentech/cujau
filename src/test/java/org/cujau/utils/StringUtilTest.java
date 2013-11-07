@@ -47,7 +47,7 @@ public class StringUtilTest {
         ary = new String[] { null };
         res = StringUtil.toString( ary );
         assertTrue( "null".equals( res ) );
-        
+
         ary = null;
         res = StringUtil.toString( ary );
         assertEquals( "", res );
@@ -74,7 +74,7 @@ public class StringUtilTest {
         ary = new Integer[] { null };
         res = StringUtil.toString( ary );
         assertTrue( "null".equals( res ) );
-        
+
         ary = null;
         res = StringUtil.toString( ary );
         assertEquals( "", res );
@@ -135,7 +135,7 @@ public class StringUtilTest {
         str = "A${abc.def}B${xyz.abc}C${123.456}A${abc.def}";
         str = StringUtil.replaceProperties( str, System.getProperties(), true );
         assertTrue( str.equals( "AalphabetBCnumbersAalphabet" ) );
-        
+
         str = StringUtil.replaceProperties( null, System.getProperties(), true );
         assertEquals( null, str );
     }
@@ -149,6 +149,21 @@ public class StringUtilTest {
         assertEquals( "12345", StringUtil.padLeft( str, 4 ) );
         assertEquals( "12345", StringUtil.padRight( str, 4 ) );
         assertEquals( "    ", StringUtil.padRight( null, 4 ) );
+    }
+
+    @Test
+    public void secretizeTest() {
+        String str = "mypassword";
+        assertEquals( "**********", StringUtil.secretize( str ) );
+        assertEquals( "", StringUtil.secretize( "" ) );
+        assertEquals( null, StringUtil.secretize( null ) );
+
+        assertEquals( "my********", StringUtil.secretizeRight( str, 2 ) );
+        assertEquals( "mypassword", StringUtil.secretizeRight( str, 20 ) );
+        assertEquals( "mypassword", StringUtil.secretizeRight( str, 10 ) );
+        assertEquals( "mypasswor*", StringUtil.secretizeRight( str, 9 ) );
+        assertEquals( "**********", StringUtil.secretizeRight( str, -1 ) );
+        assertEquals( null, StringUtil.secretizeRight( null, 2 ) );
     }
 
     @Test
