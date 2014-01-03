@@ -162,6 +162,7 @@ public class StringUtilTest {
         assertEquals( "mypassword", StringUtil.secretizeRight( str, 20 ) );
         assertEquals( "mypassword", StringUtil.secretizeRight( str, 10 ) );
         assertEquals( "mypasswor*", StringUtil.secretizeRight( str, 9 ) );
+        assertEquals( "**********", StringUtil.secretizeRight( str, 0 ) );
         assertEquals( "**********", StringUtil.secretizeRight( str, -1 ) );
         assertEquals( null, StringUtil.secretizeRight( null, 2 ) );
     }
