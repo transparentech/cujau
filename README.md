@@ -2,7 +2,7 @@
 
 Cujau is a set of common utility Java classes that are useful to almost any application.
 
-Many of the classes and features of Cujau can be found in other libraries, such as the Apache Commons. However, the classes here are the ones that I have found to be the most useful to my needs. By using Cujau as a dependency rather than any number of Apache Commons classes, the application's footprint can be reduced as unneeded code is not included.
+Many similar classes and features of Cujau can be found in other libraries, such as the Apache Commons. However, the classes here are the ones that I have found to be the most useful to my needs. By using Cujau as a dependency rather than any number of Apache Commons classes, the application's footprint can be reduced as unneeded code is not included.
 
 Here's just a sample of some of the utility classes included in Cujau:
 
