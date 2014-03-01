@@ -10,7 +10,8 @@ public class CSVSymbols {
 
     private char separator;
     private String lineSeparator;
-
+    private String dateFormat;
+    
     public CSVSymbols() {
         this( Locale.getDefault() );
     }
@@ -35,6 +36,14 @@ public class CSVSymbols {
         return lineSeparator;
     }
 
+    public void setDateFormat( String df ) {
+        this.dateFormat = df;
+    }
+    
+    public String getDateFormat() {
+        return dateFormat;
+    }
+    
     private void buildDefaults( Locale locale ) {
         separator = DEFAULT_SEPARATOR;
         lineSeparator = System.getProperty( "line.separator" );
