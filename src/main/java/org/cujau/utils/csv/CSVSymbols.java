@@ -3,7 +3,7 @@ package org.cujau.utils.csv;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
-public class CSVSymbols {
+public class CSVSymbols implements CSVSettableDateFormat {
 
     private static final char DEFAULT_SEPARATOR = ',';
     private static final char ALTERNATE_SEPARATOR = ';';
@@ -36,10 +36,12 @@ public class CSVSymbols {
         return lineSeparator;
     }
 
+    @Override
     public void setDateFormat( String df ) {
         this.dateFormat = df;
     }
     
+    @Override
     public String getDateFormat() {
         return dateFormat;
     }
