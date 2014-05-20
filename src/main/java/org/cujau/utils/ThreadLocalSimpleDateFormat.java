@@ -1,6 +1,7 @@
 package org.cujau.utils;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.TimeZone;
 
 /**
@@ -26,13 +27,15 @@ public class ThreadLocalSimpleDateFormat extends ThreadLocal<SimpleDateFormat> {
 
     private final String format;
     private final TimeZone zone;
-    
+    private final Locale locale;
+
     /**
      * Constructs SimpleDateFormat instances using the default date format.
      */
     public ThreadLocalSimpleDateFormat() {
         this.format = null;
         this.zone = null;
+        this.locale = null;
     }
 
     /**
@@ -45,16 +48,35 @@ public class ThreadLocalSimpleDateFormat extends ThreadLocal<SimpleDateFormat> {
     public ThreadLocalSimpleDateFormat( String format ) {
         this.format = format;
         this.zone = null;
+        this.locale = null;
     }
-    
+
     public ThreadLocalSimpleDateFormat( String format, TimeZone zone ) {
         this.format = format;
         this.zone = zone;
+        this.locale = null;
+    }
+
+    public ThreadLocalSimpleDateFormat( String format, Locale locale ) {
+        this.format = format;
+        this.zone = null;
+        this.locale = locale;
+    }
+
+    public ThreadLocalSimpleDateFormat( String format, TimeZone zone, Locale locale ) {
+        this.format = format;
+        this.zone = zone;
+        this.locale = locale;
     }
 
     @Override
     protected SimpleDateFormat initialValue() {
-        SimpleDateFormat sdf = new SimpleDateFormat( format );
+        SimpleDateFormat sdf;
+        if ( locale != null ) {
+            sdf = new SimpleDateFormat( format, locale );
+        } else {
+            sdf = new SimpleDateFormat( format );
+        }
         if ( zone != null ) {
             sdf.setTimeZone( zone );
         }
