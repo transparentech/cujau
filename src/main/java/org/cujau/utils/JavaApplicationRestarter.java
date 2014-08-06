@@ -83,7 +83,7 @@ public class JavaApplicationRestarter {
         }
         return doRestart( completeRestartArgs );
     }
-    
+
     public List<String> getRestartArgs() {
         return restartArgs;
     }
@@ -142,12 +142,13 @@ public class JavaApplicationRestarter {
         List<String> arguments = RuntimemxBean.getInputArguments();
         return arguments;
     }
-    
+
     protected List<String> getRestartArgs( String classpath, String mainclass ) {
         String exe = getJavaExecutable();
         ArrayList<String> ret = new ArrayList<String>();
         ret.add( exe );
         List<String> jvmArgs = getJVMArgs();
+        jvmArgs = filterJVMArgs( jvmArgs );
         if ( jvmArgs != null && jvmArgs.size() > 0 ) {
             ret.addAll( jvmArgs );
         }
@@ -166,6 +167,7 @@ public class JavaApplicationRestarter {
         ArrayList<String> ret = new ArrayList<String>();
         ret.add( exe );
         List<String> jvmArgs = getJVMArgs();
+        jvmArgs = filterJVMArgs( jvmArgs );
         if ( jvmArgs != null && jvmArgs.size() > 0 ) {
             ret.addAll( jvmArgs );
         }
@@ -176,6 +178,17 @@ public class JavaApplicationRestarter {
         ret.add( "-jar" );
         ret.add( exejar.getPath() );
         return ret;
+    }
+
+    /**
+     * Remove any unneeded or unwanted arguments from the default argument list obtained from JMX.
+     * 
+     * @param args
+     * @return A List with any unneeded or unwanted args from the original list removed.
+     */
+    protected List<String> filterJVMArgs( List<String> args ) {
+        // At this level, no args are removed. Extending classes can remove some, if required.
+        return args;
     }
 
     protected List<String> getExtraRestartArgs() {
