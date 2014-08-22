@@ -28,6 +28,15 @@ public class MultiHashMap<K,V> {
         valCol.add( val );
     }
     
+    public void putAll( K key, Collection<V> vals ) {
+        Collection<V> valCol = map.get( key );
+        if ( valCol == null ) {
+            valCol = new ArrayList<V>();
+            map.put( key, valCol );
+        }
+        valCol.addAll( vals );
+    }
+    
     public Collection<V> remove( K key ) {
         return map.remove( key );
     }
