@@ -320,8 +320,8 @@ public class FileUtil {
                 in.closeEntry();
             }
         } finally {
-            // Close the input zip.
-            in.close();
+            // Don't close the zip as this will close the underlying InputStream that comes from the
+            // caller. It is the callers responsibility to close that stream.
         }
     }
 
