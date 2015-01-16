@@ -1,6 +1,7 @@
 package org.cujau.utils;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -174,5 +175,14 @@ public class StringUtilTest {
         assertTrue( StringUtil.isEmpty( null ) );
         assertTrue( StringUtil.isEmpty( "" ) );
         assertTrue( StringUtil.isEmpty( "   " ) );
+    }
+    
+    @Test
+    public void truncTest() {
+        assertEquals( "abcd", StringUtil.trunc( "abcdefg", 4 ) );
+        assertEquals( "abcd", StringUtil.trunc( "abcd", 4 ) );
+        assertEquals( "abcd", StringUtil.trunc( "abcd", 5 ) );
+        assertNull( StringUtil.trunc( null, 4 ) );
+        assertEquals( "", StringUtil.trunc( "", 5 ) );
     }
 }

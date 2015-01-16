@@ -347,4 +347,23 @@ public final class StringUtil {
         }
         return false;
     }
+
+    /**
+     * Truncate the string to the given length. If the string is already less than <tt>len</tt>
+     * characters in length, return the string itself.
+     * 
+     * @param val
+     *            The string to be truncated.
+     * @param len
+     *            The length at which to truncate the string.
+     * @return A new string of length <tt>len</tt> or the passed in <tt>val</tt> if it is already
+     *         less than <tt>len</tt> in length.
+     */
+    public static String trunc( String val, int len ) {
+        if ( val != null && val.length() > len ) {
+            val = val.substring( 0, len );
+        }
+        return val;
+    }
+
 }
