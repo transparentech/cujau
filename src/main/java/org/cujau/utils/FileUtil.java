@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -76,11 +75,7 @@ public class FileUtil {
     public static File createTempTextFile( String filename, String data )
             throws IOException {
         File tmpFile = createTempFile( filename );
-
-        BufferedWriter out = new BufferedWriter( new FileWriter( tmpFile ) );
-        out.write( data );
-        out.close();
-
+        writeFile( tmpFile, data, null );
         return tmpFile;
     }
 
@@ -105,12 +100,7 @@ public class FileUtil {
     public static File createTempTextFile( String filename, String data, String charsetName )
             throws IOException {
         File tmpFile = createTempFile( filename );
-
-        BufferedWriter out =
-            new BufferedWriter( new OutputStreamWriter( new FileOutputStream( tmpFile ), charsetName ) );
-        out.write( data );
-        out.close();
-
+        writeFile( tmpFile, data, charsetName );
         return tmpFile;
     }
 
@@ -143,16 +133,49 @@ public class FileUtil {
      */
     public static File writeFile( File filename, String data )
             throws IOException {
-        BufferedWriter out = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ) ) );
-        out.write( data );
-        out.close();
+        return writeFile( filename, data, null );
+    }
+
+    /**
+     * Create a text file with the given <tt>filename</tt> containing the given text data using the
+     * give character encoding to characters from Java's Unicode (UTF-16) internal representation to
+     * the on-disk representation. If the given chartsetName is null, the platform's default
+     * encoding will be used.
+     * 
+     * @param filename
+     *            Name of the file to create and write.
+     * @param data
+     *            The data to write into the file.
+     * @return The written file.
+     * @throws IOException
+     *             If there were any problems creating or writing the file.
+     */
+    public static File writeFile( File filename, String data, String charsetName )
+            throws IOException {
+        BufferedWriter out = null;
+        try {
+            if ( charsetName == null ) {
+                out = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ) ) );
+            } else {
+                out =
+                    new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ),
+                                                                charsetName ) );
+            }
+            if ( data != null ) {
+                out.write( data );
+            }
+        } finally {
+            if ( out != null ) {
+                out.close();
+            }
+        }
 
         return filename;
     }
 
     /**
      * Create a text file in the given directory containing the given text data using the given
-     * character encodingto convert the characters from Java's Unicode (UTF-16) internal
+     * character encoding to convert the characters from Java's Unicode (UTF-16) internal
      * representation to the on-disk representation.
      * 
      * @param dir
@@ -171,12 +194,7 @@ public class FileUtil {
     public static File writeFile( File dir, String filename, String data, String charsetName )
             throws IOException {
         File fullfile = new File( dir, filename );
-
-        BufferedWriter out =
-            new BufferedWriter( new OutputStreamWriter( new FileOutputStream( fullfile ), charsetName ) );
-        out.write( data );
-        out.close();
-
+        writeFile( fullfile, data, charsetName );
         return fullfile;
     }
 
