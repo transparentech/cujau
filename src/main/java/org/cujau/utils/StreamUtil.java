@@ -1,5 +1,6 @@
 package org.cujau.utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,6 +25,27 @@ public class StreamUtil {
         while ( ( read = reader.read( buffer ) ) != -1 ) {
             writer.write( buffer, 0, read );
         }
+    }
+
+    /**
+     * Copy the given input stream into the given StringBuilder, returning a new InputStream that is
+     * a copy of the InputStream passed in.
+     * 
+     * @param in
+     *            The input stream to copy to a String.
+     * @param buf
+     *            The StringBuilder that will hold the string.
+     * @return A copy of the InputStream.
+     * @throws IOException
+     */
+    public static InputStream copyStreamToString( InputStream in, StringBuilder buf )
+            throws IOException {
+        ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        streamCopy( in, bout );
+        bout.close();
+        ByteArrayInputStream bin = new ByteArrayInputStream( bout.toByteArray() );
+        buf.append( bout.toString( "UTF-8" ) );
+        return bin;
     }
 
     public static void streamCopy( InputStream inputStream, OutputStream outputStream )
