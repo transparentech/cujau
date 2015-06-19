@@ -2,6 +2,7 @@ package org.cujau.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.charset.Charset;
 import java.text.Format;
 import java.util.Collection;
 import java.util.Properties;
@@ -16,6 +17,8 @@ public final class StringUtil {
     private static final Pattern PROPERTY_NAME_PATTERN = Pattern.compile( "(\\$\\{([\\w\\.]+)\\})" );
     private static final String DEF_SEP = ",";
     public static final String EMPTY_STR = "";
+    public static final String UTF8_STR = "UTF-8";
+    public static final Charset UTF8 = Charset.forName( UTF8_STR );
 
     public static String toString( double[] ary ) {
         return toString( ary, DEF_SEP );
