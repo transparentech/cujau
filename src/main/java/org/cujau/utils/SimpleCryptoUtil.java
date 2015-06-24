@@ -24,6 +24,7 @@ public class SimpleCryptoUtil {
 
     static final String ALGO = "AES";
     static final String CIPHER = "AES/CBC/PKCS5Padding";
+    static final String DIGEST = "SHA-256";
     static final int IV_LEN = 16;
     static final int SALT_LEN = 16;
 
@@ -31,31 +32,27 @@ public class SimpleCryptoUtil {
 
     /**
      * Encrypt the given clear text String data using the given key.
-     * 
+     *
      * @param key
-     *            The key to use for encryption.
+     *         The key to use for encryption.
      * @param clearTextData
-     *            The text data to encrypt.
-     * @return The encrypted data as a base64 encoded String or <tt>null</tt> if any problem occured
-     *         during the encryption process.
+     *         The text data to encrypt.
+     * @return The encrypted data as a base64 encoded String or <tt>null</tt> if any problem occurred
+     * during the encryption process.
      */
     public static String encrypt( String key, String clearTextData ) {
-        try {
-            return encrypt( key.getBytes( "UTF-8" ), clearTextData );
-        } catch ( UnsupportedEncodingException e ) {
-            return null;
-        }
+        return encrypt( StringUtil.toUtf8( key ), clearTextData );
     }
 
     /**
      * Encrypt the given clear text String data using the given key.
-     * 
+     *
      * @param rawKey
-     *            The raw byte array to use as the key.
+     *         The raw byte array to use as the key.
      * @param clearTextData
-     *            The text data to encrypt.
-     * @return The encrypted data as a base64 encoded String or <tt>null</tt> if any problem occured
-     *         during the encryption process.
+     *         The text data to encrypt.
+     * @return The encrypted data as a base64 encoded String or <tt>null</tt> if any problem occurred
+     * during the encryption process.
      */
     public static String encrypt( byte[] rawKey, String clearTextData ) {
         try {
@@ -73,7 +70,7 @@ public class SimpleCryptoUtil {
             Cipher cipher = buildAESCipher( Cipher.ENCRYPT_MODE, rawKey, iv );
 
             // Create the full byte array to encrypt (salt + data);
-            byte[] clearBytes = concat( genRandomSalt(), clearTextData.getBytes( "UTF-8" ) );
+            byte[] clearBytes = concat( genRandomSalt(), StringUtil.toUtf8( clearTextData ) );
 
             // Encrypt and write the bytes.
             stream.write( cipher.doFinal( clearBytes ) );
@@ -84,8 +81,7 @@ public class SimpleCryptoUtil {
             stream.close();
 
             // Base64 encode the full byte array.
-            String ret = Base64.encodeBytes( bytes );
-            return ret;
+            return Base64.encodeBytes( bytes );
         } catch ( Exception e ) {
             e.printStackTrace();
             return null;
@@ -94,31 +90,27 @@ public class SimpleCryptoUtil {
 
     /**
      * Decrypt the given encrypted String using the given key.
-     * 
+     *
      * @param key
-     *            The key to use for decryption.
+     *         The key to use for decryption.
      * @param encryptedData
-     *            The encrypted, base64 encoded String to decrypt.
-     * @return The unencrypted String data or <tt>null</tt> if any problem occured during the
-     *         encryption process.
+     *         The encrypted, base64 encoded String to decrypt.
+     * @return The unencrypted String data or <tt>null</tt> if any problem occurred during the
+     * encryption process.
      */
     public static String decrypt( String key, String encryptedData ) {
-        try {
-            return decrypt( key.getBytes( "UTF-8" ), encryptedData );
-        } catch ( UnsupportedEncodingException e ) {
-            return null;
-        }
+        return decrypt( StringUtil.toUtf8( key ), encryptedData );
     }
 
     /**
      * Decrypt the given encrypted String using the given key.
-     * 
+     *
      * @param rawKey
-     *            The raw byte array to use as the key.
+     *         The raw byte array to use as the key.
      * @param encryptedData
-     *            The encrypted, base64 encoded String to decrypt.
-     * @return The unencrypted String data or <tt>null</tt> if any problem occured during the
-     *         encryption process.
+     *         The encrypted, base64 encoded String to decrypt.
+     * @return The unencrypted String data or <tt>null</tt> if any problem occurred during the
+     * encryption process.
      */
     public static String decrypt( byte[] rawKey, String encryptedData ) {
         try {
@@ -154,8 +146,7 @@ public class SimpleCryptoUtil {
             buf.get( data );
 
             // Convert to String.
-            String ret = new String( data, "UTF-8" );
-            return ret;
+            return new String( data, StringUtil.UTF8 );
         } catch ( Exception e ) {
             return null;
         }
@@ -165,17 +156,16 @@ public class SimpleCryptoUtil {
      * AES 256bit encryption requires a 256-bit (32 byte) key. Normal passwords are rarely that
      * exact length. So generate a SHA-256 hash (which returns a 256-bit hash) from the password and
      * return it for use as the key.
-     * 
+     *
      * @param rawKey
-     *            The original password bytes.
+     *         The original password bytes.
      * @return A 256-bit (32 byte) key to use in the Cipher.
      * @throws NoSuchAlgorithmException
      */
     private static byte[] buildAESKeyFromRawKey( byte[] rawKey )
             throws NoSuchAlgorithmException {
-        MessageDigest sha256 = MessageDigest.getInstance( "SHA-256" );
-        byte[] ret = sha256.digest( rawKey );
-        return ret;
+        MessageDigest sha256 = MessageDigest.getInstance( DIGEST );
+        return sha256.digest( rawKey );
     }
 
     private static Cipher buildAESCipher( int mode, byte[] rawKey, byte[] rawIv )

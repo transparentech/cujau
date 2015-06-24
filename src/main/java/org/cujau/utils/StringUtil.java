@@ -20,6 +20,17 @@ public final class StringUtil {
     public static final String UTF8_STR = "UTF-8";
     public static final Charset UTF8 = Charset.forName( UTF8_STR );
 
+    /**
+     * Get the bytes of the given String encoded in UTF-8.
+     *
+     * @param val
+     *         The String whose UTF-8 encoded bytes are returned.
+     * @return The UTF-8 encoded bytes.
+     */
+    public static byte[] toUtf8( String val ) {
+        return val.getBytes( UTF8 );
+    }
+
     public static String toString( double[] ary ) {
         return toString( ary, DEF_SEP );
     }
@@ -39,7 +50,7 @@ public final class StringUtil {
     /**
      * Convert the given array of objects into it's String representation. The array elements will
      * be separated by a comma (',').
-     * 
+     *
      * @param <E>
      *            The type of the elements.
      * @param ary
@@ -54,7 +65,7 @@ public final class StringUtil {
     /**
      * Convert the given array of objects into it's String representation. The array elements will
      * be separated by the given <tt>separator</tt> string.
-     * 
+     *
      * @param <E>
      *            The type of the elements.
      * @param ary
@@ -83,7 +94,7 @@ public final class StringUtil {
      * Convert the given collection of objects into it's String representation. The String
      * representation of an element of the collection will be separated from the next element with a
      * comma (',').
-     * 
+     *
      * @param <E>
      *            The type of the elements.
      * @param col
@@ -99,7 +110,7 @@ public final class StringUtil {
      * Convert the given collection of objects into it's String representation. The String
      * representation of an element of the collection will be separated from the next element with
      * the given separator.
-     * 
+     *
      * @param <E>
      *            The type of the elements.
      * @param col
@@ -140,7 +151,7 @@ public final class StringUtil {
 
     /**
      * Convert the given Throwable object into a stacktrace.
-     * 
+     *
      * @param t
      *            The Throwable for which the stacktrace will be generated.
      * @return A String representation of the stacktrace.
@@ -169,7 +180,7 @@ public final class StringUtil {
      * Any delimited propery keys in the given String that do not have replacements in the System
      * properties object will remain in the String.
      * </p>
-     * 
+     *
      * @param orig
      *            The original String
      * @return The new String with the delimited properties replaced.
@@ -190,7 +201,7 @@ public final class StringUtil {
      * Any delimited propery keys in the given String that do not have replacements in the given
      * Properties object will remain in the String.
      * </p>
-     * 
+     *
      * @param orig
      *            The original String
      * @param replacements
@@ -214,7 +225,7 @@ public final class StringUtil {
      * Properties object can be removed (replaced with the empty String) from the resulting String
      * by setting the <tt>removeUnmatchedKeys</tt> parameter to <tt>true</tt>.
      * </p>
-     * 
+     *
      * @param orig
      *            The original String
      * @param replacements
@@ -247,8 +258,7 @@ public final class StringUtil {
     }
 
     public static String padLeft( String str, int totalLength ) {
-        String ret = String.format( "%" + totalLength + "s", str );
-        return ret;
+        return String.format( "%" + totalLength + "s", str );
     }
 
     public static String padRight( String str, int totalLength ) {
@@ -256,14 +266,13 @@ public final class StringUtil {
             str = EMPTY_STR;
         }
         int padding = totalLength - str.length();
-        String padFmt = null;
+        String padFmt;
         if ( padding <= 0 ) {
             padFmt = EMPTY_STR;
         } else {
             padFmt = "%" + padding + "s";
         }
-        String ret = String.format( "%s" + padFmt, str, EMPTY_STR );
-        return ret;
+        return String.format( "%s" + padFmt, str, EMPTY_STR );
     }
 
     public static String secretize( String str ) {
@@ -274,8 +283,7 @@ public final class StringUtil {
             return str;
         }
         String padFmt = "%0" + str.length() + "d";
-        String ret = String.format( padFmt, 0 ).replace( '0', '*' );
-        return ret;
+        return String.format( padFmt, 0 ).replace( '0', '*' );
     }
 
     public static String secretizeRight( String str, int readableChars ) {
@@ -288,17 +296,16 @@ public final class StringUtil {
         if ( readableChars < 0 ) {
             readableChars = 0;
         }
-        String ret = str.substring( 0, readableChars ) + secretize( str.substring( readableChars ) );
-        return ret;
+        return str.substring( 0, readableChars ) + secretize( str.substring( readableChars ) );
     }
 
     /**
      * Compare the two strings lexographically. A null String is considered to be less than a
      * non-null String.
-     * 
-     * @param s1
-     * @param s2
-     * @return
+     *
+     * @param s1 First string
+     * @param s2 Second string
+     * @return -1, 0 or 1
      */
     public static int compareTo( String s1, String s2 ) {
         if ( s1 == null && s2 == null ) {
@@ -316,10 +323,10 @@ public final class StringUtil {
     /**
      * Compare the two string lexographically ignoring case. A null String is considered to be less
      * than a non-null String.
-     * 
-     * @param s1
-     * @param s2
-     * @return
+     *
+     * @param s1 First String
+     * @param s2 Second String
+     * @return -1, 0 or 1
      */
     public static int compareToIgnoreCase( String s1, String s2 ) {
         if ( s1 == null && s2 == null ) {
@@ -336,25 +343,19 @@ public final class StringUtil {
 
     /**
      * Is the string empty or null?
-     * 
-     * @param str
+     *
+     * @param str The string to check.
      * @return <tt>true</tt> if the given String is <tt>null</tt> or, when trimmed, is equal to the
      *         empty String. <tt>false</tt> otherwise.
      */
     public static boolean isEmpty( String str ) {
-        if ( str == null ) {
-            return true;
-        }
-        if ( str.trim().equals( EMPTY_STR ) ) {
-            return true;
-        }
-        return false;
+        return str == null || str.trim().equals( EMPTY_STR );
     }
 
     /**
      * Truncate the string to the given length. If the string is already less than <tt>len</tt>
      * characters in length, return the string itself.
-     * 
+     *
      * @param val
      *            The string to be truncated.
      * @param len
