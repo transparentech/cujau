@@ -19,6 +19,9 @@ import javax.crypto.spec.SecretKeySpec;
  * <p>
  * This utility uses AES 256-bit encryption.
  * </p>
+ * <p>
+ * NOTE: To use this class, you need the Unlimited Strength Jurisdiction Policy Files to be installed.
+ * </p>
  */
 public class SimpleCryptoUtil {
 
