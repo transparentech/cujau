@@ -115,8 +115,7 @@ public class FileUtil {
      */
     public static File createTempFile( String filename ) {
         File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
-        File tmpFile = new File( tmpDir, filename );
-        return tmpFile;
+        return new File( tmpDir, filename );
     }
 
     /**
@@ -220,11 +219,13 @@ public class FileUtil {
         boolean ret = true;
         if ( path.exists() ) {
             File[] files = path.listFiles();
-            for ( File element : files ) {
-                if ( element.isDirectory() ) {
-                    ret &= deleteDirectory( element );
-                } else {
-                    ret &= element.delete();
+            if ( files != null ) {
+                for ( File element : files ) {
+                    if ( element.isDirectory() ) {
+                        ret &= deleteDirectory( element );
+                    } else {
+                        ret &= element.delete();
+                    }
                 }
             }
         }
@@ -264,7 +265,7 @@ public class FileUtil {
     public static String getFileAsString( File file )
             throws IOException {
         FileInputStream is = null;
-        InputStreamReader reader = null;
+        InputStreamReader reader;
 
         try {
             is = new FileInputStream( file );
@@ -300,7 +301,7 @@ public class FileUtil {
     public static void unzip( InputStream zip, File outputDir, boolean verbose )
             throws IOException {
         byte[] buf = new byte[4096];
-        ZipInputStream in = null;
+        ZipInputStream in;
         try {
             in = new ZipInputStream( zip );
             while ( true ) {
@@ -311,8 +312,8 @@ public class FileUtil {
                 }
 
                 if ( verbose ) {
-                    LOG.info( "unzipping {} ({}/{})",
-                              new Object[] { entry.getName(), entry.getCompressedSize(), entry.getSize() } );
+                    LOG.info( "unzipping {} ({}/{})", entry.getName(), entry.getCompressedSize(),
+                              entry.getSize() );
                 }
 
                 // Write out the new file.
