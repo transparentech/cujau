@@ -7,11 +7,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +25,26 @@ public class FileUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger( FileUtil.class );
 
+    public static void assertContentsOfFile( File dataFile, String contents )
+            throws IOException {
+        String data = getFileAsString( dataFile );
+        if ( !data.equals( contents ) ) {
+            throw new AssertionError(
+                    "Contents of file, " + dataFile.getAbsolutePath() + ", did not match given contents." );
+        }
+    }
+
     /**
      * Rename the file from one location to another. To avoid problems with renaming files on
      * Windows where the "toFile" already exists, this method will first move the "toFile" to a file
      * named "toFile".bak and then move the "fromFile" to the "toFile". The "toFile" will be deleted
      * at the end. If the rename still can not be carried out, the original "toFile" will be
      * restored.
-     * 
+     *
      * @param fromFile
-     *            The file to rename.
+     *         The file to rename.
      * @param toFile
-     *            The file to which it should be renamed.
+     *         The file to which it should be renamed.
      * @return <tt>true</tt> if the rename worked, <tt>false</tt> otherwise.
      */
     public static boolean renameFileUsingBackup( File fromFile, File toFile ) {
@@ -61,16 +72,16 @@ public class FileUtil {
      * Create a temporary text file containing the given text data using the platform default
      * character encoding to convert the characters from Java's Unicode (UTF-16) internal
      * representation to the on-disk representation.
-     * 
+     *
      * @param filename
-     *            The file name of the file into which the data will be written. This value will be
-     *            appended to the Java system property, <tt>java.io.tmpdir</tt>, to create the
-     *            absolute path name of the temporary file.
+     *         The file name of the file into which the data will be written. This value will be
+     *         appended to the Java system property, <tt>java.io.tmpdir</tt>, to create the
+     *         absolute path name of the temporary file.
      * @param data
-     *            The text data which will be written into the temporary file.
+     *         The text data which will be written into the temporary file.
      * @return A File representing the newly created temporary file.
      * @throws IOException
-     *             If there were any problems creating or writing to the temporary file.
+     *         If there were any problems creating or writing to the temporary file.
      */
     public static File createTempTextFile( String filename, String data )
             throws IOException {
@@ -80,22 +91,41 @@ public class FileUtil {
     }
 
     /**
+     * Create a text file containing the given text data using the platform default
+     * character encoding to convert the characters from Java's Unicode (UTF-16) internal
+     * representation to the on-disk representation.
+     *
+     * @param file
+     *         The file into which the data will be written.
+     * @param data
+     *         The text data which will be written into the file.
+     * @return A File representing the newly created file (same as parameter).
+     * @throws IOException
+     *         If there were any problems creating or writing to the file.
+     */
+    public static File createTextFile( File file, String data )
+            throws IOException {
+        writeFile( file, data, null );
+        return file;
+    }
+
+    /**
      * Create a temporary text file containing the given text data using the given character
      * encoding to convert the characters from Java's Unicode (UTF-16) internal representation to
      * the on-disk representation.
-     * 
+     *
      * @param filename
-     *            The file name of the file into which the data will be written. This value will be
-     *            appended to the Java system property, <tt>java.io.tmpdir</tt>, to create the
-     *            absolute path name of the temporary file.
+     *         The file name of the file into which the data will be written. This value will be
+     *         appended to the Java system property, <tt>java.io.tmpdir</tt>, to create the
+     *         absolute path name of the temporary file.
      * @param data
-     *            The text data which will be written into the temporary file.
+     *         The text data which will be written into the temporary file.
      * @param charsetName
-     *            The name of the character set to use in the on-disk representation of the text
-     *            data.
+     *         The name of the character set to use in the on-disk representation of the text
+     *         data.
      * @return A File representing the newly created temporary file.
      * @throws IOException
-     *             If there were any problems creating or writing to the temporary file.
+     *         If there were any problems creating or writing to the temporary file.
      */
     public static File createTempTextFile( String filename, String data, String charsetName )
             throws IOException {
@@ -108,27 +138,37 @@ public class FileUtil {
      * Create a java {@link File} object that represents the given filename in the system temporary
      * directory. The file on the file system that the returned {@link File} object represents may
      * or may not exist.
-     * 
+     *
      * @param filename
-     *            The name of the file in the system's temp directory.
+     *         The name of the file in the system's temp directory.
      * @return A java {@link java.io.File}.
      */
     public static File createTempFile( String filename ) {
-        File tmpDir = new File( System.getProperty( "java.io.tmpdir" ) );
+        File tmpDir = getTempDirectory();
         return new File( tmpDir, filename );
+    }
+
+    /**
+     * Return the system's temp directory. The system temp directory is the value of the
+     * <tt>java.io.tmpdir</tt> System property.
+     *
+     * @return A File referring to the system temp directory.
+     */
+    public static File getTempDirectory() {
+        return new File( System.getProperty( "java.io.tmpdir" ) );
     }
 
     /**
      * Create a text file with the given <tt>filename</tt> containing the given text data using the
      * platforms default encoding.
-     * 
+     *
      * @param filename
-     *            Name of the file to create and write.
+     *         Name of the file to create and write.
      * @param data
-     *            The data to write into the file.
+     *         The data to write into the file.
      * @return The written file.
      * @throws IOException
-     *             If there were any problems creating or writing the file.
+     *         If there were any problems creating or writing the file.
      */
     public static File writeFile( File filename, String data )
             throws IOException {
@@ -140,14 +180,14 @@ public class FileUtil {
      * give character encoding to characters from Java's Unicode (UTF-16) internal representation to
      * the on-disk representation. If the given chartsetName is null, the platform's default
      * encoding will be used.
-     * 
+     *
      * @param filename
-     *            Name of the file to create and write.
+     *         Name of the file to create and write.
      * @param data
-     *            The data to write into the file.
+     *         The data to write into the file.
      * @return The written file.
      * @throws IOException
-     *             If there were any problems creating or writing the file.
+     *         If there were any problems creating or writing the file.
      */
     public static File writeFile( File filename, String data, String charsetName )
             throws IOException {
@@ -156,9 +196,8 @@ public class FileUtil {
             if ( charsetName == null ) {
                 out = new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ) ) );
             } else {
-                out =
-                    new BufferedWriter( new OutputStreamWriter( new FileOutputStream( filename ),
-                                                                charsetName ) );
+                out = new BufferedWriter(
+                        new OutputStreamWriter( new FileOutputStream( filename ), charsetName ) );
             }
             if ( data != null ) {
                 out.write( data );
@@ -176,19 +215,19 @@ public class FileUtil {
      * Create a text file in the given directory containing the given text data using the given
      * character encoding to convert the characters from Java's Unicode (UTF-16) internal
      * representation to the on-disk representation.
-     * 
+     *
      * @param dir
-     *            The directory where the file will be created.
+     *         The directory where the file will be created.
      * @param filename
-     *            The name of the file in the directory where the data will be written.
+     *         The name of the file in the directory where the data will be written.
      * @param data
-     *            The text data which will be written into the file.
+     *         The text data which will be written into the file.
      * @param charsetName
-     *            The name of the character set to use in the on-disk representation of the text
-     *            data.
+     *         The name of the character set to use in the on-disk representation of the text
+     *         data.
      * @return A File representing the newly created file.
      * @throws IOException
-     *             If there were any problems creating or writing the file.
+     *         If there were any problems creating or writing the file.
      */
     public static File writeFile( File dir, String filename, String data, String charsetName )
             throws IOException {
@@ -199,9 +238,9 @@ public class FileUtil {
 
     /**
      * Recursively delete the contents of the given directory as well as the directory itself.
-     * 
+     *
      * @param path
-     *            The directory path to delete.
+     *         The directory path to delete.
      * @return true if the deletion completed correctly, false otherwise.
      */
     public static boolean deleteDirectory( File path ) {
@@ -210,9 +249,9 @@ public class FileUtil {
 
     /**
      * Recursively delete the contents of the give directory. The directory itself is not deleted.
-     * 
+     *
      * @param path
-     *            The directory path whose contents will be deleted.
+     *         The directory path whose contents will be deleted.
      * @return true if the deletion completed correctly, false otherwise.
      */
     public static boolean deleteDirectoryContents( File path ) {
@@ -234,9 +273,9 @@ public class FileUtil {
 
     /**
      * Returns the size in bytes of the given file or directory.
-     * 
+     *
      * @param file
-     *            a File object representing a file or directory.
+     *         a File object representing a file or directory.
      * @return the size of the given file or directory as a long value.
      */
     public static long getFileOrDirectorySize( File file ) {
@@ -255,12 +294,12 @@ public class FileUtil {
 
     /**
      * Returns the contents of the given File as a String. The File is assumed to be UTF-8 encoded.
-     * 
+     *
      * @param file
-     *            The file whose contents will be returned as a String.
+     *         The file whose contents will be returned as a String.
      * @return A String containing the contents of the file.
      * @throws IOException
-     *             If the file does not exist or there were problems reading data from the file.
+     *         If the file does not exist or there were problems reading data from the file.
      */
     public static String getFileAsString( File file )
             throws IOException {
@@ -287,16 +326,93 @@ public class FileUtil {
     }
 
     /**
-     * Unzip the given InputStream into the given output directory.
-     * 
+     * Zip the input file or directory into the output stream.
+     *
      * @param zip
-     *            The InputStream containing a zip file.
-     * @param outputDir
-     *            The directory into which the contents of the zip file will be extracted.
+     *         The output stream in which to write the zipped data. For example: <tt>new
+     *         FileOutputStream("MyZipFile.zip")</tt>
+     * @param inputFileOrDir
+     *         The file or directory to zip.
+     * @param dirIncludesSelf
+     *         <tt>true</tt> means that if the <tt>inputFileOrDir</tt> is a directory, the directory will be
+     *         included as the base directory in the zip. If <tt>false</tt>, the directory will be skipped
+     *         and any child files/directories of this directory will be added to the (empty) root of the
+     *         zip.
      * @param verbose
-     *            If a log entry (info level) should be written for each extracted item.
+     *         If a log entry (info level) should be written for each zipped item.
      * @throws IOException
-     *             If there were any problems unzipping the given zip file.
+     */
+    public static void zip( OutputStream zip, File inputFileOrDir, boolean dirIncludesSelf, boolean verbose )
+            throws IOException {
+        byte[] buffer = new byte[4096];
+        ZipOutputStream zos = new ZipOutputStream( zip );
+
+        if ( !inputFileOrDir.isDirectory() ) {
+            // Zip a single file.
+            addFile( zos, "", inputFileOrDir, verbose );
+            // Close the stream.
+            zos.close();
+        } else {
+            // Zip all files in this directory.
+            String path = "";
+            if ( dirIncludesSelf ) {
+                path = inputFileOrDir.getName();
+                // Add the base directory.
+                zos.putNextEntry( new ZipEntry( path + "/" ) );
+            }
+            addDirectory( zos, path, inputFileOrDir, verbose );
+            zos.close();
+        }
+    }
+
+    private static void addDirectory( ZipOutputStream zos, String path, File dir, boolean verbose )
+            throws IOException {
+        for ( File f : dir.listFiles() ) {
+            if ( f.isDirectory() ) {
+                // Add the directory
+                String nextpath = path + File.separator + f.getName();
+                zos.putNextEntry( new ZipEntry( nextpath + "/" ) );
+                zos.closeEntry();
+                LOG.info( "zipped {}", nextpath + "/" );
+                // Then add any child directories and/or files.
+                addDirectory( zos, nextpath, f, verbose );
+            } else {
+                // Just add this file.
+                addFile( zos, path + File.separator, f, verbose );
+            }
+        }
+    }
+
+    private static void addFile( ZipOutputStream zos, String path, File file, boolean verbose )
+            throws IOException {
+        byte[] buffer = new byte[4096];
+
+        String fullPath = path + file.getName();
+        ZipEntry ze = new ZipEntry( fullPath );
+        zos.putNextEntry( ze );
+
+        FileInputStream in = new FileInputStream( file );
+        int len;
+        while ( ( len = in.read( buffer ) ) > 0 ) {
+            zos.write( buffer, 0, len );
+        }
+        in.close();
+
+        zos.closeEntry();
+        LOG.info( "zipped {} ({}/{})", fullPath, ze.getCompressedSize(), ze.getSize() );
+    }
+
+    /**
+     * Unzip the given InputStream into the given output directory.
+     *
+     * @param zip
+     *         The InputStream containing a zip file.
+     * @param outputDir
+     *         The directory into which the contents of the zip file will be extracted.
+     * @param verbose
+     *         If a log entry (info level) should be written for each extracted item.
+     * @throws IOException
+     *         If there were any problems unzipping the given zip file.
      */
     public static void unzip( InputStream zip, File outputDir, boolean verbose )
             throws IOException {
@@ -309,11 +425,6 @@ public class FileUtil {
                 ZipEntry entry = in.getNextEntry();
                 if ( entry == null ) {
                     break;
-                }
-
-                if ( verbose ) {
-                    LOG.info( "unzipping {} ({}/{})", entry.getName(), entry.getCompressedSize(),
-                              entry.getSize() );
                 }
 
                 // Write out the new file.
@@ -335,6 +446,11 @@ public class FileUtil {
                     }
                 }
 
+                if ( verbose ) {
+                    LOG.info( "unzipping {} ({}/{})", entry.getName(), entry.getCompressedSize(),
+                              entry.getSize() );
+                }
+
                 // Close the entry.
                 in.closeEntry();
             }
@@ -347,13 +463,13 @@ public class FileUtil {
     /**
      * Copy the contents of the given source File to the given destination File. The destination
      * file will be overwritten if it already exists.
-     * 
+     *
      * @param src
-     *            The source File to copy.
+     *         The source File to copy.
      * @param dest
-     *            The destination File into which the contents of the source file will be copied.
+     *         The destination File into which the contents of the source file will be copied.
      * @throws IOException
-     *             If any problems arose while copying.
+     *         If any problems arose while copying.
      */
     public static void copy( File src, File dest )
             throws IOException {
@@ -381,13 +497,13 @@ public class FileUtil {
      * Move the given source File to the given destination File. This implementation of this method
      * first performs a {@link #copy}, then a delete on the source File. The destination file will
      * be overwritten if it already exists.
-     * 
+     *
      * @param src
-     *            The source File to move
+     *         The source File to move
      * @param dest
-     *            The destination File to create or overwrite.
+     *         The destination File to create or overwrite.
      * @throws IOException
-     *             If any problems arose while copying.
+     *         If any problems arose while copying.
      */
     public static void move( File src, File dest )
             throws IOException {
@@ -398,14 +514,14 @@ public class FileUtil {
     /**
      * If the given <tt>src</tt> File exists, add a counter before the suffix and return the new
      * file. If the File does not exist, it is returned directly.
-     * 
+     *
      * @param src
-     *            The file to check and increment.
+     *         The file to check and increment.
      * @param zeroPad
-     *            If a counter is appended, pad the number with 0s out to 2 places (i.e. 01, 02,
-     *            etc).
+     *         If a counter is appended, pad the number with 0s out to 2 places (i.e. 01, 02,
+     *         etc).
      * @param counterSeparator
-     *            The character used to separate the counter from the name. Typically '-' or '_'.
+     *         The character used to separate the counter from the name. Typically '-' or '_'.
      * @return A File that does not exist.
      */
     public static File incrementFilenameIfExists( File src, boolean zeroPad, char counterSeparator ) {
