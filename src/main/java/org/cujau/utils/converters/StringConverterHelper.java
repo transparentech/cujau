@@ -41,7 +41,7 @@ public class StringConverterHelper {
 
     public static BigDecimal bigDecimalValueOf( String str )
             throws ParseException {
-        return bigDecimalValueOf( str, Locale.getDefault() );
+        return bigDecimalValueOf( str, Locale.getDefault( Locale.Category.FORMAT ) );
     }
 
     public static BigDecimal bigDecimalValueOf( String str, Locale loc )
@@ -51,15 +51,6 @@ public class StringConverterHelper {
         // before, but it can handle a broader range of number formats (notably fr_FR with the
         // space grouping separator).
         return simpleBigDecimalValueOf( str, loc );
-//        BigDecimal ret;
-//        try {
-//            DecimalFormat fmt = (DecimalFormat) NumberFormat.getInstance( loc );
-//            fmt.setParseBigDecimal( true );
-//            ret = (BigDecimal) fmt.parse( str );
-//        } catch ( ParseException e ) {
-//            return simpleBigDecimalValueOf( str, loc );
-//        }
-//        return ret;
     }
 
     public static float simpleFloatValueOf( String str )

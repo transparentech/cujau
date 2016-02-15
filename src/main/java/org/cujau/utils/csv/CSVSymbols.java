@@ -13,7 +13,7 @@ public class CSVSymbols implements CSVSettableDateFormat {
     private String dateFormat;
     
     public CSVSymbols() {
-        this( Locale.getDefault() );
+        this( Locale.getDefault( Locale.Category.FORMAT ) );
     }
 
     public CSVSymbols( Locale locale ) {

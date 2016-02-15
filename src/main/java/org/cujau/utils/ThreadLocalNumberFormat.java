@@ -8,7 +8,7 @@ public class ThreadLocalNumberFormat extends ThreadLocal<NumberFormat> {
     private final Locale locale;
 
     public ThreadLocalNumberFormat() {
-        locale = Locale.getDefault();
+        locale = Locale.getDefault( Locale.Category.FORMAT );
     }
 
     public ThreadLocalNumberFormat( Locale locale ) {

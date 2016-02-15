@@ -19,11 +19,11 @@ public class ThreadLocalDateFormat extends ThreadLocal<DateFormat> {
     }
 
     public ThreadLocalDateFormat( int style ) {
-        this( style, Locale.getDefault() );
+        this( style, Locale.getDefault( Locale.Category.FORMAT ) );
     }
 
     public ThreadLocalDateFormat( String simpleFormat ) {
-        this( simpleFormat, Locale.getDefault() );
+        this( simpleFormat, Locale.getDefault( Locale.Category.FORMAT ) );
     }
     
     public ThreadLocalDateFormat( String simpleFormat, Locale locale ) {

@@ -10,7 +10,7 @@ public class ThreadLocalDecimalFormat extends ThreadLocal<DecimalFormat> {
     private final String pattern;
 
     public ThreadLocalDecimalFormat() {
-        locale = Locale.getDefault();
+        locale = Locale.getDefault( Locale.Category.FORMAT );
         pattern = null;
     }
 
@@ -20,7 +20,7 @@ public class ThreadLocalDecimalFormat extends ThreadLocal<DecimalFormat> {
     }
 
     public ThreadLocalDecimalFormat( String pattern ) {
-        this.locale = Locale.getDefault();
+        this.locale = Locale.getDefault( Locale.Category.FORMAT );
         this.pattern = pattern;
     }
 

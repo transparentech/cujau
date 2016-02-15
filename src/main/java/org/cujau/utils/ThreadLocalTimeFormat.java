@@ -15,7 +15,7 @@ public class ThreadLocalTimeFormat extends ThreadLocalDateFormat {
     }
 
     public ThreadLocalTimeFormat( String simpleFormat ) {
-        super( simpleFormat, Locale.getDefault() );
+        super( simpleFormat, Locale.getDefault( Locale.Category.FORMAT ) );
     }
 
     public ThreadLocalTimeFormat( String simpleFormat, Locale locale ) {
@@ -23,7 +23,7 @@ public class ThreadLocalTimeFormat extends ThreadLocalDateFormat {
     }
 
     public ThreadLocalTimeFormat() {
-        this( -1, Locale.getDefault() );
+        this( -1, Locale.getDefault( Locale.Category.FORMAT ) );
     }
 
     @Override

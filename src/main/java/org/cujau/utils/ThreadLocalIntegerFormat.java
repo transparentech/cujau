@@ -10,12 +10,12 @@ public class ThreadLocalIntegerFormat extends ThreadLocal<DecimalFormat> {
     private final String pattern;
 
     public ThreadLocalIntegerFormat() {
-        locale = Locale.getDefault();
+        locale = Locale.getDefault( Locale.Category.FORMAT );
         pattern = null;
     }
 
     public ThreadLocalIntegerFormat( String format ) {
-        locale = Locale.getDefault();
+        locale = Locale.getDefault( Locale.Category.FORMAT );
         pattern = format;
     }
 
