@@ -16,12 +16,14 @@ public class AcronymUtil {
         }
         if ( mc == Long.MIN_VALUE ) {
             return "NA";
-        } else if ( mc >= 1000000000000l ) {
+        } else if ( mc >= 1000000000000l || mc <= -1000000000000l ) {
             return String.format( "%.2fT", ( mc / 1000000000000.0 ) );
-        } else if ( mc >= 1000000000 ) {
+        } else if ( mc >= 1000000000 || mc <= -1000000000) {
             return String.format( "%.2fB", ( mc / 1000000000.0 ) );
-        } else if ( mc >= 1000000 ) {
+        } else if ( mc >= 1000000 || mc <= -1000000) {
             return String.format( "%.2fM", ( mc / 1000000.0 ) );
+        } else if ( mc >= 1000 || mc <= -1000) {
+            return String.format( "%.2fK", ( mc / 1000.0 ) );
         } else {
             return String.valueOf( mc );
         }
