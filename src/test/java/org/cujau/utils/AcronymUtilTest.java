@@ -10,10 +10,14 @@ public class AcronymUtilTest {
 
     @Test
     public void testToLong() {
-        assertEquals( 1000, AcronymUtil.parseLongAcronym( "1,000" ) );
+        assertEquals( 1000, AcronymUtil.parseLongAcronym( "1K" ) );
         assertEquals( 1000000, AcronymUtil.parseLongAcronym( "1M" ) );
         assertEquals( 1000000000, AcronymUtil.parseLongAcronym( "1B" ) );
         assertEquals( 1000000000000l, AcronymUtil.parseLongAcronym( "1T" ) );
+        assertEquals( -1000, AcronymUtil.parseLongAcronym( "-1K" ) );
+        assertEquals( -1000000, AcronymUtil.parseLongAcronym( "-1M" ) );
+        assertEquals( -1000000000, AcronymUtil.parseLongAcronym( "-1B" ) );
+        assertEquals( -1000000000000l, AcronymUtil.parseLongAcronym( "-1T" ) );
 
         assertEquals( 1000000, AcronymUtil.parseLongAcronym( "1.00M" ) );
         assertEquals( 1000000000, AcronymUtil.parseLongAcronym( "1.00B" ) );
@@ -33,15 +37,19 @@ public class AcronymUtilTest {
     @Test
     public void testToString() {
         assertEquals( "0", AcronymUtil.formatLongAcronym( 0 ) );
-        assertEquals( "1000", AcronymUtil.formatLongAcronym( 1000 ) );
+        assertEquals( "1.00K", AcronymUtil.formatLongAcronym( 1000 ) );
         assertEquals( "1.00M", AcronymUtil.formatLongAcronym( 1000000 ) );
         assertEquals( "1.00B", AcronymUtil.formatLongAcronym( 1000000000 ) );
         assertEquals( "1.00T", AcronymUtil.formatLongAcronym( 1000000000000l ) );
 
-        assertEquals( "156789", AcronymUtil.formatLongAcronym( 156789 ) );
+        assertEquals( "156.79K", AcronymUtil.formatLongAcronym( 156789 ) );
         assertEquals( "1.50M", AcronymUtil.formatLongAcronym( 1500000 ) );
         assertEquals( "1.56B", AcronymUtil.formatLongAcronym( 1560000000 ) );
         assertEquals( "1.57T", AcronymUtil.formatLongAcronym( 1567000000000l ) );
+        assertEquals( "-156.79K", AcronymUtil.formatLongAcronym( -156789 ) );
+        assertEquals( "-1.50M", AcronymUtil.formatLongAcronym( -1500000 ) );
+        assertEquals( "-1.56B", AcronymUtil.formatLongAcronym( -1560000000 ) );
+        assertEquals( "-1.57T", AcronymUtil.formatLongAcronym( -1567000000000l ) );
 
         assertEquals( "NA", AcronymUtil.formatLongAcronym( Long.MIN_VALUE ) );
         assertEquals( "NA", AcronymUtil.formatLongAcronym( new Date() ) );
