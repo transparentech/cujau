@@ -19,7 +19,7 @@ public class ResourceUtil {
      * <p>
      * This method assumes that the resource is a text file encoded in UTF-8.
      * </p>
-     * 
+     *
      * @param resourceName
      *            The resource on the classpath.
      * @return A String containing the requested resource or <tt>null</tt> if no resource with the
@@ -28,7 +28,26 @@ public class ResourceUtil {
      */
     public static String getResourceAsString( String resourceName )
             throws IOException {
-        InputStream is = ResourceUtil.class.getResourceAsStream( resourceName );
+        return getResourceAsString(ResourceUtil.class, resourceName);
+    }
+
+    /**
+     * Return the requested resource as a String.
+     * <p>
+     * This method assumes that the resource is a text file encoded in UTF-8.
+     * </p>
+     *
+     * @param klass
+     *         The class whose classloader should load the resource.
+     * @param resourceName
+     *         The resource on the classpath.
+     * @return A String containing the requested resource or <tt>null</tt> if no resource with the
+     * give name is available.
+     * @throws IOException
+     */
+    public static String getResourceAsString( Class<?> klass, String resourceName )
+            throws IOException {
+        InputStream is = klass.getResourceAsStream( resourceName );
         if ( is == null ) {
             LOG.info( "Can't find the requested resource: {}", resourceName );
             return null;
