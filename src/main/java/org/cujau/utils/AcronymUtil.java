@@ -47,7 +47,7 @@ public class AcronymUtil {
         if ( str.length() == 0 ) {
             return Long.MIN_VALUE;
         }
-        char end = str.charAt( str.length() - 1 );
+        char end = Character.toUpperCase( str.charAt( str.length() - 1 ) );
         long factor = 1;
         switch ( end ) {
         case 'K':
