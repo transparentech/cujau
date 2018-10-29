@@ -17,6 +17,7 @@ public final class StringUtil {
     private static final Pattern PROPERTY_NAME_PATTERN = Pattern.compile( "(\\$\\{([\\w\\.]+)\\})" );
     private static final String DEF_SEP = ",";
     public static final String EMPTY_STR = "";
+    public static final String SPACE_STR = " ";
     public static final String UTF8_STR = "UTF-8";
     public static final Charset UTF8 = Charset.forName( UTF8_STR );
 
