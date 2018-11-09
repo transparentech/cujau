@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 public class FileUtil {
 
     private static final Logger LOG = LoggerFactory.getLogger( FileUtil.class );
+    public static final String UTF8 = "UTF-8";
 
     public static void assertContentsOfFile( File dataFile, String contents )
             throws IOException {

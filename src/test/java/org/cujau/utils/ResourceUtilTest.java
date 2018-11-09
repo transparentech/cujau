@@ -13,30 +13,38 @@ import org.slf4j.LoggerFactory;
 
 public class ResourceUtilTest {
 
-    private static final Logger LOG = LoggerFactory.getLogger( ResourceUtilTest.class );
-    
+    private static final Logger LOG = LoggerFactory.getLogger(ResourceUtilTest.class);
+
     @Test
     public void resource1()
             throws IOException {
-        String res = ResourceUtil.getResourceAsString( "/testPackage/test1.txt" );
+        String res = ResourceUtil.getResourceAsString("/testPackage/test1.txt");
         String shouldBe = "Hi Brother!";
-        assertTrue( res.equals( shouldBe ) );
+        assertTrue(res.equals(shouldBe));
     }
 
     @Test
     public void resource2()
             throws IOException {
-        String res = ResourceUtil.getResourceAsString( "/testPackage/test2.txt" );
-        assertNull( res );
+        String res = ResourceUtil.getResourceAsString("/testPackage/test2.txt");
+        assertNull(res);
     }
 
     @Test
     public void testGetFileOrDirectoryContainingClass() {
-        File jar = ResourceUtil.getLocationOfClass( ResourceUtilTest.class );
-        assertNotNull( jar );
-        LOG.debug( jar.getAbsolutePath() );
-        jar = ResourceUtil.getLocationOfClass( Test.class );
-        assertNotNull( jar );
-        LOG.debug( jar.getAbsolutePath() );
+        File jar = ResourceUtil.getLocationOfClass(ResourceUtilTest.class);
+        assertNotNull(jar);
+        LOG.debug(jar.getAbsolutePath());
+        jar = ResourceUtil.getLocationOfClass(Test.class);
+        assertNotNull(jar);
+        LOG.debug(jar.getAbsolutePath());
+    }
+
+    @Test
+    public void resourceWithClasspath()
+            throws IOException {
+        String res = ResourceUtil.getResourceAsString("classpath:/testPackage/test1.txt");
+        String shouldBe = "Hi Brother!";
+        assertTrue(res.equals(shouldBe));
     }
 }
