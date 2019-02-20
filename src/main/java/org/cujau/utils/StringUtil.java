@@ -370,21 +370,4 @@ public final class StringUtil {
         }
         return val;
     }
-
-    /**
-     * Shorten the given uuid to 8 characters. If the uuid is not a valid, 36-character uuid, return the entire string.
-     *
-     * @param uuid
-     *         The uuid to shorten.
-     * @return The uuid shortened to 8 characters.
-     */
-    public static String toShortUuid(String uuid) {
-        if (uuid == null) {
-            return "null";
-        }
-        if (uuid.length() != 36) {
-            return uuid;
-        }
-        return trunc(uuid, 8);
-    }
 }
