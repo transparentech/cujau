@@ -30,6 +30,9 @@ public class AcronymUtil {
     }
 
     public static long parseLongAcronym( Object val ) {
+        if (val == null){
+            return Long.MIN_VALUE;
+        }
         if ( val.getClass() == Long.class ) {
             return (Long) val;
         }
