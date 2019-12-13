@@ -25,7 +25,7 @@ public class StringConverterHelper {
         return NUM_STRIPPER_INT_RE.matcher( str ).replaceAll( "" );
     }
 
-    public static BigDecimal simpleBigDecimalValueOf( String str, Locale loc )
+    private static BigDecimal simpleBigDecimalValueOf(String str, Locale loc)
             throws ParseException {
         str = NUM_STRIPPER_ALL_FLOAT_RE.matcher( str ).replaceAll( "" );
         BigDecimal ret;
@@ -58,7 +58,7 @@ public class StringConverterHelper {
         str = NUM_STRIPPER_ALL_FLOAT_RE.matcher( str ).replaceAll( "" );
         float ret;
         try {
-            ret = Float.valueOf( str );
+            ret = Float.parseFloat(str);
         } catch ( NumberFormatException e ) {
             throw e;
         }
@@ -86,7 +86,7 @@ public class StringConverterHelper {
         str = NUM_STRIPPER_ALL_FLOAT_RE.matcher( str ).replaceAll( "" );
         double ret;
         try {
-            ret = Double.valueOf( str );
+            ret = Double.parseDouble(str);
         } catch ( NumberFormatException e ) {
             throw e;
         }
@@ -114,7 +114,7 @@ public class StringConverterHelper {
         str = NUM_STRIPPER_ALL_INT_RE.matcher( str ).replaceAll( "" );
         int ret;
         try {
-            ret = Integer.valueOf( str );
+            ret = Integer.parseInt(str);
         } catch ( NumberFormatException e ) {
             throw e;
         }
@@ -141,6 +141,6 @@ public class StringConverterHelper {
         if ( str != null && ( str.equals( "1" ) || str.toLowerCase().equals( "yes" ) ) ) {
             return true;
         }
-        return Boolean.valueOf( str );
+        return Boolean.parseBoolean(str);
     }
 }

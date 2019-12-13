@@ -350,7 +350,7 @@ public final class StringUtil {
      *         empty String. <tt>false</tt> otherwise.
      */
     public static boolean isEmpty( String str ) {
-        return str == null || str.trim().equals( EMPTY_STR );
+        return str == null || str.trim().isEmpty();
     }
 
     /**
