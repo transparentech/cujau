@@ -250,7 +250,6 @@ public class FileUtil {
     public static void deleteDirectory(File path)
             throws IOException {
         deleteDirectoryContents(path);
-        LOG.debug("deleteDirectory: {}: {}", path.exists(), path.getAbsolutePath());
         Files.delete(path.toPath());
     }
 
@@ -272,7 +271,6 @@ public class FileUtil {
                         deleteDirectory(element);
                     } else {
                         Files.delete(element.toPath());
-                        LOG.debug("deleteDirectoryContents: {}", element.getAbsolutePath());
                     }
                 }
             }
