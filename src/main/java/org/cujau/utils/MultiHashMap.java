@@ -74,7 +74,11 @@ public class MultiHashMap<K,V> {
     public Set<K> keySet() {
         return map.keySet();
     }
-    
+
+    public Map<K, Collection<V>> map() {
+        return map;
+    }
+
     @Override
     public String toString() {
         return map.toString();

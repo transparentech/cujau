@@ -92,7 +92,7 @@ public class StringConverterHelperTest {
                       StringConverterHelper.bigDecimalValueOf( "\u20A41,234,567.89\u20A4" ) );
 
         assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "2,923.50" ) );
-        assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "CHF2'923.50CHF", new Locale("de", "CH") ) );
+        assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "CHF2’923.50CHF", new Locale("de", "CH") ) );
         assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "\u20ac2.923,50", new Locale("de", "DE") ) );
         assertEquals( new BigDecimal( "2923.50" ), StringConverterHelper.bigDecimalValueOf( "2 923,50", new Locale("fr", "FR") ) );
         assertEquals( new BigDecimal( "123456789.50" ), StringConverterHelper.bigDecimalValueOf( "123 456 789,50", new Locale("fr", "FR") ) );
@@ -165,7 +165,7 @@ public class StringConverterHelperTest {
 
         nf = NumberFormat.getInstance( new Locale( "de", "CH" ) );
         LOG.debug( nf.format( val ) );
-        nbr = nf.parse( "1'050.86" );
+        nbr = nf.parse( "1’050.86" );
         assertTrue( "expected 1050.86 but got: " + nbr.floatValue(), nbr.floatValue() == val );
     }
 

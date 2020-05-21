@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
@@ -243,9 +244,14 @@ public class FileUtil {
      * @param path
      *         The directory path to delete.
      * @return true if the deletion completed correctly, false otherwise.
+     * @throws IOException
+     *         If there was a problem deleting the directory or its contents.
      */
-    public static boolean deleteDirectory( File path ) {
-        return ( deleteDirectoryContents( path ) && path.delete() );
+    public static void deleteDirectory(File path)
+            throws IOException {
+        deleteDirectoryContents(path);
+        LOG.debug("deleteDirectory: {}: {}", path.exists(), path.getAbsolutePath());
+        Files.delete(path.toPath());
     }
 
     /**
@@ -253,23 +259,24 @@ public class FileUtil {
      *
      * @param path
      *         The directory path whose contents will be deleted.
-     * @return true if the deletion completed correctly, false otherwise.
+     * @throws IOException
+     *         If there was a problem deleting any of the directory's contents.
      */
-    public static boolean deleteDirectoryContents( File path ) {
-        boolean ret = true;
-        if ( path.exists() ) {
+    public static void deleteDirectoryContents(File path)
+            throws IOException {
+        if (path.exists()) {
             File[] files = path.listFiles();
-            if ( files != null ) {
-                for ( File element : files ) {
-                    if ( element.isDirectory() ) {
-                        ret &= deleteDirectory( element );
+            if (files != null) {
+                for (File element : files) {
+                    if (element.isDirectory()) {
+                        deleteDirectory(element);
                     } else {
-                        ret &= element.delete();
+                        Files.delete(element.toPath());
+                        LOG.debug("deleteDirectoryContents: {}", element.getAbsolutePath());
                     }
                 }
             }
         }
-        return ret;
     }
 
     /**
