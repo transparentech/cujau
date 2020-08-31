@@ -370,4 +370,18 @@ public final class StringUtil {
         }
         return val;
     }
+
+    /**
+     * Ensure that the string is not null. If the string is null, return the empty string. Otherwise returns the same string.
+     *
+     * @param val
+     *         The String to ensure.
+     * @return The empty string if 'val' is null or val.
+     */
+    public static String ensure(String val) {
+        if (val == null) {
+            return EMPTY_STR;
+        }
+        return val;
+    }
 }
