@@ -1,5 +1,7 @@
 package org.cujau.utils;
 
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -14,6 +16,14 @@ import org.slf4j.LoggerFactory;
 
 public class PropertiesAndEnvironmentUtil {
     private static final Logger LOG = LoggerFactory.getLogger(PropertiesAndEnvironmentUtil.class);
+
+    public static void logClassLoaderUrls() {
+        URLClassLoader classLoader = (URLClassLoader) Thread.currentThread().getContextClassLoader();
+        LOG.info("ClassLoader URLs:");
+        for (URL url : classLoader.getURLs()) {
+            LOG.info("  {}", url.toString());
+        }
+    }
 
     public static void logSystemProperties(String... excludes) {
         Set<String> excluded = new HashSet<>(Arrays.asList(excludes));
