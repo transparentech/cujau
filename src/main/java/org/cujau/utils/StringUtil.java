@@ -384,4 +384,19 @@ public final class StringUtil {
         }
         return val;
     }
+
+    /**
+     * Trim the given String and return null if the trimmed String is {@link #isEmpty(String)}.
+     *
+     * @param val
+     *         The String to trim.
+     * @return The trimmed String or null if the trimmed String was empty.
+     */
+    public static String trimToNull(String val) {
+        val = val.trim();
+        if (isEmpty(val)) {
+            return null;
+        }
+        return val;
+    }
 }

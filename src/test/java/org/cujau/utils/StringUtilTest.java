@@ -1,9 +1,9 @@
 package org.cujau.utils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,5 +184,13 @@ public class StringUtilTest {
         assertEquals( "abcd", StringUtil.trunc( "abcd", 5 ) );
         assertNull( StringUtil.trunc( null, 4 ) );
         assertEquals( "", StringUtil.trunc( "", 5 ) );
+    }
+
+    @Test
+    public void trimToNullTest() {
+        assertNull(StringUtil.trimToNull("  "));
+        assertNull(StringUtil.trimToNull(""));
+        assertNull(StringUtil.trimToNull("\n  \t"));
+        assertEquals("abc", StringUtil.trimToNull("  abc  "));
     }
 }
