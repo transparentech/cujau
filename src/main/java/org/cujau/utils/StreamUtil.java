@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class StreamUtil {
         streamCopy(in, bout);
         bout.close();
         ByteArrayInputStream bin = new ByteArrayInputStream(bout.toByteArray());
-        buf.append(bout.toString("UTF-8"));
+        buf.append(bout.toString(StandardCharsets.UTF_8));
         return bin;
     }
 
@@ -64,7 +65,7 @@ public class StreamUtil {
 
         // Read bytes from the input stream in bufferSize chunks and write
         // them into the output stream.
-        int read = -1;
+        int read;
         while ((read = inputStream.read(readBuffer, 0, bufferSize)) != -1) {
             outputStream.write(readBuffer, 0, read);
         }
@@ -99,7 +100,10 @@ public class StreamUtil {
      */
     public static String getStreamAsString(InputStream is)
             throws IOException {
-        InputStreamReader reader = new InputStreamReader(is, "UTF-8");
+        if (is == null) {
+            return null;
+        }
+        InputStreamReader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
         return getReaderAsString(reader);
     }
 
