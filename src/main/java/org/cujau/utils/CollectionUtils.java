@@ -24,4 +24,11 @@ public class CollectionUtils {
     public static boolean isEmpty(Collection<?> list) {
         return (list == null || list.isEmpty());
     }
+
+    public static <E> void assertAllSameValue(E val, Collection<E> list) {
+        if (list.stream().anyMatch(v -> !val.equals(v))) {
+            throw new AssertionError("Expected all " + list.size() + " elements of the list to be " //
+                                     + val + " but at least 1 was not.");
+        }
+    }
 }
